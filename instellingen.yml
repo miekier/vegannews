@@ -38,8 +38,10 @@ llm_max_verzoeken_per_dag: 240
 llm_batch: 12
 llm_pauze_s: 4.5
 llm_max_pogingen: 3
-# Enkel berichten van de afgelopen ... dagen gaan nog naar het taalmodel.
-llm_max_leeftijd_dagen: 21
+# Enkel berichten van de afgelopen ... dagen gaan nog naar het taalmodel (zelfde termijn als max_leeftijd_dagen,
+# zodat ook oudere artikels van nieuwe bronnen vertaald en ingedeeld worden). Nieuwste berichten gaan voor;
+# llm_max_verzoeken_per_dag begrenst de kosten.
+llm_max_leeftijd_dagen: 60
 
 # Posts op Instagram en Facebook (via Google Nieuws) blijven enkel als ze volgens het taalmodel
 # over dit land gaan. Leeg ("") = posts over alle landen behouden. Geldt niet voor zelf gevolgde accounts.

@@ -65,7 +65,7 @@ class Instellingen:
     llm_batch: int = 12
     llm_pauze_s: float = 4.5
     llm_max_pogingen: int = 3
-    llm_max_leeftijd_dagen: int = 21
+    llm_max_leeftijd_dagen: int = 60
     sociaal_enkel_land: str = "BE"
     instagram_api_versie: str = "v26.0"
     instagram_posts_per_account: int = 12
