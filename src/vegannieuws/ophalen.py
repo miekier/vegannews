@@ -508,8 +508,9 @@ class Ophaler:
             return
         verloopt = int(info.get("expires_at") or 0)
         if verloopt and verloopt - time.time() < 14 * 86400:
-            datum = datetime.fromtimestamp(verloopt, timezone.utc).date().isoformat()
-            self.waarschuwingen.append(f"De Instagram-sleutel verloopt op {datum}: maak tijdig een nieuwe ({INSTAGRAM_UITLEG}).")
+            moment = datetime.fromtimestamp(verloopt, timezone.utc).strftime("%Y-%m-%d om %H:%M UTC")
+            self.waarschuwingen.append(f"De Instagram-sleutel verloopt op {moment}: maak tijdig een nieuwe "
+                                       f"({INSTAGRAM_UITLEG}).")
 
     def _instagram(self, bron: Bron) -> Resultaat:
         gebruiker = instagram_gebruiker(bron.url)

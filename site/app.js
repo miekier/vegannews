@@ -113,7 +113,8 @@
     return b.bron_naam || "onbekende bron";
   }
 
-  const bronNaam = (b) => (b.sociaal ? (b.brontype === "zoekopdracht" ? `${b.sociaal}-post` : `${b.bron_naam} (${b.sociaal})`)
+  const bronNaam = (b) => (b.sociaal ? (b.brontype === "zoekopdracht" ? `${b.sociaal}-post`
+    : (b.bron_naam || "").includes(b.sociaal) ? b.bron_naam : `${b.bron_naam} (${b.sociaal})`)
     : (b.uitgever || b.bron_naam || "onbekende bron"));
   // Een kop eindigt niet op een punt.
   const alsKop = (s) => (s || "").trim().replace(/([^.!?…])\.$/, "$1");

@@ -448,13 +448,52 @@ bronnen:
     alleen_vegan: ja
 
   # --- België: Instagram-accounts (officiële API) ----------------------------------------
-  # Voorbeeld (verwijder het hekje om te activeren):
-  # - naam: Naam van de zaak
-  #   url: https://www.instagram.com/gebruikersnaam/
-  #   type: horeca
-  #   land: BE
-  #   taal: nl
-  #   alleen_vegan: nee
+  # Enkel zakelijke of creator-accounts. Elke post gaat langs het taalmodel; enkel nieuws verschijnt.
+  # Getest op 30-10-2026 (12 recente posts per account).
+  - naam: Lil Bao
+    url: https://www.instagram.com/lilbao.be/
+    type: horeca
+    land: BE
+    taal: en
+    alleen_vegan: nee
+    notitie: "100% plantaardig Taiwanees streetfood, twee zaken in Brussel."
+  - naam: Greenway
+    url: https://www.instagram.com/greenway_foods/
+    type: bedrijf
+    land: BE
+    taal: en
+    alleen_vegan: nee
+    notitie: "Belgisch merk van plantaardige producten en vegan fast casual."
+  - naam: Catberry
+    url: https://www.instagram.com/catberry.pastries/
+    type: horeca
+    land: BE
+    taal: nl
+    alleen_vegan: nee
+    notitie: "Plantaardige patisserie in Gent."
+  - naam: Dirt
+    url: https://www.instagram.com/dirt.restaurant/
+    type: horeca
+    land: BE
+    taal: nl
+    alleen_vegan: nee
+    notitie: "Vegan fine dining in Gent."
+  - naam: Kookplant
+    url: https://www.instagram.com/kookplant/
+    type: horeca
+    land: BE
+    taal: en
+    alleen_vegan: nee
+    notitie: "Vegan cateraar uit Gent."
+  - naam: BE Vegan (Instagram)
+    url: https://www.instagram.com/bevegan.be/
+    type: organisatie
+    land: BE
+    taal: nl
+    alleen_vegan: nee
+    notitie: "Aanvulling op de website van BE Vegan, die apart gevolgd wordt."
+  # Een account toevoegen: kopieer een blok en pas naam en adres aan, of gebruik op de website
+  # Bronnen -> Inloggen als beheerder -> Bron toevoegen (het account wordt dan meteen getest).
 
   # --- Verenigde Staten -------------------------------------------------------------
   # Naast VegNews, Sentient Media, The Good Food Institute, Faunalytics, Mercy For Animals,
