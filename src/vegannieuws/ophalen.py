@@ -7,7 +7,7 @@ import re
 import threading
 import time
 import xml.etree.ElementTree as ET
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from datetime import datetime, timedelta, timezone
 from urllib.parse import parse_qs, urljoin, urlparse
 
@@ -15,7 +15,7 @@ import feedparser
 import requests
 import urllib3
 
-from .bronnen import Bron, bing_url, google_url, vaste_feed
+from .bronnen import Bron, bing_url, google_url, standaard_editie, vaste_feed
 from .config import Instellingen
 from .staat import Staat
 from .tekst import kort_in, zuiver_html
@@ -81,6 +81,19 @@ def ontdek_feedlinks(pagina: str, basis_url: str) -> list[str]:
     return gevonden
 
 
+def _domein(url: str) -> str:
+    host = urlparse(url).netloc.lower().split(":")[0].removeprefix("www.")
+    delen = host.split(".")
+    if len(delen) > 2 and delen[-2] in {"co", "com", "org", "net", "ac", "gov"} and len(delen[-1]) == 2:
+        return ".".join(delen[-3:])
+    return ".".join(delen[-2:])
+
+
+def zelfde_website(url: str, *basissen: str) -> bool:
+    """Ligt url op hetzelfde domein als een van de basisadressen (subdomeinen inbegrepen)?"""
+    return any(_domein(url) == _domein(b) for b in basissen if b)
+
+
 _A_RE = re.compile(r"<a\b[^>]*?href\s*=\s*(\"[^\"]*\"|'[^']*')[^>]*>(.*?)</a>", re.I | re.S)
 _RSS_LABELS = {"rss", "rss feed", "rss-feed", "rss feeds", "rss-feeds", "flux rss", "feeds", "feed"}
 
@@ -104,6 +117,7 @@ def ontdek_rsslinks(pagina: str, basis_url: str) -> list[str]:
             continue
         if url not in gevonden:
             gevonden.append(url)
+    gevonden.sort(key=lambda u: (urlparse(u).path.count("/"), len(u)))
     return gevonden[:8]
 
 
@@ -301,22 +315,43 @@ class Ophaler:
     def _haal_website(self, bron: Bron) -> Resultaat:
         bewaard = self.staat.feeds.get(bron.id) or {}
         feed = bewaard.get("feed")
-        if feed and bewaard.get("url") == bron.url:
+        if feed and bewaard.get("url") == bron.url and zelfde_website(feed, bron.url, bewaard.get("basis", "")):
             gevonden = datetime.fromisoformat(bewaard.get("gevonden", "2000-01-01T00:00:00+00:00"))
             if datetime.now(timezone.utc) - gevonden < timedelta(days=HERONTDEK_NA_DAGEN):
                 try:
                     return self._haal_feed(bron, feed)
                 except OphaalFout:
                     pass  # opnieuw zoeken
-        feed = self.ontdek_feed(bron.url)
+        elif bewaard.get("via_google") and bewaard.get("url") == bron.url:
+            gevonden = datetime.fromisoformat(bewaard.get("gevonden", "2000-01-01T00:00:00+00:00"))
+            if datetime.now(timezone.utc) - gevonden < timedelta(days=HERONTDEK_NA_DAGEN):
+                return self._via_google(bron, bewaard.get("reden", "geen eigen feed"))
+        nu = datetime.now(timezone.utc).isoformat(timespec="seconds")
+        try:
+            feed, basis = self.zoek_feed(bron.url)
+        except OphaalFout as fout:
+            with self._slot:
+                self.staat.feeds[bron.id] = {"url": bron.url, "via_google": True, "reden": str(fout), "gevonden": nu}
+            return self._via_google(bron, str(fout))
         with self._slot:
-            self.staat.feeds[bron.id] = {
-                "url": bron.url, "feed": feed, "gevonden": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-            }
+            self.staat.feeds[bron.id] = {"url": bron.url, "feed": feed, "basis": basis, "gevonden": nu}
         return self._haal_feed(bron, feed)
 
+    def _via_google(self, bron: Bron, reden: str) -> Resultaat:
+        """Website zonder bruikbare feed: volg ze via Google Nieuws met site:domein."""
+        domein = urlparse(bron.url).netloc.lower().removeprefix("www.")
+        editie = standaard_editie(bron.taal, bron.land if bron.land != "INT" else "")
+        feed = google_url(f"site:{domein}", editie, self.inst.google_recentheid)
+        res = self._haal_feed(replace(bron, soort="google"), feed, conditioneel=False)
+        res.bron = bron
+        res.melding = f"geen eigen feed ({reden}); gevolgd via Google Nieuws"
+        return res
+
     def ontdek_feed(self, url: str) -> str:
-        """Zoekt het feedadres van een website.
+        return self.zoek_feed(url)[0]
+
+    def zoek_feed(self, url: str) -> tuple[str, str]:
+        """Zoekt het feedadres van een website; geeft (feed, adres van de startpagina na omleiding) terug.
 
         Volgorde: de pagina zelf, <link>-tags, RSS-links in de pagina, gangbare paden. Een
         RSS-overzichtspagina (HTML met links naar feeds) wordt één niveau diep doorzocht.
@@ -330,7 +365,7 @@ class Ophaler:
         basis_url = url
         if antwoord is not None and antwoord.status_code < 400:
             if is_feed(antwoord.content):
-                return antwoord.url
+                return antwoord.url, antwoord.url
             basis_url = antwoord.url
             kandidaten = ontdek_feedlinks(antwoord.text, basis_url) + ontdek_rsslinks(antwoord.text, basis_url)
         elif antwoord is not None:
@@ -354,9 +389,11 @@ class Ophaler:
             if poging.status_code != 200:
                 continue
             if is_feed(poging.content):
+                if not zelfde_website(poging.url, url, basis_url):
+                    continue  # omgeleid naar een andere website (bv. een zustertitel)
                 try:
                     if lees_feed(poging.content, Bron("x", "x", "rss", "medium")):
-                        return poging.url
+                        return poging.url, basis_url
                 except OphaalFout:
                     pass
                 continue

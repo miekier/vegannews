@@ -143,12 +143,41 @@ def test_website_ontdekking_cache_en_304():
 
 
 def test_fouten_worden_status():
-    sessie = FakeSessie({"kapot.be/feed": (500, b"", {}), "geenfeed.be": (200, b"<html>geen feed</html>", {})})
+    sessie = FakeSessie({"kapot.be/feed": (500, b"", {})})
     ophaler = Ophaler(Staat(), Instellingen(), sessie)
     res = ophaler.haal(Bron("x", "x", "rss", "medium", url="https://kapot.be/feed"))
     assert res.status == "fout" and "HTTP 500" in res.melding
-    res = ophaler.haal(Bron("y", "y", "website", "medium", url="https://geenfeed.be"))
-    assert res.status == "fout" and "geen RSS-feed" in res.melding
+
+
+def test_website_zonder_feed_via_google_nieuws():
+    sessie = FakeSessie({
+        "news.google.com": (200, fixture("google_nieuws.xml"), {}),
+        "geenfeed.be": (200, b"<html>geen feed</html>", {"Content-Type": "text/html"}),
+    })
+    staat = Staat()
+    ophaler = Ophaler(staat, Instellingen(), sessie)
+    bron = Bron("y", "Geen Feed", "website", "organisatie", url="https://www.geenfeed.be", land="BE", taal="nl")
+    res = ophaler.haal(bron)
+    assert res.status == "ok" and len(res.berichten) == 4 and res.bron is bron
+    assert "gevolgd via Google Nieuws" in res.melding and "geen RSS-feed" in res.melding
+    assert "site%3Ageenfeed.be" in res.feed and "gl=BE" in res.feed
+    assert staat.feeds["y"]["via_google"] is True
+    aantal = len(sessie.verzoeken)
+    ophaler.haal(bron)
+    assert len(sessie.verzoeken) == aantal + 1  # geen nieuwe zoektocht naar een feed
+
+
+def test_feed_op_ander_domein_wordt_geweigerd():
+    sessie = FakeSessie({
+        "https://www.zuster.com/feed/": (200, fixture("wordpress.xml"), {}),
+        "https://www.krant.com/feed/": lambda url, h: __import__("conftest").maak_antwoord("https://www.zuster.com/feed/", 200, fixture("wordpress.xml")),
+        "https://www.krant.com/": (403, b"", {}),
+    })
+    ophaler = Ophaler(Staat(), Instellingen(), sessie)
+    import pytest
+    from vegannieuws.ophalen import OphaalFout
+    with pytest.raises(OphaalFout):
+        ophaler.ontdek_feed("https://www.krant.com/")
 
 
 def test_bing_link_naar_bron():

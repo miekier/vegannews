@@ -74,7 +74,7 @@ class GitHubModels:
         for _ in range(4):
             antwoord = self.sessie.post(url, json=body, timeout=(10, 120), allow_redirects=False, headers={
                 "Authorization": f"Bearer {self.token}",
-                "Accept": "application/json",
+                "Accept": "application/vnd.github+json",
                 "Content-Type": "application/json",
                 "X-GitHub-Api-Version": "2022-11-28",
             })
@@ -163,6 +163,39 @@ class GitHubModels:
         except ValueError as fout:
             return f"fout: {fout}"
         return f"werkt: model {self.model} via {self.eindpunt} (antwoord {antwoord.strip()[:60]!r})"
+
+
+def diagnose_taalmodel(token: str, modellen: list[str], sessie: requests.Session | None = None) -> list[str]:
+    """Probeert enkele varianten van een verzoek en beschrijft de antwoorden (voor foutopsporing)."""
+    sessie = sessie or requests.Session()
+    koppen = {"Authorization": f"Bearer {token}", "X-GitHub-Api-Version": "2022-11-28"}
+
+    def beschrijf(antwoord: requests.Response) -> str:
+        return (f"HTTP {antwoord.status_code}, {antwoord.headers.get('Content-Type', '-')}, "
+                f"request-id {antwoord.headers.get('X-GitHub-Request-Id', '-')}, inhoud {antwoord.text[:120]!r}")
+
+    regels = []
+    try:
+        antwoord = sessie.get("https://models.github.ai/catalog/models", timeout=(10, 30),
+                              headers={**koppen, "Accept": "application/vnd.github+json"})
+        try:
+            ids = [m.get("id") for m in antwoord.json()]
+            regels.append(f"catalogus: {len(ids)} modellen, o.a. {', '.join(i for i in ids if 'gpt' in str(i))[:300]}")
+        except (ValueError, AttributeError, TypeError):
+            regels.append(f"catalogus: {beschrijf(antwoord)}")
+    except requests.RequestException as fout:
+        regels.append(f"catalogus: geen verbinding ({type(fout).__name__})")
+    for model in modellen[:2]:
+        for accept in ("application/vnd.github+json", "application/json"):
+            try:
+                antwoord = sessie.post(EINDPUNTEN[0], timeout=(10, 60), allow_redirects=False,
+                                       headers={**koppen, "Accept": accept},
+                                       json={"model": model, "messages": [{"role": "user", "content": "Zeg OK."}],
+                                             "max_tokens": 5})
+                regels.append(f"POST {model}, Accept {accept}: {beschrijf(antwoord)}")
+            except requests.RequestException as fout:
+                regels.append(f"POST {model}, Accept {accept}: geen verbinding ({type(fout).__name__})")
+    return regels
 
 
 def systeemprompt(lexicon: Lexicon, doeltaal: str) -> str:

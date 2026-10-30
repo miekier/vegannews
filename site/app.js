@@ -461,6 +461,7 @@
       b.zoekterm ? el("p", {}, `Zoekterm: ${b.zoekterm}${b.editie ? ` (editie ${b.editie})` : ""}`) : null,
       cijfers.length ? el("p", {}, cijfers.join(" · ")) : null,
       b.status === "fout" && b.melding ? el("p", { class: "melding-fout" }, `Melding: ${b.melding}${b.fouten_op_rij > 1 ? ` (${b.fouten_op_rij} keer na elkaar)` : ""}`) : null,
+      b.status !== "fout" && b.melding ? el("p", {}, `Info: ${b.melding}`) : null,
       b.notitie ? el("p", {}, b.notitie) : null,
       links ? el("div", { class: "bron-acties" },
         b.feed && veiligeUrl(b.feed) ? el("a", { href: b.feed, target: "_blank", rel: "noopener noreferrer" }, "feed") : null,

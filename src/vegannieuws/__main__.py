@@ -13,7 +13,7 @@ from .bronnen import laad_register
 from .config import laad_instellingen, standaard_paden
 from .ophalen import Ophaler
 from .staat import Staat
-from .verrijking import GitHubModels
+from .verrijking import GitHubModels, diagnose_taalmodel
 from .verzamelen import herindeel, rapport_markdown, verzamel
 
 
@@ -70,7 +70,10 @@ def main(argv: list[str] | None = None) -> int:
         tekst = "## Controle van bronnen\n\n" + "\n".join(regels) + f"\n\n{len(gekozen) - fouten} van {len(gekozen)} bronnen werken.\n"
         token = os.environ.get("GITHUB_MODELS_TOKEN") or os.environ.get("GITHUB_TOKEN")
         if token and inst.llm_aan:
-            tekst += f"\n## Taalmodel\n\n{GitHubModels(token, inst.llm_modellen, inst.llm_pauze_s).test()}\n"
+            resultaat = GitHubModels(token, inst.llm_modellen, inst.llm_pauze_s).test()
+            tekst += f"\n## Taalmodel\n\n{resultaat}\n"
+            if not resultaat.startswith("werkt:"):
+                tekst += "\n" + "\n".join(f"- {r}" for r in diagnose_taalmodel(token, inst.llm_modellen)) + "\n"
         print(tekst)
         _schrijf_samenvatting(tekst)
         return 0

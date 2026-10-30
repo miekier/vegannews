@@ -141,7 +141,7 @@ bronnen:
     land: BE
     taal: fr
   - naam: L'Avenir
-    url: https://www.lavenir.net
+    url: https://www.lavenir.net/arc/outboundfeeds/rss/?outputType=xml
     type: medium
     land: BE
     taal: fr

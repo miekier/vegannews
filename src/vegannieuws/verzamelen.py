@@ -22,7 +22,7 @@ from .ontdubbelen import bericht_id
 from .ophalen import Ophaler, Resultaat, RuwBericht
 from .staat import Staat
 from .tekst import detecteer_taal
-from .verrijking import GitHubModels, LlmStatistiek, achterstand, verrijk
+from .verrijking import GitHubModels, LlmStatistiek, achterstand, diagnose_taalmodel, verrijk
 from .vertaling import vertaal_titels
 
 
@@ -188,6 +188,10 @@ def _verrijk_achterstand(archief: Archief, inst: Instellingen, lexicon: Lexicon,
     client = GitHubModels(token, inst.llm_modellen, inst.llm_pauze_s)
     stat = verrijk(lijst, client, lexicon, geo, inst.doeltaal, inst.talen_zonder_vertaling, inst.llm_batch,
                    resterend, inst.llm_max_pogingen, log=log)
+    if stat.melding.startswith("geen werkend eindpunt"):
+        log("Diagnose taalmodel:")
+        for regel in diagnose_taalmodel(token, inst.llm_modellen):
+            log(f"  {regel}")
     staat.verbruik("llm", vandaag, stat.verzoeken)
     for b in lijst:
         archief.markeer_gewijzigd(b)

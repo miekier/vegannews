@@ -110,6 +110,7 @@ def test_verzamel_volledige_run(wortel, monkeypatch):
     alleen_vegan: nee
   - naam: Kapotte bron
     url: https://kapot.be/feed
+    soort: rss
     type: medium
 """, encoding="utf-8")
     (wortel / "zoekopdrachten.yml").write_text("zoekopdrachten:\n  - zoekterm: vegan\n    land: BE\n    taal: nl\n",
