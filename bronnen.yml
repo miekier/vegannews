@@ -303,7 +303,8 @@ bronnen:
     type: organisatie
     land: GB
     taal: en
-    alleen_vegan: nee
+    alleen_vegan: ja
+    notitie: "Feed bevat ook pagina's die geen nieuws zijn; enkel vegan-gerelateerde berichten bewaard."
   - naam: Veganuary
     url: https://veganuary.com/feed/
     type: organisatie
@@ -351,13 +352,15 @@ bronnen:
     type: organisatie
     land: US
     taal: en
-    alleen_vegan: nee
+    alleen_vegan: ja
+    notitie: "Feed bevat ook pagina's die geen nieuws zijn; enkel vegan-gerelateerde berichten bewaard."
   - naam: PETA
     url: https://www.peta.org/feed/
     type: organisatie
     land: US
     taal: en
-    alleen_vegan: nee
+    alleen_vegan: ja
+    notitie: "Feed bevat ook pagina's die geen nieuws zijn; enkel vegan-gerelateerde berichten bewaard."
   - naam: Nederlandse Vereniging voor Veganisme
     url: https://www.veganisme.org
     type: organisatie

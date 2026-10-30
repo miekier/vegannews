@@ -112,6 +112,7 @@ class Archief:
             dag = date.fromisoformat(b.datum)
             self.laad_periode(dag - timedelta(days=VENSTER_DAGEN), dag + timedelta(days=VENSTER_DAGEN))
             if b.id in self._id_naar_maand:
+                self._ververs(b)
                 continue
             bestaand = self._vind_gelijkend(titel_sleutel(b.titel_orig or b.titel), b.datum)
             if bestaand is not None:
@@ -123,6 +124,18 @@ class Archief:
             self._gewijzigd.add(maand)
             toegevoegd.append(b)
         return toegevoegd
+
+    def _ververs(self, nieuw: Bericht) -> None:
+        """Een opnieuw opgehaald bericht: indeling volgens de huidige regels overnemen,
+        tenzij het taalmodel het bericht al verwerkte."""
+        bestaand = self.bericht(nieuw.id)
+        if bestaand is None or bestaand.id != nieuw.id or bestaand.methode == "llm":
+            return
+        velden = ("categorieen", "gebeurtenis", "relevantie", "regio", "land", "plaats", "gewest")
+        if any(getattr(bestaand, v) != getattr(nieuw, v) for v in velden):
+            for v in velden:
+                setattr(bestaand, v, getattr(nieuw, v))
+            self._gewijzigd.add(self._id_naar_maand[bestaand.id])
 
     def _voeg_extra_toe(self, bestaand: Bericht, dubbel: Bericht) -> None:
         maand = self._id_naar_maand[bestaand.id]

@@ -60,7 +60,9 @@ def maak_bericht(ruw: RuwBericht, bron: Bron, nu: datetime, tz: ZoneInfo, grens:
     categorieen = indeling.categorieen
     if bron.type == "wetenschap" and "wetenschap" not in categorieen:
         categorieen = ["wetenschap"] + [c for c in categorieen if c != "overig"][:2]
-    regio = geo.bepaal(ruw.titel, ruw.samenvatting, bron.land, ruw.uitgever_url)
+    # Bij zoekresultaten zegt de editie (bv. Google Nieuws België) niets over het artikel zelf;
+    # enkel het domein van het medium telt dan als aanwijzing.
+    regio = geo.bepaal(ruw.titel, ruw.samenvatting, "" if bron.is_zoekopdracht else bron.land, ruw.uitgever_url)
     return Bericht(
         id=bericht_id(ruw.url),
         titel=ruw.titel,

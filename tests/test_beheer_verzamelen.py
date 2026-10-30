@@ -147,3 +147,53 @@ def test_verzamel_volledige_run(wortel, monkeypatch):
     assert tweede.nieuw == 0
     staat = Staat.laad(paden.staat)
     assert staat.bronnen["kapot-be-feed"]["fouten_op_rij"] == 2
+
+
+def test_regio_zoekresultaat_volgt_domein_van_medium():
+    from datetime import datetime, timedelta, timezone
+    from zoneinfo import ZoneInfo
+
+    from vegannieuws.bronnen import Bron
+    from vegannieuws.classificatie import laad_lexicon
+    from vegannieuws.locatie import Geo
+    from vegannieuws.verzamelen import maak_bericht
+
+    nu = datetime(2026, 10, 30, 12, tzinfo=timezone.utc)
+    lexicon, geo, tz = laad_lexicon(WORTEL / "categorieen.yml"), Geo(), ZoneInfo("Europe/Brussels")
+    google = Bron("g", "Google Nieuws: vegan", "google", "zoekopdracht", zoekterm="vegan", editie="BE:nl", land="BE")
+    eigen = Bron("e", "Bruzz", "website", "medium", url="https://www.bruzz.be", land="BE")
+
+    def regio(bron, uitgever_url):
+        ruw = RuwBericht("Vegan koekjes: het recept van de week", "https://x.com/1", gepubliceerd=nu,
+                         uitgever="Medium", uitgever_url=uitgever_url)
+        b = maak_bericht(ruw, bron, nu, tz, nu - timedelta(days=60), lexicon, geo)
+        return b.regio, b.land
+
+    assert regio(google, "https://www.cuisineaz.com") == ("INT", "")   # Franse site, generiek domein
+    assert regio(google, "https://www.nieuwsblad.be") == ("BE", "BE")  # Belgisch domein
+    assert regio(eigen, "") == ("BE", "BE")                           # eigen feed van een Belgisch medium
+
+
+def test_opnieuw_gezien_bericht_krijgt_nieuwe_indeling(tmp_path):
+    from vegannieuws.archief import Archief
+    from vegannieuws.model import Bericht
+
+    archief = Archief(tmp_path)
+    oud = Bericht(id="a1", titel="Vegan bakkerij opent", url="https://x.be/1", bron="b", bron_naam="b",
+                  datum="2026-10-29", regio="BE", land="BE", categorieen=["overig"])
+    llm = Bericht(id="a2", titel="Iets helemaal anders", url="https://x.be/2", bron="b", bron_naam="b",
+                  datum="2026-10-29", regio="BE", land="BE", categorieen=["horeca"], methode="llm")
+    archief.voeg_toe([oud, llm])
+    archief.bewaar()
+    archief = Archief(tmp_path)
+    nieuw1 = Bericht(id="a1", titel="Vegan bakkerij opent", url="https://x.be/1", bron="b", bron_naam="b",
+                     datum="2026-10-29", regio="INT", land="FR", categorieen=["horeca"], gebeurtenis="opening")
+    nieuw2 = Bericht(id="a2", titel="Iets helemaal anders", url="https://x.be/2", bron="b", bron_naam="b",
+                     datum="2026-10-29", regio="INT", land="FR", categorieen=["overig"])
+    assert archief.voeg_toe([nieuw1, nieuw2]) == []
+    assert archief.bewaar() == ["2026-10"]
+    archief = Archief(tmp_path)
+    archief.laad("2026-10")
+    a1, a2 = archief.bericht("a1"), archief.bericht("a2")
+    assert (a1.regio, a1.land, a1.categorieen, a1.gebeurtenis) == ("INT", "FR", ["horeca"], "opening")
+    assert (a2.regio, a2.categorieen) == ("BE", ["horeca"])  # door het taalmodel ingedeeld: ongewijzigd
