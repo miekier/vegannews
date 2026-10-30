@@ -30,7 +30,7 @@ llm_modellen_groq: [llama-3.3-70b-versatile, openai/gpt-oss-120b, llama-3.1-8b-i
 llm_modellen: [openai/gpt-4.1-mini, openai/gpt-4o-mini]
 # Eén verzoek verwerkt llm_batch berichten. Gratis limiet van Gemini Flash-Lite (2025): ca. 1 000
 # verzoeken per dag en 15 per minuut; bij HTTP 429 stopt de run en gaat de volgende verder.
-llm_max_verzoeken_per_run: 80
+llm_max_verzoeken_per_run: 120
 llm_max_verzoeken_per_dag: 240
 llm_batch: 12
 llm_pauze_s: 4.5
@@ -48,7 +48,10 @@ sociaal_enkel_land: BE
 verhalen_aan: ja
 # Berichten van de afgelopen ... dagen worden met elkaar vergeleken.
 verhalen_venster_dagen: 4
-verhalen_max_verzoeken_per_run: 4
+verhalen_max_verzoeken_per_run: 6
+# De koppen van verhalen schrijft een sterker gratis model (enkele verzoeken per dag). Bereikt dat
+# zijn daglimiet, dan neemt het model van de berichten (llm_modellen_gemini) het over.
+verhalen_modellen_gemini: [gemini-flash-latest, gemini-2.5-flash]
 
 # Reservevertaling van titels via MyMemory (gratis, ca. 5 000 tekens per dag)
 # voor berichten die het taalmodel (nog) niet verwerkte.

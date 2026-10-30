@@ -240,19 +240,36 @@ def _ruim_kandidaten_op(archief: Archief, staat: Staat, vandaag: date, max_leeft
 
 
 def _bundel_verhalen(archief: Archief, inst: Instellingen, staat: Staat, vandaag: date, log) -> VerhaalStatistiek:
-    """Bundelt berichten van verschillende bronnen over hetzelfde nieuws onder een Nederlandse kop."""
-    clients = maak_taalmodellen(inst.llm_aanbieders, inst.modellen_per_aanbieder, inst.llm_pauze_s)
+    """Bundelt berichten van verschillende bronnen over hetzelfde nieuws onder een Nederlandse kop.
+
+    De koppen komen bij voorkeur van een sterker model (verhalen_modellen_gemini); weigert dat model
+    (bv. daglimiet bereikt), dan neemt het model van de berichten het over."""
+    sterk = {**inst.modellen_per_aanbieder, "gemini": inst.verhalen_modellen_gemini or inst.llm_modellen_gemini}
+    clients = (maak_taalmodellen(inst.llm_aanbieders, sterk, inst.llm_pauze_s)
+               + maak_taalmodellen(inst.llm_aanbieders, inst.modellen_per_aanbieder, inst.llm_pauze_s))
     resterend = min(inst.verhalen_max_verzoeken_per_run,
                     staat.resterend("llm", vandaag.isoformat(), inst.llm_max_verzoeken_per_dag))
     berichten = archief.geladen()
     voor = {b.id: (b.verhaal, b.verhaal_kop) for b in berichten}
-    stat = bundel(berichten, clients[0] if clients and resterend > 0 else None, vandaag, inst.verhalen_venster_dagen,
-                  resterend, staat.gebundeld, log=log)
-    staat.verbruik("llm", vandaag.isoformat(), stat.verzoeken)
+    totaal = VerhaalStatistiek()
+    for client in clients or [None]:
+        stat = bundel(berichten, client if resterend > 0 else None, vandaag, inst.verhalen_venster_dagen,
+                      resterend, staat.gebundeld, log=log)
+        resterend -= stat.verzoeken
+        for veld in ("gecontroleerd", "verzoeken", "nieuwe_verhalen", "gebundeld", "invoer_tokens", "uitvoer_tokens"):
+            setattr(totaal, veld, getattr(totaal, veld) + getattr(stat, veld))
+        totaal.groepen = max(totaal.groepen, stat.groepen)
+        totaal.fouten += stat.fouten
+        totaal.melding = stat.melding
+        if stat.verzoeken:
+            totaal.model = ", ".join(filter(None, (totaal.model, stat.model)))
+        if not stat.gestopt:
+            break
+    staat.verbruik("llm", vandaag.isoformat(), totaal.verzoeken)
     for b in berichten:
         if voor.get(b.id) != (b.verhaal, b.verhaal_kop):
             archief.markeer_gewijzigd(b)
-    return stat
+    return totaal
 
 
 def verzamel(paden: Paden, inst: Instellingen, terugvullen_dagen: int = 0, gebruik_llm: bool = True,
@@ -404,7 +421,7 @@ def rapport_markdown(rapport: Rapport) -> str:
                       f"tokens {llm.get('invoer_tokens', 0)} in / {llm.get('uitvoer_tokens', 0)} uit. {llm.get('melding', '')}")
     if rapport.verhalen:
         vh = rapport.verhalen
-        regels.append(f"- Verhalen (zelfde nieuws, verschillende bronnen): {vh.get('groepen', 0)} kandidaatgroepen, "
+        regels.append(f"- Verhalen (zelfde nieuws, verschillende bronnen; {vh.get('model') or '-'}): {vh.get('groepen', 0)} kandidaatgroepen, "
                       f"{vh.get('nieuwe_verhalen', 0)} nieuwe verhalen, {vh.get('verzoeken', 0)} verzoeken, "
                       f"tokens {vh.get('invoer_tokens', 0)} in / {vh.get('uitvoer_tokens', 0)} uit. {vh.get('melding', '')}")
     if rapport.reservevertaling:

@@ -11,7 +11,7 @@
     mt: "het Maltees",
   };
   const PER_KEER = 150;
-  const toestand = { index: null, maanden: new Map(), bronnen: null, resultaat: [], eenheden: [], filters: null, limiet: PER_KEER, gezocht: false };
+  const toestand = { index: null, maanden: new Map(), bronnen: null, resultaat: [], eenheden: [], filters: null, limiet: PER_KEER, gezocht: false, beheer: false };
 
   const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => Array.from(document.querySelectorAll(sel));
@@ -537,8 +537,21 @@
       categorieen: `${basis}/edit/main/categorieen.yml`,
       instellingen: `${basis}/edit/main/instellingen.yml`,
       bijwerken: `${basis}/actions/workflows/verzamel.yml`,
+      inloggen: `https://github.com/login?return_to=${encodeURIComponent(`/${repo}/issues`)}`,
       repo: basis,
     };
+  }
+
+  // Beheer: de knoppen verschijnen pas na "Inloggen als beheerder". De eigenlijke toegangscontrole
+  // gebeurt op GitHub: enkel het account van de eigenaar kan het register wijzigen.
+  function zetBeheer(aan) {
+    toestand.beheer = aan;
+    bewaar("vegannieuws-beheer", aan);
+    $("#beheer-uit").hidden = aan;
+    $("#beheer-in").hidden = !aan;
+    $("#info-knoppen").hidden = !aan;
+    $("#info-beheer-uit").hidden = aan;
+    if (toestand.bronnen) toonBronnen();
   }
 
   function knop(href, tekst) {
@@ -559,6 +572,7 @@
     const links = githubLinks();
     if (links && !$("#bronnen-knoppen").children.length) {
       $("#bronnen-knoppen").append(
+        knop(links.inloggen, "Inloggen bij GitHub ↗"),
         knop(links.toevoegen, "＋ Bron toevoegen"),
         knop(links.wijzigen(""), "Bron uitschakelen of verwijderen"),
         knop(links.register, "Register bewerken"),
@@ -606,9 +620,10 @@
       b.status === "fout" && b.melding ? el("p", { class: "melding-fout" }, `Melding: ${b.melding}${b.fouten_op_rij > 1 ? ` (${b.fouten_op_rij} keer na elkaar)` : ""}`) : null,
       b.status !== "fout" && b.melding ? el("p", {}, `Info: ${b.melding}`) : null,
       b.notitie ? el("p", {}, b.notitie) : null,
-      links ? el("div", { class: "bron-acties" },
+      el("div", { class: "bron-acties" },
         b.feed && veiligeUrl(b.feed) ? el("a", { href: b.feed, target: "_blank", rel: "noopener noreferrer" }, "feed") : null,
-        el("a", { href: links.wijzigen(b.naam), target: "_blank", rel: "noopener noreferrer" }, b.actief ? "uitschakelen of verwijderen" : "opnieuw inschakelen")) : null);
+        links && toestand.beheer ? el("a", { href: links.wijzigen(b.naam), target: "_blank", rel: "noopener noreferrer" },
+          b.actief ? "uitschakelen of verwijderen" : "opnieuw inschakelen") : null));
   }
 
   // --- info ---------------------------------------------------------------------------------------
@@ -697,11 +712,14 @@
     for (const radio of $$('input[name="regio"]')) radio.addEventListener("change", opnieuwAlsGezocht);
     for (const id of ["#gebeurtenis", "#relatie", "#groep", "#ook-irrelevant"]) $(id).addEventListener("change", opnieuwAlsGezocht);
     $("#bronnen-zoek").addEventListener("input", () => toonBronnen());
+    $("#beheer-aan").addEventListener("click", () => zetBeheer(true));
+    $("#beheer-af").addEventListener("click", () => zetBeheer(false));
   }
 
   async function start() {
     $("#datumregel").textContent = hoofdletter(dagTekst(vandaag()));
     koppelGebeurtenissen();
+    zetBeheer(Boolean(lees("vegannieuws-beheer")));
     try {
       toestand.index = await haalJSON("data/index.json");
     } catch (e) {

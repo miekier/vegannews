@@ -2,6 +2,10 @@ name: Bron uitschakelen, inschakelen of verwijderen
 description: Een bron uit het register tijdelijk uitschakelen, opnieuw inschakelen of definitief verwijderen.
 title: "Bron wijzigen: "
 body:
+  - type: markdown
+    attributes:
+      value: |
+        **Enkel de beheerder** kan bronnen wijzigen: aanvragen van andere GitHub-accounts worden automatisch gesloten.
   - type: input
     id: bron
     attributes:

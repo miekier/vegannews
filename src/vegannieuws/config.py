@@ -68,6 +68,7 @@ class Instellingen:
     sociaal_enkel_land: str = "BE"
     verhalen_aan: bool = True
     verhalen_venster_dagen: int = 4
+    verhalen_modellen_gemini: list[str] = field(default_factory=lambda: ["gemini-flash-latest", "gemini-2.5-flash"])
     verhalen_max_verzoeken_per_run: int = 4
     reserve_vertaling: bool = True
     reserve_max_tekens_per_dag: int = 4500

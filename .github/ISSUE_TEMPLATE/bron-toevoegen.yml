@@ -5,8 +5,10 @@ body:
   - type: markdown
     attributes:
       value: |
+        **Enkel de beheerder** kan bronnen wijzigen: aanvragen van andere GitHub-accounts worden automatisch gesloten.
+
         Na het indienen test het programma de bron. Lukt dat, dan wordt ze automatisch aan het register toegevoegd en sluit dit issue. Lukt het niet, dan staat de reden hieronder in een reactie; pas dan het adres aan (bewerken) of heropen het issue.
-        Instagram-, Facebook-, X- en TikTok-pagina's kunnen niet gratis gevolgd worden.
+        Instagram- en Facebookposts worden gevonden via zoekopdrachten in Google Nieuws (soort: zoekopdracht, bv. site:instagram.com "naam van de zaak").
   - type: input
     id: naam
     attributes:

@@ -1,6 +1,6 @@
 # Vegannieuws
 
-Een webpagina die nationaal (Belgisch) en internationaal nieuws over veganisme verzamelt, vertaalt, indeelt en met bronvermelding toont. De pagina werkt ook op een gsm. Alles draait gratis op GitHub: GitHub Actions verzamelt het nieuws drie keer per dag, en GitHub Pages toont de website.
+Een webpagina die nationaal (Belgisch) en internationaal nieuws over veganisme verzamelt, vertaalt, indeelt en met bronvermelding toont. De pagina werkt ook op een gsm. Alles draait gratis op GitHub: GitHub Actions verzamelt het nieuws elke ochtend, en GitHub Pages toont de website.
 
 **Website:** <https://miekier.github.io/vegannews/>
 
@@ -56,9 +56,21 @@ Een specifieke zaak of organisatie volgen kan met een eigen zoekopdracht, bijvoo
 
 Google vindt niet elke post. Posts van privé-accounts, stories en een deel van de reels ontbreken.
 
+### Beheer en login
+
+Bekijken kan iedereen; wijzigen kan enkel de eigenaar.
+
+- **Login.** Bronnen toevoegen, wijzigen of verwijderen gebeurt op GitHub. Je logt daar in met je GitHub-account. Schakel daar tweestapsverificatie of een passkey in (GitHub → Settings → Password and authentication).
+- **Wie mag wat.**
+  - Enkel aanvragen van het account van de eigenaar van de repository worden uitgevoerd.
+  - Een aanvraag van een ander account wordt automatisch gesloten en vergrendeld.
+  - De registerbestanden rechtstreeks bewerken vraagt schrijfrechten, en die heeft enkel de eigenaar.
+- **Website.** Op de website staan de beheerknoppen pas na **Bronnen → Inloggen als beheerder**. Dat verbergt de knoppen voor bezoekers; de echte controle gebeurt op GitHub.
+- **Spam weren (optioneel).** Wie ook geen issues van anderen wil zien: GitHub → Settings → Moderation options → *Interaction limits* → *Limit to repository collaborators*. Die beperking geldt telkens hoogstens 6 maanden.
+
 Zo voeg je een bron toe, ook op een gsm:
 
-1. Op de website: tabblad **Bronnen** → **＋ Bron toevoegen**. Dat opent een formulier op GitHub.
+1. Op de website: tabblad **Bronnen** → **Inloggen als beheerder** → **＋ Bron toevoegen**. Dat opent een formulier op GitHub.
 2. Vul naam, adres, soort, land en taal in en dien het formulier in.
 3. Binnen ongeveer een minuut test het programma de bron en antwoordt het in het issue.
    - Lukt de test: de bron staat in het register, het issue sluit en een verzamelrun start.
@@ -83,9 +95,10 @@ bronnenregister ──► ophalen (RSS, feed-ontdekking, Google/Bing Nieuws, Blu
                 ──► website (GitHub Pages)
 ```
 
-- **Planning.** De workflow *Nieuws verzamelen* draait om 05:23, 11:23 en 17:23 Belgische wintertijd (zomertijd: een uur later). Je kunt hem ook zelf starten via Actions → *Nieuws verzamelen* → *Run workflow*.
+- **Planning.** De workflow *Nieuws verzamelen* draait één keer per dag, om 05:23 Belgische wintertijd (zomertijd: 06:23). Je kunt hem ook zelf starten via Actions → *Nieuws verzamelen* → *Run workflow*. Na elke wijziging van het register of de instellingen start hij ook vanzelf.
 - **Archief.** Elk bericht wordt bewaard, dus elke periode blijft opvraagbaar. Ouder nieuws (van vóór de start) haal je op via *Run workflow* met een getal bij *Ouder nieuws opzoeken*. Dat gebruikt Google Nieuws en is onvolledig.
-- **Taalmodel.** Google Gemini of Groq, elk gratis met een eigen sleutel (zie *Eenmalige installatie*). Per run gaan maximaal 80 verzoeken van 12 berichten naar het model, en maximaal 240 per dag. Het verslag van elke run vermeldt het tokenverbruik.
+- **Taalmodel.** Google Gemini of Groq, elk gratis met een eigen sleutel (zie *Eenmalige installatie*). Per run gaan maximaal 120 verzoeken van 12 berichten naar het model, en maximaal 240 per dag. Het verslag van elke run vermeldt het tokenverbruik.
+  - De koppen van verhalen schrijft een sterker gratis model (Gemini Flash; enkele verzoeken per dag). Bereikt dat zijn daglimiet, dan neemt Flash-Lite het over.
   - Bij te veel berichten verwerkt een volgende run de rest.
   - Zonder sleutel, of als het taalmodel faalt, blijft de indeling op basis van trefwoorden en plaatsnamen staan. Zo'n bericht krijgt het label *ingedeeld via trefwoorden*.
   - Titels in andere talen dan Nederlands en Engels worden dan vertaald via MyMemory (gratis, ongeveer 60 titels per dag).
@@ -94,7 +107,7 @@ bronnenregister ──► ophalen (RSS, feed-ontdekking, Google/Bing Nieuws, Blu
   - Gelijkaardige berichten vormen kandidaatgroepen.
   - Het taalmodel beslist welke berichten over hetzelfde nieuwsfeit gaan en schrijft een Nederlandse kop.
   - Een bericht blijft bij zijn verhaal; latere berichten kunnen aansluiten.
-  - Hoogstens 4 verzoeken per run; instellingen onder `verhalen_` in [`instellingen.yml`](instellingen.yml).
+  - Hoogstens 6 verzoeken per run; instellingen onder `verhalen_` in [`instellingen.yml`](instellingen.yml).
 - **Websites zonder feed.** Een website zonder bruikbare RSS-feed wordt automatisch gevolgd via Google Nieuws (`site:domein`). De pagina *Bronnen* vermeldt dat bij de bron.
 - **Nationaal of internationaal.** De regio volgt uit de vermelde plaatsen en de vermelde instellingen en gewesten, en uit het land van de bron.
   - Plaatsen: 2 276 Belgische plaatsen in het Nederlands, Frans en Duits.

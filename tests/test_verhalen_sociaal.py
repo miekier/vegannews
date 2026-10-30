@@ -125,3 +125,24 @@ def test_google_nieuws_instagram_post_behoudt_bijschrift():
     assert post.titel == "Vegan comfort food in Antwerp? @bardhenri is your place" and post.uitgever == "Instagram"
     assert "elke zondag brunch" in post.samenvatting and not post.samenvatting.endswith("Instagram")
     assert artikel.samenvatting == ""
+
+
+def test_koppen_vallen_terug_op_tweede_model(tmp_path, monkeypatch):
+    from vegannieuws import verzamelen
+    from vegannieuws.archief import Archief
+    from vegannieuws.config import Instellingen
+    from vegannieuws.staat import Staat
+    archief = Archief(tmp_path)
+    berichten = [maak(i + 1, b.kernzin, taal=b.taal, bron=b.bron, datum="2026-10-29") for i, b in enumerate(TOBLERONE)]
+    archief.voeg_toe(berichten + opvulling())
+    sterk = NepModel(fout=StopVerrijking("limiet van Google Gemini bereikt"))
+    sterk.model = "gemini-flash-latest"
+    gewoon = NepModel(lambda invoer: json.dumps({"verhalen": [{"ids": alle_ids(invoer)[:3], "kop": "Kop"}]}))
+    gewoon.model = "gemini-flash-lite-latest"
+    aanroepen = iter([[sterk], [gewoon]])
+    monkeypatch.setattr(verzamelen, "maak_taalmodellen", lambda *a, **k: next(aanroepen))
+    staat = Staat()
+    stat = verzamelen._bundel_verhalen(archief, Instellingen(), staat, date(2026, 10, 30), log=lambda *_: None)
+    assert len(sterk.vragen) == 1 and len(gewoon.vragen) == 1
+    assert stat.nieuwe_verhalen == 1 and stat.model == "gemini-flash-lite-latest"
+    assert staat.budget["llm"]["gebruikt"] == 1

@@ -53,6 +53,8 @@ class VerhaalStatistiek:
     gebundeld: int = 0              # berichten die (opnieuw) bij een verhaal horen
     invoer_tokens: int = 0
     uitvoer_tokens: int = 0
+    model: str = ""
+    gestopt: bool = False           # het taalmodel weigerde verdere verzoeken (bv. daglimiet)
     melding: str = ""
     fouten: list[str] = field(default_factory=list)
 
@@ -223,7 +225,7 @@ def bundel(alle: list[Bericht], client, vandaag: date, venster_dagen: int, max_v
             verhalen = lees_lijst(antwoord, "verhalen")
         except StopVerrijking as fout:
             stat.verzoeken -= 1
-            stat.melding = str(fout)
+            stat.melding, stat.gestopt = str(fout), True
             log(f"Verhalen: taalmodel gestopt: {fout}")
             break
         except (ValueError, json.JSONDecodeError) as fout:
@@ -238,4 +240,5 @@ def bundel(alle: list[Bericht], client, vandaag: date, venster_dagen: int, max_v
         del gecontroleerd[id_]
     stat.invoer_tokens = getattr(client, "invoer_tokens", 0)
     stat.uitvoer_tokens = getattr(client, "uitvoer_tokens", 0)
+    stat.model = getattr(client, "model", "")
     return stat

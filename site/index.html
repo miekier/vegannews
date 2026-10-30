@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Vegannieuws</title>
   <meta name="description" content="Overzicht van nationaal en internationaal nieuws over veganisme, met bronvermelding.">
-  <meta name="theme-color" content="#04273a">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0f1316" media="(prefers-color-scheme: dark)">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="preload" href="fonts/newsreader-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -111,7 +112,16 @@
       <div class="pagina-kop">
         <h2 class="rubriek">Bronnenregister</h2>
         <p id="bronnen-samenvatting" class="gedempt"></p>
-        <div class="knoppen" id="bronnen-knoppen"></div>
+        <div class="beheer-blok">
+          <div id="beheer-uit">
+            <button type="button" class="link" id="beheer-aan">Inloggen als beheerder</button>
+          </div>
+          <div id="beheer-in" hidden>
+            <p>Bronnen beheer je op GitHub: daar log je in met je GitHub-account. Enkel het account van de eigenaar kan bronnen toevoegen, wijzigen of verwijderen. Aanvragen van andere accounts worden automatisch geweigerd.</p>
+            <div class="knoppen" id="bronnen-knoppen"></div>
+            <button type="button" class="link" id="beheer-af">Afmelden</button>
+          </div>
+        </div>
         <label class="zoekveld">Zoek in de bronnen <input type="search" id="bronnen-zoek" placeholder="naam, land, soort…"></label>
       </div>
       <div id="bronnen-lijst" class="bronnen-lijst"></div>
@@ -120,7 +130,7 @@
     <section id="paneel-info" class="paneel" hidden>
       <article class="tekst">
         <h2 class="rubriek">Over Vegannieuws</h2>
-        <p class="intro">Drie keer per dag verzamelt een GitHub Action het nieuws uit het bronnenregister. Het register bevat:</p>
+        <p class="intro">Elke ochtend verzamelt een GitHub Action het nieuws uit het bronnenregister. Het register bevat:</p>
         <ul>
           <li>websites en blogs, via hun RSS-feed;</li>
           <li>accounts op Bluesky, Mastodon en YouTube;</li>
@@ -149,20 +159,16 @@
           <li>Nationaal = het bericht gaat over België. Dat volgt uit een vermelde plaats, een gewest of een Belgische instelling, of uit een Belgische bron zonder buitenlandse plaats.</li>
           <li>Websites zonder eigen RSS-feed worden gevolgd via Google Nieuws (zoekopdracht <em>site:domein</em>). De bronnenpagina vermeldt dat.</li>
           <li>Links naar Instagram- en Facebookposts lopen via Google Nieuws en sturen door naar de post. Google vindt niet elke post; posts van privé-accounts en stories zijn niet zichtbaar.</li>
+          <li>De berichten blijven eigendom van hun bronnen. Het overzicht toont enkel titels, korte samenvattingen en links.</li>
         </ul>
         <h3>Laatste verzamelrun</h3>
         <div id="run-info" class="gedempt">–</div>
         <h3>Zelf aanpassen</h3>
-        <div class="knoppen" id="info-knoppen"></div>
+        <p id="info-beheer-uit" class="gedempt">Na <em>Inloggen als beheerder</em> (tabblad Bronnen) verschijnen hier de links naar de instellingen.</p>
+        <div class="knoppen" id="info-knoppen" hidden></div>
       </article>
     </section>
   </main>
-
-  <footer class="voet">
-    <div class="binnen">
-      <p>Vegannieuws is een persoonlijk, automatisch samengesteld overzicht. Het is geen uitgave van BE Vegan of van de vermelde media; de berichten blijven eigendom van hun bronnen. Kleuren naar de huisstijl van BE Vegan. Lettertypes: Newsreader en Montserrat (SIL Open Font License).</p>
-    </div>
-  </footer>
 
   <template id="tpl-bericht">
     <article class="artikel">
