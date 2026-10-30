@@ -22,6 +22,7 @@ from .tekst import kort_in, zuiver_html
 
 MAX_GROOTTE = 6 * 1024 * 1024
 HERONTDEK_NA_DAGEN = 30
+HERPROBEER_EIGEN_FEED_NA_DAGEN = 3   # na een terugval op Google Nieuws: eigen feed snel opnieuw proberen
 VEELGEBRUIKTE_FEEDPADEN = (
     "feed/", "rss", "rss.xml", "feed.xml", "atom.xml", "index.xml", "rss/", "feed",
     "arc/outboundfeeds/rss/?outputType=xml", "?feed=rss2", "?format=feed&type=rss", "blog/feed/",
@@ -328,7 +329,7 @@ class Ophaler:
                     pass  # opnieuw zoeken
         elif bewaard.get("via_google") and bewaard.get("url") == bron.url:
             gevonden = datetime.fromisoformat(bewaard.get("gevonden", "2000-01-01T00:00:00+00:00"))
-            if datetime.now(timezone.utc) - gevonden < timedelta(days=HERONTDEK_NA_DAGEN):
+            if datetime.now(timezone.utc) - gevonden < timedelta(days=HERPROBEER_EIGEN_FEED_NA_DAGEN):
                 return self._via_google(bron, bewaard.get("reden", "geen eigen feed"))
         nu = datetime.now(timezone.utc).isoformat(timespec="seconds")
         try:
