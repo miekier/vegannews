@@ -534,13 +534,6 @@ bronnen:
     taal: nl
     alleen_vegan: nee
     notitie: "Biologisch vegan restaurant met seizoenskeuken in Gent."
-  - naam: Lazlo
-    url: https://www.instagram.com/lazlo.brussels/
-    type: horeca
-    land: BE
-    taal: en
-    alleen_vegan: nee
-    notitie: "Brunch- en koffiezaak in Brussel (voorheen The Wild Lab), overwegend vegan of vegetarisch."
   # Een account toevoegen: kopieer een blok en pas naam en adres aan, of gebruik op de website
   # Bronnen -> Inloggen als beheerder -> Bron toevoegen (het account wordt dan meteen getest).
 
