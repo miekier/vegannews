@@ -45,6 +45,7 @@ jobs:
     timeout-minutes: 45
     env:
       PYTHONPATH: src
+      PYTHONUNBUFFERED: "1"
     steps:
       - uses: actions/checkout@v5
 

@@ -25,12 +25,14 @@
 
 bronnen:
   # --- België: organisaties ---------------------------------------------------
-  - naam: EVA vzw
-    url: https://www.evavzw.be
+  - naam: ProVeg België (voorheen EVA vzw)
+    id: evavzw-be
+    url: https://proveg.org/be/
     type: organisatie
     land: BE
     taal: nl
     alleen_vegan: nee
+    notitie: "EVA vzw werd ProVeg België; evavzw.be verwijst door naar proveg.org/be (vastgesteld op 30-10-2026)."
   - naam: BE Vegan
     url: https://www.bevegan.be
     type: organisatie
@@ -134,7 +136,7 @@ bronnen:
     land: BE
     taal: fr
   - naam: RTBF Info
-    url: https://www.rtbf.be/info
+    url: https://rss.rtbf.be/article/rss/highlight_rtbf_info.xml?source=internal
     type: medium
     land: BE
     taal: fr
@@ -441,7 +443,7 @@ bronnen:
     taal: en
     alleen_vegan: nee
   - naam: Earthling Ed (YouTube)
-    url: https://www.youtube.com/@EarthlingEd
+    url: https://www.youtube.com/channel/UCVRrGAcUc7cblUzOhI1KfFg
     type: persoon
     land: GB
     taal: en

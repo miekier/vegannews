@@ -11,7 +11,7 @@ from urllib.parse import urlparse
 
 DATA = Path(__file__).resolve().parent / "data"
 MAX_WOORDEN = 4
-BRON_GEWICHT = 1.5
+BRON_GEWICHT = 1.0
 # Na deze woorden is een dubbelzinnige plaatsnaam ("Boom", "Spa") zeker een plaats.
 VOORZETSELS = {"in", "te", "uit", "naar", "nabij", "vanuit", "rond", "à", "au", "près", "vers", "dans",
                "aus", "nach", "bei", "near", "from"}
@@ -85,9 +85,11 @@ class Geo:
         for code, info in landen["landen"].items():
             for naam in info["namen"]:
                 self._exact[naam] = (code, 1.0, False)
+            # "Belgisch" is een sterke aanwijzing; "Italiaans" beschrijft vaak enkel een keuken.
+            gewicht_bijv = 1.0 if code == "BE" else 0.5
             for bijv in info["bijvoeglijk"]:
                 doel = self._ongevoelig if bijv[:1].islower() else self._exact
-                doel[bijv.casefold() if doel is self._ongevoelig else bijv] = (code, 0.5, False)
+                doel[bijv.casefold() if doel is self._ongevoelig else bijv] = (code, gewicht_bijv, False)
         for stad, code in landen["steden"].items():
             self._exact.setdefault(stad, (code, 1.0, True))
         for term in BELGISCHE_TERMEN:

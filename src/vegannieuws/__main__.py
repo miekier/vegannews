@@ -13,6 +13,7 @@ from .bronnen import laad_register
 from .config import laad_instellingen, standaard_paden
 from .ophalen import Ophaler
 from .staat import Staat
+from .verrijking import GitHubModels
 from .verzamelen import herindeel, rapport_markdown, verzamel
 
 
@@ -67,6 +68,9 @@ def main(argv: list[str] | None = None) -> int:
             regels.append(f"| {b.naam} (`{b.id}`) | {b.soort} | {res.status} | {len(res.berichten)} | "
                           f"{res.melding or res.feed} | {titel} |")
         tekst = "## Controle van bronnen\n\n" + "\n".join(regels) + f"\n\n{len(gekozen) - fouten} van {len(gekozen)} bronnen werken.\n"
+        token = os.environ.get("GITHUB_MODELS_TOKEN") or os.environ.get("GITHUB_TOKEN")
+        if token and inst.llm_aan:
+            tekst += f"\n## Taalmodel\n\n{GitHubModels(token, inst.llm_modellen, inst.llm_pauze_s).test()}\n"
         print(tekst)
         _schrijf_samenvatting(tekst)
         return 0

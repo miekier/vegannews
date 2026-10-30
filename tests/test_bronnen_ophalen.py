@@ -160,3 +160,32 @@ def test_bing_link_naar_bron():
     berichten = lees_feed(xml, Bron("b", "Bing", "bing", "zoekopdracht"))
     assert berichten[0].url == "https://www.hln.be/artikel"
     assert berichten[0].uitgever == "HLN"
+
+
+def test_ontdekking_via_rss_overzichtspagina():
+    from conftest import maak_antwoord
+    startpagina = b'<html><body><footer><a href="/nl/rss">RSS</a></footer></body></html>'
+    overzicht = b'<html><body><a href="https://rss.krant.be/nieuws.xml">Alle nieuws</a></body></html>'
+
+    def overzichtspagina(url, headers):
+        return maak_antwoord(url, 200, overzicht, {"Content-Type": "text/html; charset=utf-8"})
+
+    sessie = FakeSessie({
+        "rss.krant.be/nieuws.xml": (200, fixture("wordpress.xml"), {}),
+        "krant.be/nl/rss": overzichtspagina,
+        "https://www.krant.be/": (200, startpagina, {"Content-Type": "text/html"}),
+    })
+    ophaler = Ophaler(Staat(), Instellingen(), sessie)
+    assert ophaler.ontdek_feed("https://www.krant.be/") == "https://rss.krant.be/nieuws.xml"
+
+
+def test_ontdekking_na_403_op_startpagina():
+    sessie = FakeSessie({
+        "https://www.slot.be/feed/": (200, fixture("wordpress.xml"), {}),
+        "https://www.slot.be/": (403, b"geweigerd", {}),
+    })
+    ophaler = Ophaler(Staat(), Instellingen(), sessie)
+    assert ophaler.ontdek_feed("https://www.slot.be/") == "https://www.slot.be/feed/"
+    dicht = Ophaler(Staat(), Instellingen(), FakeSessie({"dicht.be": (403, b"", {})}))
+    res = dicht.haal(Bron("d", "d", "website", "medium", url="https://www.dicht.be/"))
+    assert res.status == "fout" and res.melding.startswith("HTTP 403")

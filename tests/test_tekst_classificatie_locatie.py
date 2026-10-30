@@ -98,6 +98,8 @@ def test_regio(geo, titel, tekst, bronland, regio, land, plaats):
 def test_regio_via_uitgever(geo):
     r = geo.bepaal("Vegan slagerij opent", "", "BE", "https://www.ad.nl")
     assert (r.regio, r.land) == ("INT", "NL")
+    r = geo.bepaal("Belgische recalls in oktober: vegan burger teruggeroepen", "", "NL", "https://www.vmt.nl")
+    assert r.regio == "BE"
     assert land_van_url("https://www.bbc.co.uk/news") == "GB"
     assert land_van_url("https://agfundernews.com") == ""
 

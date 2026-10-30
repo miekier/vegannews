@@ -23,10 +23,12 @@ from .tekst import kort_in, zuiver_html
 MAX_GROOTTE = 6 * 1024 * 1024
 HERONTDEK_NA_DAGEN = 30
 VEELGEBRUIKTE_FEEDPADEN = (
-    "feed/", "rss", "rss.xml", "feed.xml", "atom.xml", "index.xml", "feed", "?feed=rss2",
-    "blog/feed/", "nieuws/feed/", "news/feed/", "actualites/feed/", "blog?format=rss", "blog-feed.xml",
-    "feeds/posts/default",
+    "feed/", "rss", "rss.xml", "feed.xml", "atom.xml", "index.xml", "rss/", "feed",
+    "arc/outboundfeeds/rss/?outputType=xml", "?feed=rss2", "?format=feed&type=rss", "blog/feed/",
+    "nieuws/feed/", "news/feed/", "actualites/feed/", "nieuws/rss", "news/rss", "nl/rss", "fr/rss",
+    "blog?format=rss", "blog-feed.xml", "feeds/posts/default",
 )
+MAX_ONTDEKKINGSPOGINGEN = 18
 
 
 class OphaalFout(Exception):
@@ -77,6 +79,32 @@ def ontdek_feedlinks(pagina: str, basis_url: str) -> list[str]:
         if url not in gevonden:
             gevonden.append(url)
     return gevonden
+
+
+_A_RE = re.compile(r"<a\b[^>]*?href\s*=\s*(\"[^\"]*\"|'[^']*')[^>]*>(.*?)</a>", re.I | re.S)
+_RSS_LABELS = {"rss", "rss feed", "rss-feed", "rss feeds", "rss-feeds", "flux rss", "feeds", "feed"}
+
+
+def ontdek_rsslinks(pagina: str, basis_url: str) -> list[str]:
+    """Zoekt <a>-links naar een feed of een RSS-overzichtspagina op dezelfde website."""
+    host = urlparse(basis_url).netloc.lower().removeprefix("www.")
+    gevonden: list[str] = []
+    for href, label in _A_RE.findall(pagina):
+        url = urljoin(basis_url, html.unescape(href.strip("\"'")))
+        doel = urlparse(url)
+        doelhost = doel.netloc.lower().removeprefix("www.")
+        if doel.scheme not in ("http", "https") or not (doelhost == host or doelhost.endswith("." + host)):
+            continue
+        pad = f"{doel.path}?{doel.query}".lower()
+        if "comment" in pad or "sitemap" in pad:
+            continue
+        feedachtig = (re.search(r"rss|atom|/feeds?(/|\.|\?|$)", pad) or doel.path.lower().endswith((".xml", ".rss", ".atom"))
+                      or doelhost.startswith(("rss.", "feeds.", "feed.")) or zuiver_html(label).lower() in _RSS_LABELS)
+        if not feedachtig:
+            continue
+        if url not in gevonden:
+            gevonden.append(url)
+    return gevonden[:8]
 
 
 _STANDAARDTEKST = re.compile(
@@ -288,30 +316,58 @@ class Ophaler:
         return self._haal_feed(bron, feed)
 
     def ontdek_feed(self, url: str) -> str:
-        """Zoekt het feedadres van een website: de pagina zelf, <link>-tags of gangbare paden."""
-        antwoord = self.get(url)
-        self._controleer(antwoord)
-        if is_feed(antwoord.content):
-            return antwoord.url
-        kandidaten = ontdek_feedlinks(antwoord.text, antwoord.url)
-        basis = antwoord.url if antwoord.url.endswith("/") else antwoord.url + "/"
-        wortel = f"{urlparse(antwoord.url).scheme}://{urlparse(antwoord.url).netloc}/"
+        """Zoekt het feedadres van een website.
+
+        Volgorde: de pagina zelf, <link>-tags, RSS-links in de pagina, gangbare paden. Een
+        RSS-overzichtspagina (HTML met links naar feeds) wordt één niveau diep doorzocht.
+        """
+        fout_startpagina = ""
+        try:
+            antwoord = self.get(url)
+        except OphaalFout as fout:
+            antwoord, fout_startpagina = None, str(fout)
+        kandidaten: list[str] = []
+        basis_url = url
+        if antwoord is not None and antwoord.status_code < 400:
+            if is_feed(antwoord.content):
+                return antwoord.url
+            basis_url = antwoord.url
+            kandidaten = ontdek_feedlinks(antwoord.text, basis_url) + ontdek_rsslinks(antwoord.text, basis_url)
+        elif antwoord is not None:
+            fout_startpagina = f"HTTP {antwoord.status_code}"
+        deel = urlparse(basis_url)
+        wortel = f"{deel.scheme}://{deel.netloc}/"
+        basis = basis_url if basis_url.endswith("/") else basis_url + "/"
         for pad in VEELGEBRUIKTE_FEEDPADEN:
-            for b in (basis, wortel):
-                kandidaat = urljoin(b, pad)
-                if kandidaat not in kandidaten:
-                    kandidaten.append(kandidaat)
-        for kandidaat in kandidaten[:10]:
+            kandidaten += [urljoin(b, pad) for b in dict.fromkeys((basis, wortel))]
+        kandidaten = list(dict.fromkeys(kandidaten))
+        overzicht_doorzocht = False
+        i = pogingen = 0
+        while i < len(kandidaten) and pogingen < MAX_ONTDEKKINGSPOGINGEN:
+            kandidaat = kandidaten[i]
+            i += 1
+            pogingen += 1
             try:
                 poging = self.get(kandidaat)
             except OphaalFout:
                 continue
-            if poging.status_code == 200 and is_feed(poging.content):
+            if poging.status_code != 200:
+                continue
+            if is_feed(poging.content):
                 try:
                     if lees_feed(poging.content, Bron("x", "x", "rss", "medium")):
-                        return kandidaat
+                        return poging.url
                 except OphaalFout:
-                    continue
+                    pass
+                continue
+            if not overzicht_doorzocht and "html" in poging.headers.get("Content-Type", "") and poging.url.rstrip("/") != basis_url.rstrip("/"):
+                extra = [k for k in ontdek_feedlinks(poging.text, poging.url) + ontdek_rsslinks(poging.text, poging.url)
+                         if k not in kandidaten]
+                if extra:
+                    overzicht_doorzocht = True
+                    kandidaten[i:i] = extra[:6]
+        if fout_startpagina:
+            raise OphaalFout(f"{fout_startpagina}: de website blokkeert automatische toegang of is onbereikbaar")
         raise OphaalFout("geen RSS-feed gevonden op deze website")
 
     def _youtube_feed(self, bron: Bron) -> str:

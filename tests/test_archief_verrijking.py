@@ -125,3 +125,47 @@ def test_achterstand_nieuwste_eerst():
     lijst = [maak("https://a.be/1", "a", "2026-10-01"), maak("https://a.be/2", "b", "2026-10-20"),
              maak("https://a.be/3", "c", "2026-10-25", methode="llm"), maak("https://a.be/4", "d", "2026-10-22", pogingen=3)]
     assert [b.titel for b in achterstand(lijst, "2026-10-10", 3)] == ["b"]
+
+
+class PostSessie:
+    """Nep-sessie voor het taalmodel: lijst van (status, inhoud, headers) per POST."""
+
+    def __init__(self, antwoorden):
+        self.antwoorden = list(antwoorden)
+        self.verzoeken = []
+
+    def post(self, url, json=None, timeout=None, allow_redirects=True, headers=None):
+        from conftest import maak_antwoord
+        self.verzoeken.append((url, json["model"]))
+        status, inhoud, kop = self.antwoorden.pop(0)
+        return maak_antwoord(url, status, inhoud.encode(), kop)
+
+
+def test_taalmodel_volgt_omleiding_en_valt_terug_op_tweede_eindpunt(monkeypatch):
+    from vegannieuws import verrijking
+    from vegannieuws.verrijking import GitHubModels
+    monkeypatch.setattr(verrijking.time, "sleep", lambda s: None)
+    goed = '{"choices": [{"message": {"content": "{\\"ok\\": true}"}}]}'
+    sessie = PostSessie([
+        (301, "", {"Location": "https://models.github.ai/v2/chat"}),
+        (200, "OK\r\n", {"Content-Type": "text/plain"}),
+        (200, goed, {"Content-Type": "application/json"}),
+    ])
+    client = GitHubModels("token", ["openai/gpt-4o-mini"], 0, sessie=sessie)
+    assert client.vraag("s", "g") == '{"ok": true}'
+    assert sessie.verzoeken == [
+        ("https://models.github.ai/inference/chat/completions", "openai/gpt-4o-mini"),
+        ("https://models.github.ai/v2/chat", "openai/gpt-4o-mini"),
+        ("https://models.inference.ai.azure.com/chat/completions", "gpt-4o-mini"),
+    ]
+    assert "omgeleid: 301" in client.diagnoses[0] and "'OK\\r\\n'" in client.diagnoses[0]
+
+
+def test_taalmodel_geeft_diagnose_als_niets_werkt(monkeypatch):
+    from vegannieuws import verrijking
+    from vegannieuws.verrijking import GitHubModels
+    monkeypatch.setattr(verrijking.time, "sleep", lambda s: None)
+    sessie = PostSessie([(200, "OK", {}), (401, "Bad credentials", {})])
+    client = GitHubModels("token", ["openai/gpt-4o-mini"], 0, sessie=sessie)
+    assert client.test().startswith("werkt niet: geen werkend eindpunt")
+    assert "HTTP 401" in client.diagnoses[1]

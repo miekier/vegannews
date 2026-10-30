@@ -23,6 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PYTHONPATH: src
+      PYTHONUNBUFFERED: "1"
       ISSUE_NR: ${{ github.event.issue.number }}
     steps:
       - uses: actions/checkout@v5

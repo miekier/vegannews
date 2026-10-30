@@ -81,7 +81,7 @@ zoekopdrachten:
   - zoekterm: '"cultivated meat" OR "precision fermentation"'
     land: US
     taal: en
-  - zoekterm: '"veggie burger" ban OR "meaty names" OR "plant-based labelling"'
+  - zoekterm: '"veggie burger" OR "veggie burgers" OR "meaty names"'
     land: GB
     taal: en
   - zoekterm: '"animal welfare" law'
@@ -102,10 +102,14 @@ zoekopdrachten:
     dienst: bing
     land: BE
     taal: nl
+    actief: nee
+    notitie: "Bing Nieuws gaf via RSS geen resultaten (controle 30-10-2026)."
   - zoekterm: vegan Belgique
     dienst: bing
     land: BE
     taal: fr
+    actief: nee
+    notitie: "Bing Nieuws gaf via RSS geen resultaten (controle 30-10-2026)."
 
   # --- Wetenschap: nieuwe artikels in PubMed (afgelopen 7 dagen) ----------------------------
   - zoekterm: 'vegan*[tiab] OR "plant-based diet*"[tiab] OR vegetarian*[tiab] OR "cultivated meat"[tiab] OR "cultured meat"[tiab] OR "meat substitute*"[tiab] OR "meat alternative*"[tiab]'

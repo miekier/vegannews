@@ -38,9 +38,9 @@ categorieen:
     naam: Producten & merken
     omschrijving: Nieuwe plantaardige producten, merken, vlees- en zuivelalternatieven.
     trefwoorden:
-      nl: [product, producten, productlijn*, merk, merken, vleesvervanger*, vleesalternatie*, zuivelalternatie*, kaasalternatie*, plantaardige kaas, vegan kaas, havermelk, haverdrank*, sojadrank*, sojamelk, amandeldrank*, plantaardige melk, tofu, tempeh, seitan, veggieburger*, vegaburger*, burger*, worst*, gehakt, nuggets, chocolade*, alpro, beyond meat, impossible foods, oatly, garden gourmet, vegetarian butcher, vegetarische slager, quorn, violife, heura, like meat]
+      nl: [product, producten, productlijn*, merk, merken, diervrij*, dierenvrij*, vegetarische vis, visvervanger*, vleesvervanger*, vleesalternatie*, zuivelalternatie*, kaasalternatie*, plantaardige kaas, vegan kaas, havermelk, haverdrank*, sojadrank*, sojamelk, amandeldrank*, plantaardige melk, tofu, tempeh, seitan, veggieburger*, vegaburger*, burger*, worst*, gehakt, nuggets, chocolade*, alpro, beyond meat, impossible foods, oatly, garden gourmet, vegetarian butcher, vegetarische slager, quorn, violife, heura, like meat]
       fr: [produit*, gamme*, marque*, nouveaute*, substitut*, simili*, fromage vegetal, fromage vegan, lait vegetal, boisson vegetale, steak vegetal, saucisse*, chocolat*]
-      en: [product, products, brand*, meat alternative*, meat substitute*, meat analog*, plant based meat, plant based milk, plant based cheese, vegan cheese, dairy alternative*, dairy free, oat milk, oatmilk, soy milk, almond milk, sausage*, nugget*, bacon, chocolate*, ice cream, snack*, tofurky, daiya, field roast]
+      en: [product, products, brand*, animal free, fish alternative*, plant based fish, accidentally vegan, meat alternative*, meat substitute*, meat analog*, plant based meat, plant based milk, plant based cheese, vegan cheese, dairy alternative*, dairy free, oat milk, oatmilk, soy milk, almond milk, sausage*, nugget*, bacon, chocolate*, ice cream, snack*, tofurky, daiya, field roast]
       de: [produkt*, fleischersatz*, fleischalternative*, milchalternative*, hafermilch*, haferdrink*, sojamilch*, wurst*, schnitzel*, neuheit*]
 
   - code: bedrijven

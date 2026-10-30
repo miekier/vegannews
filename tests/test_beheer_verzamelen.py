@@ -93,7 +93,7 @@ def test_bron_toevoegen_en_wijzigen(wortel, monkeypatch):
     verwijderen = uitschakelen.replace("Uitschakelen (tijdelijk niet meer ophalen)", "Verwijderen uit het register")
     assert verwerk_aanvraag(paden, Instellingen(), verwijderen.replace("Nieuwe Zaak", "https://www.vegetik.org")).gewijzigd
     namen = {b.naam for b in laad_register(paden.bronnen, paden.zoekopdrachten)[0]}
-    assert "Végétik" not in namen and "Nieuwe Zaak" in namen and "EVA vzw" in namen
+    assert "Végétik" not in namen and "Nieuwe Zaak" in namen and "ProVeg België (voorheen EVA vzw)" in namen
     yaml.safe_load(paden.bronnen.read_text(encoding="utf-8"))
 
     onbekend = verwerk_aanvraag(paden, Instellingen(), verwijderen.replace("Nieuwe Zaak", "Bestaat niet"))
