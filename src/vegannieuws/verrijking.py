@@ -1,10 +1,10 @@
-"""Vertalen, samenvatten en indelen met een gratis taalmodel.
+"""Vertalen, samenvatten en indelen met een taalmodel.
 
-Ondersteund zijn aanbieders met een OpenAI-compatibele API en een gratis gebruiksniveau:
-Google Gemini (sleutel GEMINI_API_KEY) en Groq (GROQ_API_KEY), en GitHub Models
-(GITHUB_TOKEN; in oktober 2026 niet meer beschikbaar). De eerste aanbieder met een sleutel
-wordt gebruikt. Lukt het niet, dan blijft de indeling op basis van trefwoorden staan en
-probeert een volgende run het opnieuw.
+Aanbieders: Anthropic Claude (sleutel ANTHROPIC_API_KEY; betalend, module claude.py met de officiële
+SDK), en met een OpenAI-compatibele API en een gratis gebruiksniveau Google Gemini (GEMINI_API_KEY)
+en Groq (GROQ_API_KEY), en GitHub Models (GITHUB_TOKEN; in oktober 2026 niet meer beschikbaar).
+De aanbieders worden in de volgorde van de instellingen geprobeerd. Lukt het niet, dan blijft de
+indeling op basis van trefwoorden staan en probeert een volgende run het opnieuw.
 """
 
 from __future__ import annotations
@@ -51,6 +51,11 @@ class LlmStatistiek:
 
 
 AANBIEDERS = {
+    "anthropic": {
+        "naam": "Anthropic Claude",
+        "sleutels": ("ANTHROPIC_API_KEY",),
+        "eindpunten": (),
+    },
     "gemini": {
         "naam": "Google Gemini",
         "sleutels": ("GEMINI_API_KEY",),
@@ -132,7 +137,8 @@ class Taalmodel:
         self.diagnoses.append(diagnose)
         self.eindpunten.pop(0)
 
-    def vraag(self, systeem: str, gebruiker: str) -> str:
+    def vraag(self, systeem: str, gebruiker: str, schema: dict | None = None) -> str:
+        # schema: enkel gebruikt door aanbieders met structured outputs (Claude); hier geldt de JSON-modus.
         while self.modellen and self.eindpunten:
             wachten = self._laatste + self.pauze_s - time.monotonic()
             if wachten > 0:
@@ -227,7 +233,12 @@ def maak_taalmodellen(aanbieders: list[str], modellen: dict[str, list[str]], pau
         if not info:
             continue
         sleutel = next((omgeving.get(s) for s in info["sleutels"] if omgeving.get(s)), "")
-        if sleutel and modellen.get(code):
+        if not sleutel or not modellen.get(code):
+            continue
+        if code == "anthropic":
+            from .claude import ClaudeModel   # eigen module: de officiële Anthropic-SDK
+            clients.append(ClaudeModel(sleutel, modellen[code], naam=info["naam"]))
+        else:
             clients.append(Taalmodel(sleutel, modellen[code], pauze_s, eindpunten=info["eindpunten"], naam=info["naam"]))
     return clients
 
@@ -292,6 +303,29 @@ Regels:
 
 Categorieën:
 {categorieen}"""
+
+
+def antwoord_schema(lexicon: Lexicon) -> dict:
+    """JSON-schema van het antwoord (structured outputs): elk veld verplicht, geen extra velden."""
+    bericht = {
+        "type": "object",
+        "properties": {
+            "id": {"type": "string"},
+            "relevant": {"type": "boolean"},
+            "kernzin": {"type": "string"},
+            "titel": {"type": "string"},
+            "samenvatting": {"type": "string"},
+            "categorieen": {"type": "array", "items": {"type": "string", "enum": list(lexicon.codes)}},
+            "gebeurtenis": {"type": "string", "enum": ["", *sorted(GEBEURTENISSEN)]},
+            "land": {"type": "string"},
+            "plaats": {"type": "string"},
+        },
+        "required": ["id", "relevant", "kernzin", "titel", "samenvatting", "categorieen", "gebeurtenis", "land",
+                     "plaats"],
+        "additionalProperties": False,
+    }
+    return {"type": "object", "properties": {"berichten": {"type": "array", "items": bericht}},
+            "required": ["berichten"], "additionalProperties": False}
 
 
 def _invoer(b: Bericht) -> dict:
@@ -387,6 +421,7 @@ def verrijk(berichten: list[Bericht], client: GitHubModels, lexicon: Lexicon, ge
             log=print) -> LlmStatistiek:
     stat = LlmStatistiek(aanbieder=getattr(client, "naam", ""), model=client.model, achterstand=len(berichten))
     systeem = systeemprompt(lexicon, doeltaal, talen_zonder_vertaling)
+    schema = antwoord_schema(lexicon)
     for start in range(0, len(berichten), batch):
         if stat.verzoeken >= max_verzoeken:
             stat.melding = f"maximum van {max_verzoeken} verzoeken per run bereikt"
@@ -394,7 +429,7 @@ def verrijk(berichten: list[Bericht], client: GitHubModels, lexicon: Lexicon, ge
         groep = berichten[start:start + batch]
         stat.verzoeken += 1
         try:
-            antwoord = client.vraag(systeem, json.dumps([_invoer(b) for b in groep], ensure_ascii=False))
+            antwoord = client.vraag(systeem, json.dumps([_invoer(b) for b in groep], ensure_ascii=False), schema=schema)
             resultaten = {str(r.get("id")): r for r in lees_antwoord(antwoord)}
         except StopVerrijking as fout:
             stat.verzoeken -= 1

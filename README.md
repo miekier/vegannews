@@ -135,8 +135,12 @@ bronnenregister ──► ophalen (RSS, feed-ontdekking, Google/Bing Nieuws, Blu
 
 - **Planning.** De workflow *Nieuws verzamelen* draait één keer per dag, om 05:23 Belgische wintertijd (zomertijd: 06:23). Je kunt hem ook zelf starten via Actions → *Nieuws verzamelen* → *Run workflow*. Na elke wijziging van het register of de instellingen start hij ook vanzelf.
 - **Archief.** Elk bericht wordt bewaard, dus elke periode blijft opvraagbaar. Ouder nieuws (van vóór de start) haal je op via *Run workflow* met een getal bij *Ouder nieuws opzoeken*. Dat gebruikt Google Nieuws en is onvolledig.
-- **Taalmodel.** Google Gemini of Groq, elk gratis met een eigen sleutel (zie *Eenmalige installatie*). Per run gaan maximaal 120 verzoeken van 12 berichten naar het model, en maximaal 240 per dag. Het verslag van elke run vermeldt het tokenverbruik.
-  - De koppen van verhalen schrijft een sterker gratis model (Gemini Flash; enkele verzoeken per dag). Bereikt dat zijn daglimiet, dan neemt Flash-Lite het over.
+- **Taalmodel.** De aanbieders in [`instellingen.yml`](instellingen.yml) (`llm_aanbieders`) worden in volgorde geprobeerd:
+  - **Claude Haiku 5.5** (Anthropic; secret `ANTHROPIC_API_KEY`). Betalend, met vooraf gekocht tegoed: ongeveer $1,3 per maand (excl. btw) bij 350 berichten per dag. Het programma gebruikt de officiële Anthropic-SDK, zonder denkstappen, met een JSON-schema (structured outputs) en een gecachete systeemprompt.
+  - **Google Gemini** (secret `GEMINI_API_KEY`, gratis). Is het Claude-tegoed op of de sleutel ongeldig, dan neemt Gemini het voor de rest van de run over.
+  - Per run gaan maximaal 120 verzoeken van 12 berichten naar het model, en maximaal 240 per dag. Het verslag van elke run vermeldt het tokenverbruik.
+  - De koppen van verhalen schrijft hetzelfde model; zonder Claude doet Gemini Flash dat (sterker dan Flash-Lite, enkele verzoeken per dag).
+  - *Taalmodellen vergelijken* (Actions → *Run workflow*) laat Claude en Gemini dezelfde recente berichten verwerken, voor een blinde vergelijking.
   - Bij te veel berichten verwerkt een volgende run de rest.
   - Zonder sleutel, of als het taalmodel faalt, blijft de indeling op basis van trefwoorden en plaatsnamen staan. Zo'n bericht krijgt het label *ingedeeld via trefwoorden*.
   - Titels in andere talen dan Nederlands en Engels worden dan vertaald via MyMemory (gratis, ongeveer 60 titels per dag).

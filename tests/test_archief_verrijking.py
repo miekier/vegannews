@@ -98,7 +98,7 @@ class FakeClient:
         self.antwoorden = list(antwoorden)
         self.vragen = 0
 
-    def vraag(self, systeem, gebruiker):
+    def vraag(self, systeem, gebruiker, schema=None):
         self.vragen += 1
         antwoord = self.antwoorden.pop(0)
         if isinstance(antwoord, Exception):

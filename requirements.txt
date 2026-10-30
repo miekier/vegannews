@@ -7,3 +7,4 @@ certifi==2026.10.18
 charset-normalizer==3.5.1
 idna==3.20
 PyYAML==6.0.3
+anthropic==2.3.0

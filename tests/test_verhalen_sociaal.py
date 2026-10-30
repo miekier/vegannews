@@ -52,7 +52,7 @@ class NepModel:
     def __init__(self, antwoord=None, fout=None):
         self.antwoord, self.fout, self.vragen = antwoord, fout, []
 
-    def vraag(self, systeem, gebruiker):
+    def vraag(self, systeem, gebruiker, schema=None):
         self.vragen.append(json.loads(gebruiker))
         if self.fout:
             raise self.fout

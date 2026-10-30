@@ -59,6 +59,7 @@ class Instellingen:
     llm_modellen_groq: list[str] = field(default_factory=lambda: [
         "llama-3.3-70b-versatile", "openai/gpt-oss-120b", "llama-3.1-8b-instant"])
     llm_modellen: list[str] = field(default_factory=lambda: ["openai/gpt-4.1-mini", "openai/gpt-4o-mini"])
+    llm_modellen_anthropic: list[str] = field(default_factory=lambda: ["claude-haiku-5-5"])
     llm_max_verzoeken_per_run: int = 80
     llm_max_verzoeken_per_dag: int = 240
     llm_batch: int = 12
@@ -79,7 +80,8 @@ class Instellingen:
 
     @property
     def modellen_per_aanbieder(self) -> dict[str, list[str]]:
-        return {"gemini": self.llm_modellen_gemini, "groq": self.llm_modellen_groq, "github": self.llm_modellen}
+        return {"anthropic": self.llm_modellen_anthropic, "gemini": self.llm_modellen_gemini,
+                "groq": self.llm_modellen_groq, "github": self.llm_modellen}
 
     @property
     def repository(self) -> str:

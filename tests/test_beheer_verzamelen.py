@@ -212,7 +212,7 @@ def test_opnieuw_gezien_bericht_krijgt_nieuwe_indeling(tmp_path):
 class NepTaalmodel:
     naam, model, token = "Nep", "nep-model", "x"
 
-    def vraag(self, systeem, gebruiker):
+    def vraag(self, systeem, gebruiker, schema=None):
         uit = []
         for item in json.loads(gebruiker):
             relevant = "Voetbal" not in item["titel"]
@@ -283,7 +283,7 @@ class NepSociaalModel:
     def __init__(self):
         self.gezien = []
 
-    def vraag(self, systeem, gebruiker):
+    def vraag(self, systeem, gebruiker, schema=None):
         invoer = json.loads(gebruiker)
         if isinstance(invoer, dict):          # verzoek van de bundeling
             return json.dumps({"verhalen": []})
