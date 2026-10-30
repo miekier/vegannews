@@ -1,0 +1,1632 @@
+{
+ "bronnen": {
+  "agfundernews-com-feed": {
+   "berichten_in_feed": 50,
+   "feed": "https://agfundernews.com/feed",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 3,
+   "status": "ok",
+   "totaal": 3
+  },
+  "albert-schweitzer-stiftung-de": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "geen RSS-feed gevonden op deze website",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "animalequality-org-feed": {
+   "berichten_in_feed": 10,
+   "feed": "https://animalequality.org/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 1,
+   "status": "ok",
+   "totaal": 1
+  },
+  "animalrights-be": {
+   "berichten_in_feed": 10,
+   "feed": "https://animalrights.be/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 7,
+   "status": "ok",
+   "totaal": 7
+  },
+  "apache-be": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "geen RSS-feed gevonden op deze website",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "atv-be": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "HTTP 403",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "avs-be": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "geen RSS-feed gevonden op deze website",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "be-gaultmillau-com": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "verbinding mislukt (SSLError)",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "bevegan-be": {
+   "berichten_in_feed": 9,
+   "feed": "https://bevegan.be/nl/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 4,
+   "status": "ok",
+   "totaal": 4
+  },
+  "bing-be-fr-vegan-belgique": {
+   "berichten_in_feed": 0,
+   "feed": "https://www.bing.com/news/search?q=vegan+Belgique&format=rss&mkt=fr-BE",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 0,
+   "status": "leeg",
+   "totaal": 0
+  },
+  "bing-be-nl-vegan-belgie": {
+   "berichten_in_feed": 0,
+   "feed": "https://www.bing.com/news/search?q=vegan+Belgi%C3%AB&format=rss&mkt=nl-BE",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 0,
+   "status": "leeg",
+   "totaal": 0
+  },
+  "biteback-org": {
+   "berichten_in_feed": 10,
+   "feed": "https://biteback.be/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 1,
+   "status": "ok",
+   "totaal": 1
+  },
+  "brusselstimes-com": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "geen RSS-feed gevonden op deze website",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "bruzz-be": {
+   "berichten_in_feed": 100,
+   "feed": "https://www.bruzz.be/rss.xml",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 2,
+   "status": "ok",
+   "totaal": 2
+  },
+  "dagenzondervlees-be": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "geen RSS-feed gevonden op deze website",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "dewereldmorgen-be": {
+   "berichten_in_feed": 10,
+   "feed": "https://www.dewereldmorgen.be/rss.xml",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 0,
+   "status": "ok",
+   "totaal": 0
+  },
+  "dierenrecht-nl": {
+   "berichten_in_feed": 10,
+   "feed": "https://www.dierenrecht.nl/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 3,
+   "status": "ok",
+   "totaal": 3
+  },
+  "eoswetenschap-eu": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "geen RSS-feed gevonden op deze website",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "euractiv-com-sections-agriculture-food-feed": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "HTTP 403",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "eurogroupforanimals-org": {
+   "berichten_in_feed": 20,
+   "feed": "https://www.eurogroupforanimals.org/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 20,
+   "status": "ok",
+   "totaal": 20
+  },
+  "evavzw-be": {
+   "berichten_in_feed": 10,
+   "feed": "https://proveg.org/be/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 6,
+   "status": "ok",
+   "totaal": 6
+  },
+  "faunalytics-org-feed": {
+   "berichten_in_feed": 9,
+   "feed": "https://faunalytics.org/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 9,
+   "status": "ok",
+   "totaal": 9
+  },
+  "favv-afsca-be": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "geen RSS-feed gevonden op deze website",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "focus-wtv-be": {
+   "berichten_in_feed": 10,
+   "feed": "https://focus-wtv.be/feed/focus-wtv/rss.xml",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 0,
+   "status": "ok",
+   "totaal": 0
+  },
+  "fooddive-com-feeds-news": {
+   "berichten_in_feed": 10,
+   "feed": "https://www.fooddive.com/feeds/news/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 0,
+   "status": "ok",
+   "totaal": 0
+  },
+  "foodlog-nl": {
+   "berichten_in_feed": 50,
+   "feed": "https://www.foodlog.nl/feed.rss",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 3,
+   "status": "ok",
+   "totaal": 3
+  },
+  "foodnavigator-com": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "geen RSS-feed gevonden op deze website",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "gaia-be-nl": {
+   "berichten_in_feed": 10,
+   "feed": "https://www.gaia.be/nl/rss.xml",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 10,
+   "status": "ok",
+   "totaal": 10
+  },
+  "gezondheidenwetenschap-be": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "geen RSS-feed gevonden op deze website",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "gfi-org-feed": {
+   "berichten_in_feed": 10,
+   "feed": "https://gfi.org/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 5,
+   "status": "ok",
+   "totaal": 5
+  },
+  "gfieurope-org-feed": {
+   "berichten_in_feed": 10,
+   "feed": "https://gfieurope.org/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 5,
+   "status": "ok",
+   "totaal": 5
+  },
+  "gondola-be": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "geen RSS-feed gevonden op deze website",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "google-be-fr-alternatives-vegetales-or-viande-vegetale": {
+   "berichten_in_feed": 9,
+   "feed": "https://news.google.com/rss/search?q=%22alternatives+v%C3%A9g%C3%A9tales%22+OR+%22viande+v%C3%A9g%C3%A9tale%22+when%3A7d&hl=fr&gl=BE&ceid=BE%3Afr",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 3,
+   "status": "ok",
+   "totaal": 3
+  },
+  "google-be-fr-bien-etre-animal": {
+   "berichten_in_feed": 31,
+   "feed": "https://news.google.com/rss/search?q=%22bien-%C3%AAtre+animal%22+when%3A7d&hl=fr&gl=BE&ceid=BE%3Afr",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 19,
+   "status": "ok",
+   "totaal": 19
+  },
+  "google-be-fr-restaurant-vegan-or-restaurant-vegetal-or-restaurant-vegetarien": {
+   "berichten_in_feed": 6,
+   "feed": "https://news.google.com/rss/search?q=%22restaurant+vegan%22+OR+%22restaurant+v%C3%A9g%C3%A9tal%22+OR+%22restaurant+v%C3%A9g%C3%A9tarien%22+when%3A7d&hl=fr&gl=BE&ceid=BE%3Afr",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 2,
+   "status": "ok",
+   "totaal": 2
+  },
+  "google-be-fr-vegan": {
+   "berichten_in_feed": 27,
+   "feed": "https://news.google.com/rss/search?q=vegan+when%3A7d&hl=fr&gl=BE&ceid=BE%3Afr",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 17,
+   "status": "ok",
+   "totaal": 17
+  },
+  "google-be-fr-vegane-or-vegetalien": {
+   "berichten_in_feed": 10,
+   "feed": "https://news.google.com/rss/search?q=v%C3%A9gane+OR+v%C3%A9g%C3%A9talien+when%3A7d&hl=fr&gl=BE&ceid=BE%3Afr",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 1,
+   "status": "ok",
+   "totaal": 1
+  },
+  "google-be-fr-vegetarien": {
+   "berichten_in_feed": 36,
+   "feed": "https://news.google.com/rss/search?q=v%C3%A9g%C3%A9tarien+when%3A7d&hl=fr&gl=BE&ceid=BE%3Afr",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 7,
+   "status": "ok",
+   "totaal": 7
+  },
+  "google-be-nl-dierenrechten-or-gaia": {
+   "berichten_in_feed": 25,
+   "feed": "https://news.google.com/rss/search?q=dierenrechten+OR+GAIA+when%3A7d&hl=nl&gl=BE&ceid=BE%3Anl",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 2,
+   "status": "ok",
+   "totaal": 2
+  },
+  "google-be-nl-dierenwelzijn": {
+   "berichten_in_feed": 59,
+   "feed": "https://news.google.com/rss/search?q=dierenwelzijn+when%3A7d&hl=nl&gl=BE&ceid=BE%3Anl",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 21,
+   "status": "ok",
+   "totaal": 21
+  },
+  "google-be-nl-kweekvlees-or-precisiefermentatie-or-vleesvervangers": {
+   "berichten_in_feed": 10,
+   "feed": "https://news.google.com/rss/search?q=kweekvlees+OR+precisiefermentatie+OR+vleesvervangers+when%3A7d&hl=nl&gl=BE&ceid=BE%3Anl",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 4,
+   "status": "ok",
+   "totaal": 4
+  },
+  "google-be-nl-minder-vlees-or-eiwittransitie-or-dagen-zonder-vlees": {
+   "berichten_in_feed": 7,
+   "feed": "https://news.google.com/rss/search?q=%22minder+vlees%22+OR+eiwittransitie+OR+%22Dagen+Zonder+Vlees%22+when%3A7d&hl=nl&gl=BE&ceid=BE%3Anl",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 1,
+   "status": "ok",
+   "totaal": 1
+  },
+  "google-be-nl-plantaardig": {
+   "berichten_in_feed": 43,
+   "feed": "https://news.google.com/rss/search?q=plantaardig+when%3A7d&hl=nl&gl=BE&ceid=BE%3Anl",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 8,
+   "status": "ok",
+   "totaal": 8
+  },
+  "google-be-nl-vegan": {
+   "berichten_in_feed": 48,
+   "feed": "https://news.google.com/rss/search?q=vegan+when%3A7d&hl=nl&gl=BE&ceid=BE%3Anl",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 19,
+   "status": "ok",
+   "totaal": 19
+  },
+  "google-be-nl-vegan-opent": {
+   "berichten_in_feed": 10,
+   "feed": "https://news.google.com/rss/search?q=vegan+opent+when%3A7d&hl=nl&gl=BE&ceid=BE%3Anl",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 0,
+   "status": "ok",
+   "totaal": 0
+  },
+  "google-be-nl-vegan-restaurant-or-veganistisch-restaurant-or-vegetarisch-restaura": {
+   "berichten_in_feed": 3,
+   "feed": "https://news.google.com/rss/search?q=%22vegan+restaurant%22+OR+%22veganistisch+restaurant%22+OR+%22vegetarisch+restaurant%22+when%3A7d&hl=nl&gl=BE&ceid=BE%3Anl",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 0,
+   "status": "ok",
+   "totaal": 0
+  },
+  "google-be-nl-veganistisch": {
+   "berichten_in_feed": 30,
+   "feed": "https://news.google.com/rss/search?q=veganistisch+when%3A7d&hl=nl&gl=BE&ceid=BE%3Anl",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 5,
+   "status": "ok",
+   "totaal": 5
+  },
+  "google-be-nl-vegetarisch": {
+   "berichten_in_feed": 22,
+   "feed": "https://news.google.com/rss/search?q=vegetarisch+when%3A7d&hl=nl&gl=BE&ceid=BE%3Anl",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 0,
+   "status": "ok",
+   "totaal": 0
+  },
+  "google-de-de-vegan": {
+   "berichten_in_feed": 50,
+   "feed": "https://news.google.com/rss/search?q=vegan+when%3A7d&hl=de&gl=DE&ceid=DE%3Ade",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 32,
+   "status": "ok",
+   "totaal": 32
+  },
+  "google-fr-fr-vegane-or-restaurant-vegan": {
+   "berichten_in_feed": 7,
+   "feed": "https://news.google.com/rss/search?q=v%C3%A9gane+OR+%22restaurant+vegan%22+when%3A7d&hl=fr&gl=FR&ceid=FR%3Afr",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 0,
+   "status": "ok",
+   "totaal": 0
+  },
+  "google-gb-en-animal-welfare-law": {
+   "berichten_in_feed": 22,
+   "feed": "https://news.google.com/rss/search?q=%22animal+welfare%22+law+when%3A7d&hl=en-GB&gl=GB&ceid=GB%3Aen",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 12,
+   "status": "ok",
+   "totaal": 12
+  },
+  "google-gb-en-vegan": {
+   "berichten_in_feed": 100,
+   "feed": "https://news.google.com/rss/search?q=vegan+when%3A7d&hl=en-GB&gl=GB&ceid=GB%3Aen",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 36,
+   "status": "ok",
+   "totaal": 36
+  },
+  "google-gb-en-veggie-burger-ban-or-meaty-names-or-plant-based-labelling": {
+   "berichten_in_feed": 0,
+   "feed": "https://news.google.com/rss/search?q=%22veggie+burger%22+ban+OR+%22meaty+names%22+OR+%22plant-based+labelling%22+when%3A7d&hl=en-GB&gl=GB&ceid=GB%3Aen",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 0,
+   "status": "leeg",
+   "totaal": 0
+  },
+  "google-nl-nl-veganistisch-or-vegan-restaurant": {
+   "berichten_in_feed": 22,
+   "feed": "https://news.google.com/rss/search?q=veganistisch+OR+%22vegan+restaurant%22+when%3A7d&hl=nl&gl=NL&ceid=NL%3Anl",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 0,
+   "status": "ok",
+   "totaal": 0
+  },
+  "google-us-en-cultivated-meat-or-precision-fermentation": {
+   "berichten_in_feed": 23,
+   "feed": "https://news.google.com/rss/search?q=%22cultivated+meat%22+OR+%22precision+fermentation%22+when%3A7d&hl=en-US&gl=US&ceid=US%3Aen",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 11,
+   "status": "ok",
+   "totaal": 11
+  },
+  "google-us-en-plant-based-law-or-ban-or-legislation": {
+   "berichten_in_feed": 29,
+   "feed": "https://news.google.com/rss/search?q=%22plant-based%22+law+OR+ban+OR+legislation+when%3A7d&hl=en-US&gl=US&ceid=US%3Aen",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 8,
+   "status": "ok",
+   "totaal": 8
+  },
+  "google-us-en-vegan-restaurant-opens": {
+   "berichten_in_feed": 32,
+   "feed": "https://news.google.com/rss/search?q=vegan+restaurant+opens+when%3A7d&hl=en-US&gl=US&ceid=US%3Aen",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 13,
+   "status": "ok",
+   "totaal": 13
+  },
+  "google-us-en-veganism": {
+   "berichten_in_feed": 82,
+   "feed": "https://news.google.com/rss/search?q=veganism+when%3A7d&hl=en-US&gl=US&ceid=US%3Aen",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 51,
+   "status": "ok",
+   "totaal": 51
+  },
+  "greenqueen-com-hk-feed": {
+   "berichten_in_feed": 10,
+   "feed": "https://www.greenqueen.com.hk/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 10,
+   "status": "ok",
+   "totaal": 10
+  },
+  "humaneworld-org": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "geen RSS-feed gevonden op deze website",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "knack-be": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "HTTP 405",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "l214-com": {
+   "berichten_in_feed": 10,
+   "feed": "https://www.l214.com/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 8,
+   "status": "ok",
+   "totaal": 8
+  },
+  "lalibre-be": {
+   "berichten_in_feed": 100,
+   "feed": "https://www.lalibre.be/rss",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 0,
+   "status": "ok",
+   "totaal": 0
+  },
+  "lavenir-net": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "geen RSS-feed gevonden op deze website",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "lesoir-be": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "HTTP 403",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "livekindly-com-feed": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "geen RSS-feed gevonden op deze website",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "mercyforanimals-org-feed": {
+   "berichten_in_feed": 10,
+   "feed": "https://mercyforanimals.org/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 10,
+   "status": "ok",
+   "totaal": 10
+  },
+  "mo-be": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "geen RSS-feed gevonden op deze website",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "nutritionfacts-org-feed": {
+   "berichten_in_feed": 30,
+   "feed": "https://nutritionfacts.org/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 18,
+   "status": "ok",
+   "totaal": 18
+  },
+  "paleo-taste-com": {
+   "berichten_in_feed": 8,
+   "feed": "https://paleo.bio/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 0,
+   "status": "ok",
+   "totaal": 0
+  },
+  "peta-org-feed": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "HTTP 403",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "plantbasednews-org-feed": {
+   "berichten_in_feed": 15,
+   "feed": "https://plantbasednews.org/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 15,
+   "status": "ok",
+   "totaal": 15
+  },
+  "proveg-org": {
+   "berichten_in_feed": 6,
+   "feed": "https://proveg.org/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 1,
+   "status": "ok",
+   "totaal": 1
+  },
+  "pubmed-us-en-vegan-tiab-or-plant-based-diet-tiab-or-vegetarian-tiab-or-cultivate": {
+   "berichten_in_feed": 33,
+   "feed": "PubMed E-utilities",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 33,
+   "status": "ok",
+   "totaal": 33
+  },
+  "ringtv-be": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "HTTP 403",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "robtv-be": {
+   "berichten_in_feed": 40,
+   "feed": "https://www.robtv.be/rss",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 0,
+   "status": "ok",
+   "totaal": 0
+  },
+  "rtbf-be-info": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "geen RSS-feed gevonden op deze website",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "rtv-be": {
+   "berichten_in_feed": 100,
+   "feed": "https://www.rtv.be/rss.xml",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 1,
+   "status": "ok",
+   "totaal": 1
+  },
+  "sciencedaily-com-rss-health-medicine-nutrition-xml": {
+   "berichten_in_feed": 60,
+   "feed": "https://www.sciencedaily.com/rss/health_medicine/nutrition.xml",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 2,
+   "status": "ok",
+   "totaal": 2
+  },
+  "sentientmedia-org-feed": {
+   "berichten_in_feed": 10,
+   "feed": "https://sentientmedia.org/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 10,
+   "status": "ok",
+   "totaal": 10
+  },
+  "sillonbelge-be": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "HTTP 403",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "standaard-be": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "HTTP 403",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "theguardian-com-lifeandstyle-veganism-rss": {
+   "berichten_in_feed": 20,
+   "feed": "https://www.theguardian.com/lifeandstyle/veganism/rss",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 3,
+   "status": "ok",
+   "totaal": 3
+  },
+  "theveganreview-com-feed": {
+   "berichten_in_feed": 10,
+   "feed": "https://www.theveganreview.com/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 0,
+   "status": "ok",
+   "totaal": 0
+  },
+  "thosevegancowboys-com": {
+   "berichten_in_feed": 10,
+   "feed": "https://thosevegancowboys.com/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 1,
+   "status": "ok",
+   "totaal": 1
+  },
+  "tvl-be": {
+   "berichten_in_feed": 40,
+   "feed": "https://www.tvl.be/rss",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 0,
+   "status": "ok",
+   "totaal": 0
+  },
+  "tvoost-be": {
+   "berichten_in_feed": 40,
+   "feed": "https://www.tvoost.be/rss",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 0,
+   "status": "ok",
+   "totaal": 0
+  },
+  "varkensinnood-nl": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "geen RSS-feed gevonden op deze website",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "veganfoodandliving-com-feed": {
+   "berichten_in_feed": 10,
+   "feed": "https://www.veganfoodandliving.com/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 9,
+   "status": "ok",
+   "totaal": 9
+  },
+  "veganisme-org": {
+   "berichten_in_feed": 10,
+   "feed": "https://www.veganisme.org/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 6,
+   "status": "ok",
+   "totaal": 6
+  },
+  "vegansociety-com-news": {
+   "berichten_in_feed": 10,
+   "feed": "https://www.vegansociety.com/rss.xml",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 9,
+   "status": "ok",
+   "totaal": 9
+  },
+  "veganuary-com-feed": {
+   "berichten_in_feed": 10,
+   "feed": "https://veganuary.com/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 2,
+   "status": "ok",
+   "totaal": 2
+  },
+  "vegconomist-com-feed": {
+   "berichten_in_feed": 20,
+   "feed": "https://vegconomist.com/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 20,
+   "status": "ok",
+   "totaal": 20
+  },
+  "vegconomist-de-feed": {
+   "berichten_in_feed": 20,
+   "feed": "https://vegconomist.de/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 20,
+   "status": "ok",
+   "totaal": 20
+  },
+  "vegetariers-nl": {
+   "berichten_in_feed": 24,
+   "feed": "https://www.vegetariers.nl/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 24,
+   "status": "ok",
+   "totaal": 24
+  },
+  "vegetarisme-fr": {
+   "berichten_in_feed": 10,
+   "feed": "https://www.vegetarisme.fr/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 0,
+   "status": "ok",
+   "totaal": 0
+  },
+  "vegetik-org": {
+   "berichten_in_feed": 10,
+   "feed": "https://www.vegetik.org/feed/",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 0,
+   "status": "ok",
+   "totaal": 0
+  },
+  "vegnews-com": {
+   "berichten_in_feed": 30,
+   "feed": "https://vegnews.com/feed.rss",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 28,
+   "status": "ok",
+   "totaal": 28
+  },
+  "vilt-be": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "geen RSS-feed gevonden op deze website",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "vrt-be-vrtnws-nl-rss-articles-xml": {
+   "berichten_in_feed": 50,
+   "feed": "https://www.vrt.be/vrtnws/nl.rss.articles.xml",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 0,
+   "status": "ok",
+   "totaal": 0
+  },
+  "wakkerdier-nl": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "geen RSS-feed gevonden op deze website",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "youtube-com-earthlinged": {
+   "berichten_in_feed": 0,
+   "feed": "",
+   "fouten_op_rij": 1,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "",
+   "laatst_ok": "",
+   "melding": "HTTP 404",
+   "nieuw": 0,
+   "status": "fout",
+   "totaal": 0
+  },
+  "youtube-com-micthevegan": {
+   "berichten_in_feed": 15,
+   "feed": "https://www.youtube.com/feeds/videos.xml?channel_id=UCGJq0eQZoFSwgcqgxIE9MHw",
+   "fouten_op_rij": 0,
+   "gecontroleerd": "2026-10-30T10:29:41Z",
+   "laatst_nieuw": "2026-10-30T10:29:41Z",
+   "laatst_ok": "2026-10-30T10:29:41Z",
+   "melding": "",
+   "nieuw": 8,
+   "status": "ok",
+   "totaal": 8
+  }
+ },
+ "budget": {
+  "llm": {
+   "datum": "2026-10-30",
+   "gebruikt": 0
+  },
+  "mymemory": {
+   "datum": "2026-10-30",
+   "gebruikt": 4459
+  }
+ },
+ "feeds": {
+  "agfundernews-com-feed": {
+   "feed": "https://agfundernews.com/feed",
+   "gevonden": "2026-10-30T10:29:58+00:00",
+   "url": "https://agfundernews.com/feed"
+  },
+  "animalequality-org-feed": {
+   "feed": "https://animalequality.org/feed/",
+   "gevonden": "2026-10-30T10:29:56+00:00",
+   "url": "https://animalequality.org/feed/"
+  },
+  "animalrights-be": {
+   "feed": "https://animalrights.be/feed/",
+   "gevonden": "2026-10-30T10:29:47+00:00",
+   "url": "https://www.animalrights.be"
+  },
+  "bevegan-be": {
+   "feed": "https://bevegan.be/nl/feed/",
+   "gevonden": "2026-10-30T10:29:45+00:00",
+   "url": "https://www.bevegan.be"
+  },
+  "biteback-org": {
+   "feed": "https://biteback.be/feed/",
+   "gevonden": "2026-10-30T10:29:46+00:00",
+   "url": "https://www.biteback.org"
+  },
+  "bruzz-be": {
+   "feed": "https://www.bruzz.be/rss.xml",
+   "gevonden": "2026-10-30T10:29:42+00:00",
+   "url": "https://www.bruzz.be"
+  },
+  "dewereldmorgen-be": {
+   "feed": "https://www.dewereldmorgen.be/rss.xml",
+   "gevonden": "2026-10-30T10:29:45+00:00",
+   "url": "https://www.dewereldmorgen.be"
+  },
+  "dierenrecht-nl": {
+   "feed": "https://www.dierenrecht.nl/feed/",
+   "gevonden": "2026-10-30T10:30:04+00:00",
+   "url": "https://www.dierenrecht.nl"
+  },
+  "eurogroupforanimals-org": {
+   "feed": "https://www.eurogroupforanimals.org/feed/",
+   "gevonden": "2026-10-30T10:29:57+00:00",
+   "url": "https://www.eurogroupforanimals.org"
+  },
+  "evavzw-be": {
+   "feed": "https://proveg.org/be/feed/",
+   "gevonden": "2026-10-30T10:29:44+00:00",
+   "url": "https://www.evavzw.be"
+  },
+  "faunalytics-org-feed": {
+   "feed": "https://faunalytics.org/feed/",
+   "gevonden": "2026-10-30T10:29:56+00:00",
+   "url": "https://faunalytics.org/feed/"
+  },
+  "focus-wtv-be": {
+   "feed": "https://focus-wtv.be/feed/focus-wtv/rss.xml",
+   "gevonden": "2026-10-30T10:29:49+00:00",
+   "url": "https://www.focus-wtv.be"
+  },
+  "fooddive-com-feeds-news": {
+   "feed": "https://www.fooddive.com/feeds/news/",
+   "gevonden": "2026-10-30T10:29:58+00:00",
+   "url": "https://www.fooddive.com/feeds/news/"
+  },
+  "foodlog-nl": {
+   "feed": "https://www.foodlog.nl/feed.rss",
+   "gevonden": "2026-10-30T10:30:00+00:00",
+   "url": "https://www.foodlog.nl"
+  },
+  "gaia-be-nl": {
+   "feed": "https://www.gaia.be/nl/rss.xml",
+   "gevonden": "2026-10-30T10:29:46+00:00",
+   "url": "https://www.gaia.be/nl"
+  },
+  "gfi-org-feed": {
+   "feed": "https://gfi.org/feed/",
+   "gevonden": "2026-10-30T10:29:55+00:00",
+   "url": "https://gfi.org/feed/"
+  },
+  "gfieurope-org-feed": {
+   "feed": "https://gfieurope.org/feed/",
+   "gevonden": "2026-10-30T10:29:56+00:00",
+   "url": "https://gfieurope.org/feed/"
+  },
+  "greenqueen-com-hk-feed": {
+   "feed": "https://www.greenqueen.com.hk/feed/",
+   "gevonden": "2026-10-30T10:29:52+00:00",
+   "url": "https://www.greenqueen.com.hk/feed/"
+  },
+  "l214-com": {
+   "feed": "https://www.l214.com/feed/",
+   "gevonden": "2026-10-30T10:29:57+00:00",
+   "url": "https://www.l214.com"
+  },
+  "lalibre-be": {
+   "feed": "https://www.lalibre.be/rss",
+   "gevonden": "2026-10-30T10:29:47+00:00",
+   "url": "https://www.lalibre.be"
+  },
+  "mercyforanimals-org-feed": {
+   "feed": "https://mercyforanimals.org/feed/",
+   "gevonden": "2026-10-30T10:29:56+00:00",
+   "url": "https://mercyforanimals.org/feed/"
+  },
+  "nutritionfacts-org-feed": {
+   "feed": "https://nutritionfacts.org/feed/",
+   "gevonden": "2026-10-30T10:30:01+00:00",
+   "url": "https://nutritionfacts.org/feed/"
+  },
+  "paleo-taste-com": {
+   "feed": "https://paleo.bio/feed/",
+   "gevonden": "2026-10-30T10:29:45+00:00",
+   "url": "https://www.paleo-taste.com"
+  },
+  "plantbasednews-org-feed": {
+   "feed": "https://plantbasednews.org/feed/",
+   "gevonden": "2026-10-30T10:29:53+00:00",
+   "url": "https://plantbasednews.org/feed/"
+  },
+  "proveg-org": {
+   "feed": "https://proveg.org/feed/",
+   "gevonden": "2026-10-30T10:29:55+00:00",
+   "url": "https://proveg.org"
+  },
+  "robtv-be": {
+   "feed": "https://www.robtv.be/rss",
+   "gevonden": "2026-10-30T10:29:47+00:00",
+   "url": "https://www.robtv.be"
+  },
+  "rtv-be": {
+   "feed": "https://www.rtv.be/rss.xml",
+   "gevonden": "2026-10-30T10:29:52+00:00",
+   "url": "https://www.rtv.be"
+  },
+  "sciencedaily-com-rss-health-medicine-nutrition-xml": {
+   "feed": "https://www.sciencedaily.com/rss/health_medicine/nutrition.xml",
+   "gevonden": "2026-10-30T10:30:00+00:00",
+   "url": "https://www.sciencedaily.com/rss/health_medicine/nutrition.xml"
+  },
+  "sentientmedia-org-feed": {
+   "feed": "https://sentientmedia.org/feed/",
+   "gevonden": "2026-10-30T10:29:55+00:00",
+   "url": "https://sentientmedia.org/feed/"
+  },
+  "theguardian-com-lifeandstyle-veganism-rss": {
+   "feed": "https://www.theguardian.com/lifeandstyle/veganism/rss",
+   "gevonden": "2026-10-30T10:29:55+00:00",
+   "url": "https://www.theguardian.com/lifeandstyle/veganism/rss"
+  },
+  "theveganreview-com-feed": {
+   "feed": "https://www.theveganreview.com/feed/",
+   "gevonden": "2026-10-30T10:29:55+00:00",
+   "url": "https://theveganreview.com/feed/"
+  },
+  "thosevegancowboys-com": {
+   "feed": "https://thosevegancowboys.com/feed/",
+   "gevonden": "2026-10-30T10:29:44+00:00",
+   "url": "https://www.thosevegancowboys.com"
+  },
+  "tvl-be": {
+   "feed": "https://www.tvl.be/rss",
+   "gevonden": "2026-10-30T10:29:47+00:00",
+   "url": "https://www.tvl.be"
+  },
+  "tvoost-be": {
+   "feed": "https://www.tvoost.be/rss",
+   "gevonden": "2026-10-30T10:29:48+00:00",
+   "url": "https://www.tvoost.be"
+  },
+  "veganfoodandliving-com-feed": {
+   "feed": "https://www.veganfoodandliving.com/feed/",
+   "gevonden": "2026-10-30T10:29:53+00:00",
+   "url": "https://www.veganfoodandliving.com/feed/"
+  },
+  "veganisme-org": {
+   "feed": "https://www.veganisme.org/feed/",
+   "gevonden": "2026-10-30T10:29:57+00:00",
+   "url": "https://www.veganisme.org"
+  },
+  "vegansociety-com-news": {
+   "feed": "https://www.vegansociety.com/rss.xml",
+   "gevonden": "2026-10-30T10:30:02+00:00",
+   "url": "https://www.vegansociety.com/news"
+  },
+  "veganuary-com-feed": {
+   "feed": "https://veganuary.com/feed/",
+   "gevonden": "2026-10-30T10:29:55+00:00",
+   "url": "https://veganuary.com/feed/"
+  },
+  "vegconomist-com-feed": {
+   "feed": "https://vegconomist.com/feed/",
+   "gevonden": "2026-10-30T10:29:51+00:00",
+   "url": "https://vegconomist.com/feed/"
+  },
+  "vegconomist-de-feed": {
+   "feed": "https://vegconomist.de/feed/",
+   "gevonden": "2026-10-30T10:29:52+00:00",
+   "url": "https://vegconomist.de/feed/"
+  },
+  "vegetariers-nl": {
+   "feed": "https://www.vegetariers.nl/feed/",
+   "gevonden": "2026-10-30T10:29:59+00:00",
+   "url": "https://www.vegetariers.nl"
+  },
+  "vegetarisme-fr": {
+   "feed": "https://www.vegetarisme.fr/feed/",
+   "gevonden": "2026-10-30T10:29:59+00:00",
+   "url": "https://www.vegetarisme.fr"
+  },
+  "vegetik-org": {
+   "feed": "https://www.vegetik.org/feed/",
+   "gevonden": "2026-10-30T10:29:45+00:00",
+   "url": "https://www.vegetik.org"
+  },
+  "vegnews-com": {
+   "feed": "https://vegnews.com/feed.rss",
+   "gevonden": "2026-10-30T10:29:52+00:00",
+   "url": "https://vegnews.com"
+  },
+  "vrt-be-vrtnws-nl-rss-articles-xml": {
+   "feed": "https://www.vrt.be/vrtnws/nl.rss.articles.xml",
+   "gevonden": "2026-10-30T10:29:42+00:00",
+   "url": "https://www.vrt.be/vrtnws/nl.rss.articles.xml"
+  },
+  "youtube-com-micthevegan": {
+   "feed": "https://www.youtube.com/feeds/videos.xml?channel_id=UCGJq0eQZoFSwgcqgxIE9MHw",
+   "gevonden": "2026-10-30T10:30:00+00:00",
+   "url": "https://www.youtube.com/@MictheVegan"
+  }
+ },
+ "http": {
+  "https://agfundernews.com/feed": {
+   "etag": "W/\"7ff813825cabed43ea22d142c8123984\"",
+   "gewijzigd": "Thu, 29 Oct 2026 17:29:26 GMT"
+  },
+  "https://animalequality.org/feed/": {
+   "etag": "",
+   "gewijzigd": "Wed, 28 Oct 2026 22:29:19 GMT"
+  },
+  "https://animalrights.be/feed/": {
+   "etag": "\"b80e649e8f73432b0638e9498f1ed3aa-gzip\"",
+   "gewijzigd": "Thu, 29 Oct 2026 21:17:56 GMT"
+  },
+  "https://bevegan.be/nl/feed/": {
+   "etag": "",
+   "gewijzigd": "Fri, 30 Oct 2026 01:03:46 GMT"
+  },
+  "https://biteback.be/feed/": {
+   "etag": "",
+   "gewijzigd": "Fri, 30 Oct 2026 08:03:25 GMT"
+  },
+  "https://faunalytics.org/feed/": {
+   "etag": "",
+   "gewijzigd": "Thu, 29 Oct 2026 15:00:00 GMT"
+  },
+  "https://gfi.org/feed/": {
+   "etag": "W/\"fabdc7ff7d784b94cba011090ea9fc03\"",
+   "gewijzigd": "Thu, 29 Oct 2026 22:43:26 GMT"
+  },
+  "https://gfieurope.org/feed/": {
+   "etag": "W/\"1c0c8af6718182cfe5779c2ef0fd5d6c\"",
+   "gewijzigd": "Thu, 29 Oct 2026 08:12:26 GMT"
+  },
+  "https://mercyforanimals.org/feed/": {
+   "etag": "\"f4d0d5cb870edc09b004c105b4a803e6\"",
+   "gewijzigd": "Wed, 28 Oct 2026 19:01:56 GMT"
+  },
+  "https://nutritionfacts.org/feed/": {
+   "etag": "W/\"ec72d2cdbb2e41279d89e09b9577971f\"",
+   "gewijzigd": "Thu, 29 Oct 2026 12:00:26 GMT"
+  },
+  "https://paleo.bio/feed/": {
+   "etag": "\"071892844c77cd7a79a7514cc0a610dd-gzip\"",
+   "gewijzigd": "Tue, 31 Mar 2026 14:40:23 GMT"
+  },
+  "https://plantbasednews.org/feed/": {
+   "etag": "W/\"879ea830d13ac731463b95fe84b271c3\"",
+   "gewijzigd": "Fri, 30 Oct 2026 09:00:10 GMT"
+  },
+  "https://proveg.org/be/feed/": {
+   "etag": "W/\"b21ce428d40b6489b976dab8469f06c8-br\"",
+   "gewijzigd": "Wed, 28 Oct 2026 10:42:06 GMT"
+  },
+  "https://proveg.org/feed/": {
+   "etag": "W/\"ad4c16bc92f3ad6a174db2aeec6df643-br\"",
+   "gewijzigd": "Thu, 29 Oct 2026 10:08:25 GMT"
+  },
+  "https://sentientmedia.org/feed/": {
+   "etag": "\"2b474565f7fd42554c3904be4ab61514-gzip\"",
+   "gewijzigd": "Thu, 29 Oct 2026 17:06:27 GMT"
+  },
+  "https://thosevegancowboys.com/feed/": {
+   "etag": "\"a53c5f2f3cf17e4ab59ac31d81dc896a\"",
+   "gewijzigd": "Wed, 28 Oct 2026 13:56:24 GMT"
+  },
+  "https://veganuary.com/feed/": {
+   "etag": "\"1074e28df1037b758cd495ca91fec9f9\"",
+   "gewijzigd": "Fri, 30 Oct 2026 08:44:52 GMT"
+  },
+  "https://vegconomist.com/feed/": {
+   "etag": "\"8a288b85840918c23bfa6f0eea19eac4-gzip\"",
+   "gewijzigd": "Thu, 29 Oct 2026 15:12:45 GMT"
+  },
+  "https://vegconomist.de/feed/": {
+   "etag": "\"422885d2699b6e3be8a684b621647223-gzip\"",
+   "gewijzigd": "Fri, 30 Oct 2026 08:11:00 GMT"
+  },
+  "https://vegnews.com/feed.rss": {
+   "etag": "W/\"025b1faee2dd6e51d7a3cc98cc0d4137\"",
+   "gewijzigd": ""
+  },
+  "https://www.dewereldmorgen.be/rss.xml": {
+   "etag": "W/\"1793354746\"",
+   "gewijzigd": "Fri, 30 Oct 2026 10:05:46 GMT"
+  },
+  "https://www.dierenrecht.nl/feed/": {
+   "etag": "\"8e0db49d5f72a305d25e4b60ef252d24\"",
+   "gewijzigd": "Thu, 29 Oct 2026 15:12:56 GMT"
+  },
+  "https://www.eurogroupforanimals.org/feed/": {
+   "etag": "W/\"1793356196\"",
+   "gewijzigd": "Fri, 30 Oct 2026 10:29:56 GMT"
+  },
+  "https://www.fooddive.com/feeds/news/": {
+   "etag": "",
+   "gewijzigd": "Thu, 29 Oct 2026 18:47:00 GMT"
+  },
+  "https://www.foodlog.nl/feed.rss": {
+   "etag": "",
+   "gewijzigd": "Fri, 30 Oct 2026 10:29:19 GMT"
+  },
+  "https://www.greenqueen.com.hk/feed/": {
+   "etag": "W/\"2df3e004742b8220ce867a2ecffb6098\"",
+   "gewijzigd": "Fri, 30 Oct 2026 08:00:00 GMT"
+  },
+  "https://www.l214.com/feed/": {
+   "etag": "W/\"31bf0bf98b27d7e30cfc253ef16d328b\"",
+   "gewijzigd": "Fri, 30 Oct 2026 09:09:41 GMT"
+  },
+  "https://www.lalibre.be/rss": {
+   "etag": "W/\"1fdf0-J9pDfR91KGXpH4pwDKRfbLiziX4\"",
+   "gewijzigd": "Fri, 30 Oct 2026 10:27:30 GMT"
+  },
+  "https://www.rtv.be/rss.xml": {
+   "etag": "W/\"1793356192\"",
+   "gewijzigd": "Fri, 30 Oct 2026 10:29:52 GMT"
+  },
+  "https://www.sciencedaily.com/rss/health_medicine/nutrition.xml": {
+   "etag": "",
+   "gewijzigd": "Thu, 29 Oct 2026 13:21:33 GMT"
+  },
+  "https://www.theguardian.com/lifeandstyle/veganism/rss": {
+   "etag": "W/\"hash8162007903195435378\"",
+   "gewijzigd": ""
+  },
+  "https://www.theveganreview.com/feed/": {
+   "etag": "\"568b1d78f1d6ee7c37b46ea3f7a1311f\"",
+   "gewijzigd": "Fri, 08 Nov 2024 13:10:12 GMT"
+  },
+  "https://www.veganfoodandliving.com/feed/": {
+   "etag": "",
+   "gewijzigd": "Thu, 29 Oct 2026 16:05:17 GMT"
+  },
+  "https://www.veganisme.org/feed/": {
+   "etag": "W/\"cee262a0e4719315f07f5fbd8a307a29\"",
+   "gewijzigd": "Thu, 29 Oct 2026 15:11:06 GMT"
+  },
+  "https://www.vegansociety.com/rss.xml": {
+   "etag": "\"1793355343-1\"",
+   "gewijzigd": "Fri, 30 Oct 2026 10:15:43 GMT"
+  },
+  "https://www.vegetarisme.fr/feed/": {
+   "etag": "W/\"db5d8064d6862e26ebca178faa47a645\"",
+   "gewijzigd": "Thu, 29 Oct 2026 13:15:11 GMT"
+  },
+  "https://www.vegetik.org/feed/": {
+   "etag": "\"558d778d6fb4057a6aa28e4096a69f2e-gzip\"",
+   "gewijzigd": "Fri, 05 Apr 2024 10:00:07 GMT"
+  }
+ }
+}
