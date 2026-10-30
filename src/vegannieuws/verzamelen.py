@@ -184,7 +184,7 @@ def _verrijk_achterstand(archief: Archief, inst: Instellingen, lexicon: Lexicon,
                          vandaag: str, log) -> LlmStatistiek:
     clients = maak_taalmodellen(inst.llm_aanbieders, inst.modellen_per_aanbieder, inst.llm_pauze_s)
     if not clients:
-        return LlmStatistiek(melding="geen sleutel voor een taalmodel ingesteld (GEMINI_API_KEY of GROQ_API_KEY): "
+        return LlmStatistiek(melding="geen sleutel voor een taalmodel ingesteld (ANTHROPIC_API_KEY, GEMINI_API_KEY of GROQ_API_KEY): "
                                      "indeling op basis van trefwoorden")
     resterend = min(inst.llm_max_verzoeken_per_run, staat.resterend("llm", vandaag, inst.llm_max_verzoeken_per_dag))
     sinds = (date.fromisoformat(vandaag) - timedelta(days=inst.llm_max_leeftijd_dagen)).isoformat()
@@ -194,22 +194,42 @@ def _verrijk_achterstand(archief: Archief, inst: Instellingen, lexicon: Lexicon,
     if resterend <= 0:
         return LlmStatistiek(aanbieder=clients[0].naam, melding="dagbudget voor het taalmodel is op",
                              achterstand=len(lijst))
-    stat = LlmStatistiek()
+    totaal = LlmStatistiek(achterstand=len(lijst))
     for client in clients:
         stat = verrijk(lijst, client, lexicon, geo, inst.doeltaal, inst.talen_zonder_vertaling, inst.llm_batch,
                        resterend, inst.llm_max_pogingen, log=log)
         staat.verbruik("llm", vandaag, stat.verzoeken)
-        if stat.verrijkt or not stat.melding.startswith("geen werkend eindpunt"):
+        resterend -= stat.verzoeken
+        _tel_op(totaal, stat)
+        if not stat.gestopt or resterend <= 0:
             break
+        # De aanbieder stopte (tegoed op, sleutel geweigerd, limiet ...): de volgende neemt de rest over.
+        log(f"{client.naam} gestopt ({stat.melding}); de volgende aanbieder neemt over")
         if client.naam == "GitHub Models":
             log("Diagnose taalmodel:")
             for regel in diagnose_taalmodel(client.token, inst.llm_modellen):
                 log(f"  {regel}")
         lijst = achterstand(archief.geladen(), sinds, inst.llm_max_pogingen)
+        if not lijst:
+            break
+    totaal.achterstand = len(achterstand(archief.geladen(), sinds, inst.llm_max_pogingen))
     for b in archief.geladen():
         if b.methode == "llm" or b.pogingen:
             archief.markeer_gewijzigd(b)
-    return stat
+    return totaal
+
+
+def _tel_op(totaal: LlmStatistiek, stat: LlmStatistiek) -> None:
+    """Voegt de cijfers van één aanbieder toe aan het totaal van de run."""
+    for veld in ("verzoeken", "verrijkt", "mislukt", "invoer_tokens", "uitvoer_tokens"):
+        setattr(totaal, veld, getattr(totaal, veld) + getattr(stat, veld))
+    if stat.verzoeken or not totaal.aanbieder:
+        totaal.aanbieder = " → ".join(filter(None, (totaal.aanbieder, stat.aanbieder)))
+        totaal.model = " → ".join(filter(None, (totaal.model, stat.model)))
+    totaal.per_aanbieder.update(stat.per_aanbieder)
+    totaal.melding = "; ".join(filter(None, (totaal.melding, stat.melding)))
+    totaal.fouten += stat.fouten
+    totaal.gestopt = stat.gestopt
 
 
 def _ruim_kandidaten_op(archief: Archief, staat: Staat, vandaag: date, max_leeftijd: int,
@@ -252,11 +272,15 @@ def _ruim_kandidaten_op(archief: Archief, staat: Staat, vandaag: date, max_leeft
 def _bundel_verhalen(archief: Archief, inst: Instellingen, staat: Staat, vandaag: date, log) -> VerhaalStatistiek:
     """Bundelt berichten van verschillende bronnen over hetzelfde nieuws onder een Nederlandse kop.
 
-    De koppen komen bij voorkeur van een sterker model (verhalen_modellen_gemini); weigert dat model
-    (bv. daglimiet bereikt), dan neemt het model van de berichten het over."""
-    sterk = {**inst.modellen_per_aanbieder, "gemini": inst.verhalen_modellen_gemini or inst.llm_modellen_gemini}
-    clients = (maak_taalmodellen(inst.llm_aanbieders, sterk, inst.llm_pauze_s)
-               + maak_taalmodellen(inst.llm_aanbieders, inst.modellen_per_aanbieder, inst.llm_pauze_s))
+    De aanbieders volgen de volgorde van llm_aanbieders; weigert er een (tegoed op, daglimiet ...),
+    dan neemt de volgende het over. Bij Gemini schrijft eerst het sterkere Flash-model de koppen
+    (verhalen_modellen_gemini), daarna Flash-Lite."""
+    clients = []
+    for code in inst.llm_aanbieders:
+        lijsten = ([inst.verhalen_modellen_gemini, inst.llm_modellen_gemini] if code == "gemini"
+                   else [inst.modellen_per_aanbieder.get(code, [])])
+        for modellen in filter(None, lijsten):
+            clients += maak_taalmodellen([code], {code: modellen}, inst.llm_pauze_s)
     resterend = min(inst.verhalen_max_verzoeken_per_run,
                     staat.resterend("llm", vandaag.isoformat(), inst.llm_max_verzoeken_per_dag))
     berichten = archief.geladen()
@@ -345,6 +369,9 @@ def verzamel(paden: Paden, inst: Instellingen, terugvullen_dagen: int = 0, gebru
         stat = _verrijk_achterstand(archief, inst, lexicon, geo, staat, vandaag.isoformat(), log)
         rapport.llm = asdict(stat)
         log(f"Taalmodel: {stat.verrijkt} berichten verwerkt in {stat.verzoeken} verzoeken. {stat.melding}")
+        if "tegoed" in stat.melding:
+            rapport.waarschuwingen.append("Het tegoed voor Claude is op: Gemini nam het werk over. Koop tegoed bij op "
+                                          "platform.claude.com (Billing) om Claude opnieuw te gebruiken.")
     rapport.kandidaten_afgewezen = _ruim_kandidaten_op(archief, staat, vandaag, inst.llm_max_leeftijd_dagen,
                                                        {b.id: b.enkel_land for b in bronnen if b.enkel_land},
                                                        inst.sociaal_enkel_land)
@@ -430,6 +457,11 @@ def rapport_markdown(rapport: Rapport) -> str:
         regels.append(f"- Taalmodel ({llm.get('aanbieder') or '-'}, {llm.get('model') or '-'}): {llm.get('verrijkt', 0)} verwerkt in "
                       f"{llm.get('verzoeken', 0)} verzoeken, achterstand {llm.get('achterstand', 0)}, "
                       f"tokens {llm.get('invoer_tokens', 0)} in / {llm.get('uitvoer_tokens', 0)} uit. {llm.get('melding', '')}")
+        for naam, deel in (llm.get("per_aanbieder") or {}).items():
+            if len(llm.get("per_aanbieder") or {}) > 1:
+                regels.append(f"  - {naam} ({deel.get('model')}): {deel.get('verwerkt', 0)} verwerkt in "
+                              f"{deel.get('verzoeken', 0)} verzoeken, tokens {deel.get('invoer_tokens', 0)} in / "
+                              f"{deel.get('uitvoer_tokens', 0)} uit")
     if rapport.verhalen:
         vh = rapport.verhalen
         regels.append(f"- Verhalen (zelfde nieuws, verschillende bronnen; {vh.get('model') or '-'}): {vh.get('groepen', 0)} kandidaatgroepen, "

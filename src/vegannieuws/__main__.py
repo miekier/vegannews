@@ -35,10 +35,6 @@ def main(argv: list[str] | None = None) -> int:
     c.add_argument("bron", nargs="*", help="bron-id's (standaard: alle actieve bronnen)")
     h = sub.add_parser("herindeel", help="pas de trefwoorden opnieuw toe op bestaande berichten")
     h.add_argument("--dagen", type=int, default=90)
-    vg = sub.add_parser("vergelijk", help="blinde vergelijking van Claude en Gemini op dezelfde berichten")
-    vg.add_argument("--aantal", type=int, default=36)
-    vg.add_argument("--groepen", type=int, default=4)
-    vg.add_argument("--uit", default="vergelijking/vergelijking.json")
     a = sub.add_parser("bron-aanvraag", help="verwerk een ingevuld bronformulier (GitHub-issue)")
     a.add_argument("--tekst-env", default="ISSUE_BODY", help="omgevingsvariabele met de tekst van het issue")
     a.add_argument("--issue", default="")
@@ -82,21 +78,6 @@ def main(argv: list[str] | None = None) -> int:
                 tekst += f"- {client.naam}: {resultaat}\n"
                 if client.naam == "GitHub Models" and not resultaat.startswith("werkt:"):
                     tekst += "\n".join(f"  - {r}" for r in diagnose_taalmodel(client.token, inst.llm_modellen)) + "\n"
-        print(tekst)
-        _schrijf_samenvatting(tekst)
-        return 0
-
-    if args.opdracht == "vergelijk":
-        from .vergelijking import bewaar, vergelijk
-        resultaat = vergelijk(paden, inst, aantal=args.aantal, groepen=args.groepen)
-        bewaar(resultaat, Path(args.uit))
-        regels = ["## Vergelijking van taalmodellen", "", "| Aanbieder | Model | Berichten | Tokens in | Tokens uit | Kosten |",
-                  "|---|---|---|---|---|---|"]
-        for m in resultaat["modellen"].values():
-            ok = sum("fout" not in r for r in m["berichten"].values())
-            regels.append(f"| {m['naam']} | {m['model']} | {ok}/{len(resultaat['berichten'])} | {m['invoer_tokens']} | "
-                          f"{m['uitvoer_tokens']} | ${m['kosten_dollar']} |")
-        tekst = "\n".join(regels) + "\n"
         print(tekst)
         _schrijf_samenvatting(tekst)
         return 0

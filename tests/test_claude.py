@@ -114,32 +114,36 @@ def test_verrijk_stuurt_schema_mee():
     assert stat.verrijkt == 1 and b.kernzin.startswith("Een vegan restaurant") and b.gebeurtenis == "opening"
 
 
-def test_vergelijking_met_twee_nepmodellen(wortel, monkeypatch):
-    from vegannieuws import vergelijking
+
+def test_gemini_neemt_over_als_claude_tegoed_op_is(wortel, monkeypatch):
+    from vegannieuws import verzamelen
     from vegannieuws.archief import Archief
-    from vegannieuws.config import Instellingen, Paden
+    from vegannieuws.classificatie import laad_lexicon
+    from vegannieuws.config import Instellingen
+    from vegannieuws.locatie import Geo
     from vegannieuws.model import Bericht
+    from vegannieuws.staat import Staat
     from datetime import date
     vandaag = date.today().isoformat()
     archief = Archief(wortel / "site" / "data")
-    berichten = [Bericht(id=f"b{i}", titel=f"Titel {i}", url=f"https://x.be/{i}", bron="x", bron_naam="X",
-                         datum=vandaag, taal=taal, methode="llm", kernzin=f"Kern {i}")
-                 for i, taal in enumerate(["fr", "de", "nl", "nl", "en", "en", "it"])]
-    archief.voeg_toe(berichten)
-    archief.bewaar()
+    titels = ["Nieuw vegan restaurant opent in Gent", "Kweekvlees krijgt goedkeuring in Singapore",
+              "Studie over plantaardige voeding bij kinderen"]
+    archief.voeg_toe([Bericht(id=f"b{i}", titel=titel, url=f"https://x.be/{i}", bron="x", bron_naam="X",
+                              datum=vandaag, taal="nl") for i, titel in enumerate(titels)])
+    claude, berichten = model(fout(anthropic.BadRequestError, 400,
+                                   "Your credit balance is too low to access the Anthropic API."))
 
-    class Nep:
-        def __init__(self, naam):
-            self.naam, self.model, self.invoer_tokens, self.uitvoer_tokens = naam, f"{naam}-model", 1000, 500
+    class Gemini:
+        naam, model, token, invoer_tokens, uitvoer_tokens = "Google Gemini", "gemini-flash-lite-latest", "", 50, 30
 
         def vraag(self, systeem, gebruiker, schema=None):
-            invoer = json.loads(gebruiker)
-            return json.dumps({"berichten": [{"id": i["id"], "kernzin": f"{self.naam}: {i['titel']}"} for i in invoer]})
+            return json.dumps({"berichten": [{"id": i["id"], "relevant": True, "kernzin": f"Kern {i['titel']}",
+                                              "categorieen": ["overig"]} for i in json.loads(gebruiker)]})
 
-    monkeypatch.setattr(vergelijking, "maak_taalmodellen", lambda codes, *a, **k: [Nep(codes[0])])
-    uit = vergelijking.vergelijk(Paden(wortel), Instellingen(), aantal=6, groepen=0, log=lambda *_: None)
-    assert len(uit["berichten"]) == 6 and {b["taal"] for b in uit["berichten"]} >= {"nl", "en"}
-    assert set(uit["modellen"]) == {"anthropic", "gemini"}
-    claude = uit["modellen"]["anthropic"]
-    assert all(r["kernzin"].startswith("anthropic: ") for r in claude["berichten"].values())
-    assert claude["kosten_dollar"] == round((1000 * 0.10 + 500 * 0.50) / 1e6, 5)
+    monkeypatch.setattr(verzamelen, "maak_taalmodellen", lambda *a, **k: [claude, Gemini()])
+    stat = verzamelen._verrijk_achterstand(archief, Instellingen(), laad_lexicon(wortel / "categorieen.yml"), Geo(),
+                                           Staat(), vandaag, log=lambda *_: None)
+    assert len(berichten.verzoeken) == 1                     # Claude: één geweigerd verzoek
+    assert stat.verrijkt == 3 and stat.achterstand == 0      # Gemini deed de rest
+    assert "tegoed" in stat.melding and stat.aanbieder == "Anthropic Claude → Google Gemini"
+    assert all(b.kernzin.startswith("Kern ") for b in archief.geladen())

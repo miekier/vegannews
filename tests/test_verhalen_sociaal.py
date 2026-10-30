@@ -139,10 +139,16 @@ def test_koppen_vallen_terug_op_tweede_model(tmp_path, monkeypatch):
     sterk.model = "gemini-flash-latest"
     gewoon = NepModel(lambda invoer: json.dumps({"verhalen": [{"ids": alle_ids(invoer)[:3], "kop": "Kop"}]}))
     gewoon.model = "gemini-flash-lite-latest"
-    aanroepen = iter([[sterk], [gewoon]])
-    monkeypatch.setattr(verzamelen, "maak_taalmodellen", lambda *a, **k: next(aanroepen))
+    inst = Instellingen()
+
+    def clients(codes, modellen, *a, **k):
+        if codes != ["gemini"]:
+            return []
+        return [sterk] if modellen["gemini"] == inst.verhalen_modellen_gemini else [gewoon]
+
+    monkeypatch.setattr(verzamelen, "maak_taalmodellen", clients)
     staat = Staat()
-    stat = verzamelen._bundel_verhalen(archief, Instellingen(), staat, date(2026, 10, 30), log=lambda *_: None)
+    stat = verzamelen._bundel_verhalen(archief, inst, staat, date(2026, 10, 30), log=lambda *_: None)
     assert len(sterk.vragen) == 1 and len(gewoon.vragen) == 1
     assert stat.nieuwe_verhalen == 1 and stat.model == "gemini-flash-lite-latest"
     assert staat.budget["llm"]["gebruikt"] == 1

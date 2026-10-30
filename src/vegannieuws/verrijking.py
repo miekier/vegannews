@@ -47,6 +47,8 @@ class LlmStatistiek:
     achterstand: int = 0
     invoer_tokens: int = 0          # verbruik volgens de aanbieder (voor een kostenraming)
     uitvoer_tokens: int = 0
+    gestopt: bool = False           # de aanbieder weigerde verdere verzoeken: de volgende neemt over
+    per_aanbieder: dict = field(default_factory=dict)   # naam -> verzoeken, verwerkt, tokens
     fouten: list[str] = field(default_factory=list)
 
 
@@ -433,7 +435,7 @@ def verrijk(berichten: list[Bericht], client: GitHubModels, lexicon: Lexicon, ge
             resultaten = {str(r.get("id")): r for r in lees_antwoord(antwoord)}
         except StopVerrijking as fout:
             stat.verzoeken -= 1
-            stat.melding = str(fout)
+            stat.melding, stat.gestopt = str(fout), True
             log(f"Taalmodel gestopt: {fout}")
             break
         except (ValueError, json.JSONDecodeError) as fout:
@@ -453,6 +455,8 @@ def verrijk(berichten: list[Bericht], client: GitHubModels, lexicon: Lexicon, ge
     stat.achterstand = max(0, stat.achterstand - stat.verrijkt)
     stat.invoer_tokens = getattr(client, "invoer_tokens", 0)
     stat.uitvoer_tokens = getattr(client, "uitvoer_tokens", 0)
+    stat.per_aanbieder = {stat.aanbieder: {"model": stat.model, "verzoeken": stat.verzoeken, "verwerkt": stat.verrijkt,
+                                           "invoer_tokens": stat.invoer_tokens, "uitvoer_tokens": stat.uitvoer_tokens}}
     return stat
 
 
