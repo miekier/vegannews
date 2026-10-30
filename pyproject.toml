@@ -1,0 +1,14 @@
+[project]
+name = "vegannieuws"
+version = "1.0.0"
+description = "Dagelijks overzicht van nieuws over veganisme uit een bronnenregister"
+requires-python = ">=3.11"
+dependencies = ["feedparser>=6.0", "requests>=2.31", "PyYAML>=6.0"]
+
+[project.optional-dependencies]
+test = ["pytest>=8"]
+geodata = ["geonamescache", "wordfreq", "pycountry"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "tests"]

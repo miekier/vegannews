@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Vegannieuws</title>
+  <meta name="description" content="Overzicht van nationaal en internationaal nieuws over veganisme, met bronvermelding.">
+  <meta name="theme-color" content="#1f6b45">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="kop">
+    <div class="kop-binnen">
+      <h1><img src="icon.svg" alt="" width="28" height="28"> Vegannieuws</h1>
+      <p class="bijgewerkt" id="bijgewerkt">Gegevens laden…</p>
+    </div>
+    <nav class="tabs" aria-label="Onderdelen">
+      <button type="button" class="tab" data-tab="nieuws" aria-selected="true">Nieuws</button>
+      <button type="button" class="tab" data-tab="bronnen" aria-selected="false">Bronnen</button>
+      <button type="button" class="tab" data-tab="info" aria-selected="false">Info</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="paneel-nieuws" class="paneel">
+      <form id="filters" class="kaart filters" autocomplete="off">
+        <fieldset>
+          <legend>Periode</legend>
+          <div class="datums">
+            <label>Van <input type="date" id="van" required></label>
+            <label>Tot en met <input type="date" id="tot" required></label>
+          </div>
+          <div class="snel" id="snelkeuze">
+            <button type="button" data-snel="vandaag">Vandaag</button>
+            <button type="button" data-snel="gisteren">Gisteren</button>
+            <button type="button" data-snel="2d">Gisteren en vandaag</button>
+            <button type="button" data-snel="7d">Afgelopen 7 dagen</button>
+            <button type="button" data-snel="30d">Afgelopen 30 dagen</button>
+            <button type="button" data-snel="maand">Deze maand</button>
+            <button type="button" data-snel="vorigemaand">Vorige maand</button>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Regio</legend>
+          <div class="segment" role="radiogroup" aria-label="Regio">
+            <label><input type="radio" name="regio" value="" checked><span>Alles</span></label>
+            <label><input type="radio" name="regio" value="BE"><span>Nationaal (België)</span></label>
+            <label><input type="radio" name="regio" value="INT"><span>Internationaal</span></label>
+          </div>
+        </fieldset>
+
+        <details class="blok" id="onderwerpen-blok">
+          <summary><strong>Onderwerpen</strong> <span class="hint" id="onderwerp-samenvatting">alle onderwerpen</span></summary>
+          <div class="chips" id="onderwerpen" aria-label="Onderwerpen (niets gekozen = alle)"></div>
+          <div class="chip-acties">
+            <button type="button" class="link" id="alle-onderwerpen">Alles wissen</button>
+          </div>
+        </details>
+
+        <details class="meer">
+          <summary>Meer filters</summary>
+          <div class="raster">
+            <label>Zoekwoord
+              <input type="search" id="zoek" placeholder="bv. Gent, Alpro, kweekvlees">
+            </label>
+            <label>Gebeurtenis
+              <select id="gebeurtenis">
+                <option value="">Alle berichten</option>
+              </select>
+            </label>
+            <label>Soort bron
+              <select id="relatie">
+                <option value="">Alle bronnen</option>
+                <option value="primair">Enkel primaire bronnen (organisatie, bedrijf, persoon zelf)</option>
+                <option value="secundair">Enkel media en zoekresultaten</option>
+              </select>
+            </label>
+            <label>Groeperen per
+              <select id="groep">
+                <option value="dag">Dag</option>
+                <option value="onderwerp">Onderwerp</option>
+                <option value="regio">Regio</option>
+                <option value="geen">Geen (enkel op datum)</option>
+              </select>
+            </label>
+          </div>
+          <label class="vink"><input type="checkbox" id="ook-irrelevant"> Ook berichten tonen die volgens het taalmodel niet over veganisme gaan</label>
+        </details>
+
+        <button type="submit" class="hoofdknop">Geef mij het nieuws</button>
+      </form>
+
+      <div id="resultaat" aria-live="polite"></div>
+    </section>
+
+    <section id="paneel-bronnen" class="paneel" hidden>
+      <div class="kaart">
+        <h2>Bronnenregister</h2>
+        <p id="bronnen-samenvatting" class="gedempt"></p>
+        <div class="knoppen" id="bronnen-knoppen"></div>
+        <label class="zoekveld">Zoek in de bronnen <input type="search" id="bronnen-zoek" placeholder="naam, land, soort…"></label>
+      </div>
+      <div id="bronnen-lijst"></div>
+    </section>
+
+    <section id="paneel-info" class="paneel" hidden>
+      <div class="kaart tekst">
+        <h2>Hoe werkt Vegannieuws?</h2>
+        <p>Drie keer per dag haalt een gratis GitHub Action het nieuws op uit het bronnenregister: websites en blogs (via hun RSS-feed), Bluesky-, Mastodon- en YouTube-accounts, zoekopdrachten in Google Nieuws en Bing Nieuws (die ook kleine en regionale media vinden) en nieuwe studies in PubMed.</p>
+        <p>Elk bericht wordt bewaard in een archief, zodat je later elke periode kunt opvragen. Daarna gebeurt het volgende:</p>
+        <ol>
+          <li><strong>Selectie.</strong> Bij algemene bronnen blijven enkel berichten over veganisme, plantaardige voeding of dierenrechten over (op basis van trefwoorden).</li>
+          <li><strong>Ontdubbeling.</strong> Hetzelfde nieuws uit meerdere media wordt één bericht met meerdere bronnen. Is de organisatie of het bedrijf zelf ook een bron, dan wordt die de hoofdbron.</li>
+          <li><strong>Vertaling en indeling.</strong> Een gratis taalmodel (GitHub Models) schrijft een kernzin in het Nederlands, vertaalt titels die niet in het Nederlands of Engels zijn, en bepaalt onderwerp, land en plaats. Lukt dat (nog) niet, dan gebeurt de indeling met trefwoorden en plaatsnamenlijsten; zo'n bericht krijgt het label <em>ingedeeld via trefwoorden</em>.</li>
+        </ol>
+        <h3>Betrouwbaarheid</h3>
+        <ul>
+          <li>Elk bericht linkt naar de oorspronkelijke bron. Controleer belangrijke informatie altijd daar; vertalingen en kernzinnen zijn automatisch gemaakt.</li>
+          <li><strong>Primaire bron</strong> = de organisatie, het bedrijf, de persoon of de onderzoekers zelf. <strong>Secundaire bron</strong> = een medium dat erover bericht.</li>
+          <li>De datum is de publicatiedatum volgens de bron (Belgische tijd). Ontbreekt die, dan geldt de datum van ophalen.</li>
+          <li>Nationaal = het bericht gaat over België (plaats, gewest of Belgische instelling vermeld, of een Belgische bron zonder buitenlandse plaats).</li>
+          <li>Instagram, Facebook, X en TikTok kunnen niet gratis gevolgd worden.</li>
+        </ul>
+        <h3>Laatste verzamelrun</h3>
+        <div id="run-info" class="gedempt">–</div>
+        <h3>Zelf aanpassen</h3>
+        <div class="knoppen" id="info-knoppen"></div>
+      </div>
+    </section>
+  </main>
+
+  <template id="tpl-bericht">
+    <article class="bericht">
+      <div class="labels"></div>
+      <h3 class="kern"></h3>
+      <p class="titel-orig"></p>
+      <p class="samenvatting"></p>
+      <p class="meta"></p>
+      <div class="links"></div>
+    </article>
+  </template>
+</body>
+</html>

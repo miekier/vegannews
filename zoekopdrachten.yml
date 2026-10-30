@@ -1,0 +1,116 @@
+# Zoekopdrachten in nieuwsaggregators. Hiermee worden ook kleine en regionale nieuwssites
+# gevonden die zelf geen bruikbare feed hebben (Google Nieuws indexeert duizenden media).
+#
+# Velden:
+#   zoekterm:  wat gezocht wordt. "aanhalingstekens" = exacte woordgroep, OR = of (in hoofdletters)
+#   dienst:    google (standaard) | bing | pubmed (wetenschappelijke artikels)
+#   land:      BE = Belgische editie van Google Nieuws; NL, FR, DE, GB, US, ... ; INT
+#   taal:      nl | fr | en | de | ...  (bepaalt samen met land de editie, bv. BE + fr = Belgisch-Frans)
+#   naam:      optionele weergavenaam
+#   alleen_vegan: ja (standaard) = resultaten zonder vegan-gerelateerd woord worden weggelaten
+#   actief:    nee = tijdelijk niet uitvoeren
+#
+# Toevoegen kan ook via de knop "Bron toevoegen" op de website (kies "Zoekopdracht").
+
+zoekopdrachten:
+  # --- België, Nederlandstalig ----------------------------------------------------------
+  - zoekterm: vegan
+    land: BE
+    taal: nl
+  - zoekterm: veganistisch
+    land: BE
+    taal: nl
+  - zoekterm: plantaardig
+    land: BE
+    taal: nl
+  - zoekterm: vegetarisch
+    land: BE
+    taal: nl
+  - zoekterm: '"vegan restaurant" OR "veganistisch restaurant" OR "vegetarisch restaurant"'
+    land: BE
+    taal: nl
+  - zoekterm: vegan opent
+    land: BE
+    taal: nl
+  - zoekterm: dierenwelzijn
+    land: BE
+    taal: nl
+  - zoekterm: dierenrechten OR GAIA
+    land: BE
+    taal: nl
+  - zoekterm: kweekvlees OR precisiefermentatie OR vleesvervangers
+    land: BE
+    taal: nl
+  - zoekterm: '"minder vlees" OR eiwittransitie OR "Dagen Zonder Vlees"'
+    land: BE
+    taal: nl
+
+  # --- België, Franstalig ------------------------------------------------------------------
+  - zoekterm: vegan
+    land: BE
+    taal: fr
+  - zoekterm: végane OR végétalien
+    land: BE
+    taal: fr
+  - zoekterm: végétarien
+    land: BE
+    taal: fr
+  - zoekterm: '"restaurant vegan" OR "restaurant végétal" OR "restaurant végétarien"'
+    land: BE
+    taal: fr
+  - zoekterm: '"bien-être animal"'
+    land: BE
+    taal: fr
+  - zoekterm: '"alternatives végétales" OR "viande végétale"'
+    land: BE
+    taal: fr
+
+  # --- Internationaal ---------------------------------------------------------------------
+  - zoekterm: vegan restaurant opens
+    land: US
+    taal: en
+  - zoekterm: veganism
+    land: US
+    taal: en
+  - zoekterm: vegan
+    land: GB
+    taal: en
+  - zoekterm: '"plant-based" law OR ban OR legislation'
+    land: US
+    taal: en
+  - zoekterm: '"cultivated meat" OR "precision fermentation"'
+    land: US
+    taal: en
+  - zoekterm: '"veggie burger" ban OR "meaty names" OR "plant-based labelling"'
+    land: GB
+    taal: en
+  - zoekterm: '"animal welfare" law'
+    land: GB
+    taal: en
+  - zoekterm: veganistisch OR "vegan restaurant"
+    land: NL
+    taal: nl
+  - zoekterm: végane OR "restaurant vegan"
+    land: FR
+    taal: fr
+  - zoekterm: vegan
+    land: DE
+    taal: de
+
+  # --- Bing Nieuws (tweede zoekmachine voor België) ------------------------------------------
+  - zoekterm: vegan België
+    dienst: bing
+    land: BE
+    taal: nl
+  - zoekterm: vegan Belgique
+    dienst: bing
+    land: BE
+    taal: fr
+
+  # --- Wetenschap: nieuwe artikels in PubMed (afgelopen 7 dagen) ----------------------------
+  - zoekterm: 'vegan*[tiab] OR "plant-based diet*"[tiab] OR vegetarian*[tiab] OR "cultivated meat"[tiab] OR "cultured meat"[tiab] OR "meat substitute*"[tiab] OR "meat alternative*"[tiab]'
+    naam: PubMed – nieuwe studies
+    dienst: pubmed
+    land: INT
+    taal: en
+    alleen_vegan: nee

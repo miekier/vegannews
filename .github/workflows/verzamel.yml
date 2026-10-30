@@ -1,0 +1,111 @@
+name: Nieuws verzamelen
+
+on:
+  schedule:
+    # 04:23, 10:23 en 16:23 UTC = 05:23, 11:23 en 17:23 Belgische wintertijd (zomertijd: een uur later)
+    - cron: "23 4,10,16 * * *"
+  workflow_dispatch:
+    inputs:
+      terugvullen:
+        description: "Ook ouder nieuws opzoeken via Google Nieuws: aantal dagen terug (0 = niet)"
+        required: false
+        default: "0"
+      herindelen:
+        description: "Onderwerpen van bestaande berichten opnieuw bepalen (na een wijziging van categorieen.yml)"
+        type: boolean
+        default: false
+      controleren:
+        description: "Enkel alle bronnen testen en het resultaat tonen (wijzigt niets)"
+        type: boolean
+        default: false
+  push:
+    branches: [main]
+    paths:
+      - "bronnen.yml"
+      - "zoekopdrachten.yml"
+      - "categorieen.yml"
+      - "instellingen.yml"
+      - "src/**"
+      - "site/*.html"
+      - "site/*.js"
+      - "site/*.css"
+      - ".github/workflows/verzamel.yml"
+
+permissions:
+  contents: write
+  models: read
+
+concurrency:
+  group: verzamelen
+  cancel-in-progress: false
+
+jobs:
+  verzamel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      PYTHONPATH: src
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Benodigdheden installeren
+        run: pip install -r requirements.txt
+
+      - name: Bronnen controleren
+        if: ${{ inputs.controleren }}
+        run: python -m vegannieuws controleer
+
+      - name: Onderwerpen opnieuw bepalen
+        if: ${{ inputs.herindelen && !inputs.controleren }}
+        run: python -m vegannieuws herindeel
+
+      - name: Nieuws verzamelen
+        if: ${{ !inputs.controleren }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TERUGVULLEN: ${{ inputs.terugvullen || '0' }}
+        run: python -m vegannieuws verzamel --terugvullen "$TERUGVULLEN"
+
+      - name: Resultaten bewaren
+        if: ${{ !inputs.controleren }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add site/data staat
+          if git diff --cached --quiet; then
+            echo "Geen wijzigingen"
+            exit 0
+          fi
+          git commit -q -m "Nieuws bijgewerkt $(date -u +'%Y-%m-%d %H:%M') UTC"
+          for poging in 1 2 3 4; do
+            if git pull --rebase -q origin main && git push -q origin HEAD:main; then exit 0; fi
+            sleep $((poging * 5))
+          done
+          exit 1
+
+      - name: Website klaarzetten
+        if: ${{ !inputs.controleren }}
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+
+  publiceer:
+    needs: verzamel
+    if: ${{ !inputs.controleren }}
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.publicatie.outputs.page_url }}
+    steps:
+      - name: Website publiceren
+        id: publicatie
+        uses: actions/deploy-pages@v4

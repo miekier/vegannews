@@ -1,0 +1,91 @@
+name: Bron toevoegen
+description: Volg een nieuwe website, feed, Bluesky-, Mastodon- of YouTube-account, of een zoekopdracht in Google Nieuws.
+title: "Bron toevoegen: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Na het indienen test het programma de bron. Lukt dat, dan wordt ze automatisch aan het register toegevoegd en sluit dit issue. Lukt het niet, dan staat de reden hieronder in een reactie; pas dan het adres aan (bewerken) of heropen het issue.
+        Instagram-, Facebook-, X- en TikTok-pagina's kunnen niet gratis gevolgd worden.
+  - type: input
+    id: naam
+    attributes:
+      label: Naam
+      description: Hoe de bron in het overzicht verschijnt.
+      placeholder: "bv. EVA vzw"
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Adres (URL) of zoekterm
+      description: |
+        Website of RSS-feed (https://...), Bluesky (https://bsky.app/profile/naam.bsky.social), Mastodon (https://mastodon.social/@naam) of YouTube (https://www.youtube.com/@kanaal).
+        Bij een zoekopdracht: de zoekterm, bv. vegan Gent of "vegan restaurant" OR veganistisch.
+      placeholder: "https://www.evavzw.be"
+    validations:
+      required: true
+  - type: dropdown
+    id: soort
+    attributes:
+      label: Soort bron
+      options:
+        - Organisatie
+        - Restaurant of horeca
+        - Bedrijf of merk
+        - Persoon
+        - Nieuwsmedium
+        - Overheid of politiek
+        - Wetenschap
+        - Zoekopdracht in Google Nieuws
+      default: 0
+    validations:
+      required: true
+  - type: dropdown
+    id: land
+    attributes:
+      label: Land
+      description: Waar de bron zich bevindt. Bij een zoekopdracht bepaalt dit de editie van Google Nieuws.
+      options:
+        - België
+        - Internationaal
+        - Nederland
+        - Frankrijk
+        - Duitsland
+        - Verenigd Koninkrijk
+        - Verenigde Staten
+        - Ander land
+      default: 0
+    validations:
+      required: true
+  - type: dropdown
+    id: taal
+    attributes:
+      label: Taal
+      options:
+        - Nederlands
+        - Frans
+        - Engels
+        - Duits
+        - Spaans
+        - Italiaans
+        - Andere
+      default: 0
+    validations:
+      required: true
+  - type: dropdown
+    id: berichten
+    attributes:
+      label: Welke berichten bewaren?
+      options:
+        - Alle berichten van deze bron
+        - Enkel berichten over veganisme of dierenrechten
+      description: Kies "alle" voor bronnen die volledig over het thema gaan (vegan restaurant, dierenrechtenorganisatie); "enkel" voor algemene bronnen (krant, supermarkt).
+      default: 0
+    validations:
+      required: true
+  - type: textarea
+    id: opmerking
+    attributes:
+      label: Opmerking
+      description: Optioneel; wordt als notitie bij de bron bewaard.

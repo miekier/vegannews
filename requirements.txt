@@ -1,0 +1,9 @@
+# Vastgezette versies voor reproduceerbare runs
+feedparser==6.0.14
+sgmllib3k==1.0.0
+requests==2.34.2
+urllib3==2.8.0
+certifi==2026.10.18
+charset-normalizer==3.5.1
+idna==3.20
+PyYAML==6.0.3

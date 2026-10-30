@@ -1,0 +1,79 @@
+name: Bron toevoegen of wijzigen
+
+on:
+  issues:
+    types: [opened, edited, reopened]
+
+permissions:
+  contents: write
+  issues: write
+  actions: write
+
+concurrency:
+  group: bronbeheer
+  cancel-in-progress: false
+
+jobs:
+  verwerk:
+    # Enkel formulieren van de eigenaar van de repository worden verwerkt.
+    if: >-
+      github.event.issue.user.login == github.repository_owner &&
+      github.event.issue.state == 'open' &&
+      (contains(github.event.issue.body, '### Adres (URL) of zoekterm') || contains(github.event.issue.body, '### Actie'))
+    runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: src
+      ISSUE_NR: ${{ github.event.issue.number }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Benodigdheden installeren
+        run: pip install -r requirements.txt
+
+      - name: Aanvraag verwerken
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: >-
+          python -m vegannieuws bron-aanvraag --issue "$ISSUE_NR"
+          --antwoord "$RUNNER_TEMP/antwoord.md" --resultaat "$RUNNER_TEMP/aanvraag.json"
+
+      - name: Register bewaren
+        id: bewaar
+        run: |
+          if [ "$(jq -r .gewijzigd "$RUNNER_TEMP/aanvraag.json")" != "true" ]; then
+            echo "gewijzigd=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add bronnen.yml zoekopdrachten.yml
+          git commit -q -m "Bronnenregister bijgewerkt (aanvraag #$ISSUE_NR)"
+          for poging in 1 2 3 4; do
+            if git pull --rebase -q origin main && git push -q origin HEAD:main; then
+              echo "gewijzigd=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            sleep $((poging * 5))
+          done
+          exit 1
+
+      - name: Antwoorden in het issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue comment "$ISSUE_NR" --repo "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/antwoord.md"
+          if [ "$(jq -r .sluiten "$RUNNER_TEMP/aanvraag.json")" = "true" ]; then
+            gh issue close "$ISSUE_NR" --repo "$GITHUB_REPOSITORY" --reason completed
+          fi
+
+      - name: Verzamelrun starten
+        if: steps.bewaar.outputs.gewijzigd == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run verzamel.yml --repo "$GITHUB_REPOSITORY" --ref main

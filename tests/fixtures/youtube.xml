@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns:yt="http://www.youtube.com/xml/schemas/2015" xmlns:media="http://search.yahoo.com/mrss/" xmlns="http://www.w3.org/2005/Atom">
+ <link rel="self" href="http://www.youtube.com/feeds/videos.xml?channel_id=UCabcdefghijklmnopqrstuv"/>
+ <id>yt:channel:abcdefghijklmnopqrstuv</id><yt:channelId>abcdefghijklmnopqrstuv</yt:channelId><title>Earthling Ed</title>
+ <entry><id>yt:video:VID123</id><yt:videoId>VID123</yt:videoId><title>Why I Went Vegan</title><link rel="alternate" href="https://www.youtube.com/watch?v=VID123"/>
+  <published>2026-10-27T17:00:00+00:00</published><updated>2026-10-28T10:00:00+00:00</updated>
+  <media:group><media:title>Why I Went Vegan</media:title><media:description>In this video I talk about animal rights and my journey.</media:description></media:group>
+ </entry>
+</feed>

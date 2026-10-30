@@ -1,0 +1,353 @@
+# Onderwerpen (categorieën) en trefwoorden
+#
+# Elk bericht krijgt 1 tot 3 onderwerpen. Als het gratis taalmodel beschikbaar is,
+# kiest dat model de onderwerpen op basis van de naam en omschrijving hieronder.
+# Anders telt het programma de trefwoorden: een treffer in de titel telt dubbel.
+#
+# Schrijfwijze van trefwoorden:
+#   - Hoofdletters en accenten maken niet uit ("végétal" = "vegetal").
+#   - Een koppelteken telt als spatie ("plant-based" = "plant based").
+#   - woord      : enkel het volledige woord
+#   - woord*     : alles wat met "woord" begint (restaurant* -> restaurants, restauranthouder)
+#   - *woord*    : "woord" overal in een woord (*restaurant* -> veganrestaurant)
+#   - Meerdere woorden ("foie gras") moeten in die volgorde voorkomen.
+#
+# Na een wijziging kun je oudere berichten opnieuw laten indelen:
+# Actions -> "Nieuws verzamelen" -> Run workflow -> "Opnieuw indelen" aanvinken.
+
+categorieen:
+  - code: horeca
+    naam: Restaurants & horeca
+    omschrijving: Openingen, sluitingen en nieuws van restaurants, cafés, bakkerijen, foodtrucks en hotels.
+    trefwoorden:
+      nl: ["*restaurant*", eetcafe*, eethuis*, bistro*, brasserie*, cafe, cafes, koffiebar*, foodtruck*, bakkerij*, patisserie*, ijssalon*, frituur*, snackbar*, pizzeria*, burgerbar*, horeca*, chef, chefs, chef kok, sterrenchef*, michelin*, gault millau, menukaart, broodjeszaak*, lunchbar*, afhaalzaak*, hotel*]
+      fr: [brasserie*, bistrot*, boulangerie*, friterie*, traiteur*, cheffe, etoile michelin, salon de the, nouvelle adresse, table gastronomique]
+      en: [eatery, eateries, diner, bakery, bakeries, food truck*, coffee shop*, burger joint*, menu, menus, hospitality, takeaway, pop up, popup, deli, ice cream shop*, dining, fine dining]
+      de: [gaststatte*, gastronomie*, imbiss*, backerei*, baeckerei*, konditorei*, speisekarte, sternekoch*, eisdiele*]
+
+  - code: retail
+    naam: Winkels & supermarkten
+    omschrijving: Supermarkten, winkels, webshops en het aanbod in de rekken.
+    trefwoorden:
+      nl: [supermarkt*, winkel*, warenhuis*, colruyt, delhaize, aldi, lidl, carrefour, albert heijn, jumbo, spar, bio planet, biowinkel*, kruidenier*, webshop*, assortiment*, winkelrek*, huismerk*, retail*]
+      fr: [supermarche*, magasin*, epicerie*, grande distribution, enseigne*, rayon*, intermarche, leclerc, monoprix, auchan, cora, boutique*]
+      en: [supermarket*, grocery, groceries, grocer*, retailer*, retail, store, stores, shop, shops, aisle*, shelves, tesco, sainsbury*, waitrose, asda, morrisons, walmart, whole foods, kroger, costco, ocado]
+      de: [discounter*, einzelhandel*, rewe, edeka, kaufland, penny, sortiment*, geschaft*, geschaeft*]
+
+  - code: producten
+    naam: Producten & merken
+    omschrijving: Nieuwe plantaardige producten, merken, vlees- en zuivelalternatieven.
+    trefwoorden:
+      nl: [product, producten, productlijn*, merk, merken, vleesvervanger*, vleesalternatie*, zuivelalternatie*, kaasalternatie*, plantaardige kaas, vegan kaas, havermelk, haverdrank*, sojadrank*, sojamelk, amandeldrank*, plantaardige melk, tofu, tempeh, seitan, veggieburger*, vegaburger*, burger*, worst*, gehakt, nuggets, chocolade*, alpro, beyond meat, impossible foods, oatly, garden gourmet, vegetarian butcher, vegetarische slager, quorn, violife, heura, like meat]
+      fr: [produit*, gamme*, marque*, nouveaute*, substitut*, simili*, fromage vegetal, fromage vegan, lait vegetal, boisson vegetale, steak vegetal, saucisse*, chocolat*]
+      en: [product, products, brand*, meat alternative*, meat substitute*, meat analog*, plant based meat, plant based milk, plant based cheese, vegan cheese, dairy alternative*, dairy free, oat milk, oatmilk, soy milk, almond milk, sausage*, nugget*, bacon, chocolate*, ice cream, snack*, tofurky, daiya, field roast]
+      de: [produkt*, fleischersatz*, fleischalternative*, milchalternative*, hafermilch*, haferdrink*, sojamilch*, wurst*, schnitzel*, neuheit*]
+
+  - code: bedrijven
+    naam: Bedrijven & investeringen
+    omschrijving: Startups, investeringen, overnames, faillissementen, productie en tewerkstelling.
+    trefwoorden:
+      nl: [bedrijf*, onderneming*, startup*, start up*, investering*, investeerder*, kapitaalronde*, financiering*, overname*, overgenomen, fusie*, omzet*, winst*, failliet*, faillissement*, werknemers, ontslag*, beursgang*, aandeelhouder*, fabriek*, productielijn*, miljoen, miljard]
+      fr: [entreprise*, societe*, investissement*, investisseur*, levee de fonds, financement*, rachat*, fusion*, chiffre d affaires, benefice*, faillite*, emplois, salaries, licenciement*, usine*, millions, milliards]
+      en: [company, companies, investor*, investment*, funding, raises, raised, series a, series b, seed round, venture capital, acquisition*, acquires, acquired, merger*, revenue*, profit*, bankrupt*, bankruptcy, insolvency, layoff*, ipo, shareholder*, factory, factories, manufacturer*, manufacturing, million, billion, ceo]
+      de: [unternehmen*, firma*, investition*, investor*, finanzierung*, finanzierungsrunde*, ubernahme*, uebernahme*, umsatz*, gewinn*, insolvenz*, pleite, mitarbeiter*, fabrik*, millionen, milliarden]
+
+  - code: innovatie
+    naam: Innovatie & alternatieve eiwitten
+    omschrijving: Kweekvlees, precisiefermentatie, nieuwe eiwitbronnen en voedseltechnologie.
+    trefwoorden:
+      nl: [kweekvlees, gekweekt vlees, celgekweekt*, cellulaire landbouw, precisiefermentatie, fermentatie*, alternatieve eiwitten, eiwittransitie, nieuwe eiwitten, mycelium, mycoproteine*, algen, eendenkroos, foodtech, food tech, biotech*, innovatie*, octrooi*, novel food*, 3d print*]
+      fr: [viande cultivee, viande de culture, viande in vitro, agriculture cellulaire, fermentation de precision, proteines alternatives, transition proteique, mycoproteine*, algues, innovation*, brevet*]
+      en: [cultivated meat, cultured meat, cell based, cell cultured, lab grown, slaughter free, cellular agriculture, precision fermentation, biomass fermentation, alternative protein*, alt protein*, protein transition, mycoprotein, fungi, fungal, algae, microalgae, technology, patent*]
+      de: [kultiviertes fleisch, laborfleisch, zellkultiviert*, prazisionsfermentation, alternative proteine, proteinwende, myzel*, pilzprotein*, technologie*]
+
+  - code: politiek
+    naam: Politiek & beleid
+    omschrijving: Regeringen, parlementen, partijen, lokale besturen, subsidies en beleidsplannen.
+    trefwoorden:
+      nl: [politiek*, politic*, minister*, regering*, parlement*, kamerlid*, volksvertegenwoordiger*, schepen*, burgemeester*, gemeenteraad*, beleid*, partij*, verkiezing*, n va, open vld, pvda, vlaams belang, subsidie*, belasting*, vleestaks, motie*, resolutie*, actieplan*, europarlementslid*]
+      fr: [politique*, ministre*, gouvernement*, depute*, echevin*, bourgmestre*, conseil communal, parti, partis, election*, ecolo, ptb, les engages, subside*, subvention*, taxe*, plan d action, motion*]
+      en: [government*, parliament*, mp, mps, mep, meps, senator*, congress*, mayor*, council*, policy, policies, party, parties, election*, vote, votes, voted, voting, subsid*, tax, taxes, taxation, white paper, action plan*]
+      de: [politik*, regierung*, parlament*, bundestag*, abgeordnet*, burgermeister*, partei*, wahl, wahlen, grunen, spd, cdu, csu, fdp, subvention*, steuer*, aktionsplan*, ernahrungsstrategie*]
+
+  - code: wetgeving
+    naam: Wetgeving & rechtspraak
+    omschrijving: Wetten, Europese regels, verboden, etikettering en productbenamingen, rechtszaken.
+    trefwoorden:
+      nl: [wet, wetten, wetgeving*, wetsontwerp*, wetsvoorstel*, wettelijk*, decreet*, decreten, verordening*, richtlijn*, regelgeving*, reglement*, verbod*, verbiedt, verboden, verbieden, toelating*, goedkeuring*, goedgekeurd, etikettering*, etiket*, benaming*, vleesbenaming*, rechter*, rechtbank*, rechtszaak*, vonnis*, uitspraak*, hof van justitie, grondwettelijk hof, raad van state, juridisch*, advocaat*, boete*, favv, efsa]
+      fr: [loi, lois, legislation*, legislat*, decret*, reglement*, reglementation*, directive*, interdiction*, interdit*, interdire, autorisation*, etiquetage*, denomination*, appellation*, tribunal*, cour, juge*, jugement*, proces, plainte*, amende*, conseil d etat, cour constitutionnelle, afsca]
+      en: [law, laws, legislation*, legislat*, bill, bills, regulation*, regulator*, regulatory, directive*, ban, bans, banned, banning, prohibit*, approval*, approve*, authoris*, authoriz*, labelling, labeling, court, courts, judge*, ruling*, lawsuit*, sued, sues, legal*, lawyer*, complaint*, fined, fines, fda, usda]
+      de: [gesetz*, verordnung*, richtlinie*, verbot*, verboten, zulassung*, genehmigung*, kennzeichnung*, bezeichnung*, gericht*, urteil*, klage*, rechtlich*, bussgeld*]
+
+  - code: organisaties
+    naam: Organisaties & campagnes
+    omschrijving: Verenigingen en ngo's, hun campagnes, acties, petities en betogingen.
+    trefwoorden:
+      nl: [vzw, organisatie*, vereniging*, ngo, ngos, actiegroep*, actievoerder*, actiedag*, campagne*, petitie*, betoging*, manifestatie*, protest*, vrijwilliger*, eva vzw, be vegan, bevegan, gaia, animal rights vzw, bite back, proveg, dier&recht, wakker dier, varkens in nood, vegetariersbond, dagen zonder vlees, veganuary, donderdag veggiedag]
+      fr: [asbl, association*, ong, petition*, mobilisation*, benevole*, militant*, l214, vegetik, one voice, animaux en peril]
+      en: [charity, charities, nonprofit*, non profit*, organisation*, organization*, campaign*, activist*, activism, petition*, rally, volunteer*, peta, animal equality, mercy for animals, humane world for animals, humane league, vegan society, good food institute, gfi, sentient media, faunalytics, animal aid]
+      de: [verein*, verband*, kampagne*, aktion*, demonstration*, aktivist*, ehrenamt*, albert schweitzer stiftung]
+
+  - code: dierenrechten
+    naam: Dierenrechten & dierenwelzijn
+    omschrijving: Dierenleed, slachthuizen, veehouderij, dierproeven, bont, jacht, dierentuinen en circussen.
+    trefwoorden:
+      nl: [dierenrecht*, dierenwelzijn*, dierenleed, dierenmishandeling, dierenbescherming, dierenactivist*, slachthuis*, slachthuizen, slachten, slachting*, onverdoofd slachten, verdoving, legbatterij*, kooi, kooien, kooivrij*, kippen, varkens, koeien, kalveren, dieren, proefdier*, dierproef*, bont, bontverbod, foie gras, pelsdier*, jacht, stierengevecht*, circus*, dierentuin*, nertsen, eendagskuiken*, kuikens, zeugen, dierentransport*, undercover*, wantoestand*]
+      fr: [droits des animaux, droit animal, bien etre animal, bien etre des animaux, maltraitance*, cruaute, souffrance animale, abattoir*, abattage*, sans etourdissement, elevage intensif, cage, cages, poules, cochons, porcs, vaches, veaux, animaux, experimentation animale, tests sur les animaux, fourrure, corrida*, chasse, cirque*, poussins, transport d animaux, images choc]
+      en: [animal rights, animal welfare, animal cruelty, cruelty, animal abuse, animal suffering, animal liberation, slaughterhouse*, slaughter*, abattoir*, factory farm*, intensive farming, battery cage*, cage free, cages, caged, hens, chickens, pigs, sows, cows, calves, animals, animal testing, animal experiments, fur, fur farm*, bullfight*, hunting, trophy hunt*, zoo, zoos, live export*, chick culling, undercover investigation*, footage]
+      de: [tierrechte, tierschutz*, tierwohl, tierleid, tierqual*, schlachthof*, schlachtung*, massentierhaltung, kafig*, kaefig*, legehenne*, huhner, schweine, kuhe, kalber, tiere, tierversuch*, pelz*, stopfleber, stierkampf*, jagd, zirkus*, kukentoten]
+
+  - code: wetenschap
+    naam: Wetenschap & onderzoek
+    omschrijving: Wetenschappelijke studies en onderzoek, universiteiten en onderzoeksinstellingen.
+    trefwoorden:
+      nl: [studie, studies, onderzoek*, onderzoeker*, wetenschap*, wetenschapper*, universiteit*, ugent, ku leuven, vub, uantwerpen, uhasselt, wageningen*, publicatie*, vakblad*, meta analyse*, experiment*, laboratorium*, peer review*]
+      fr: [etude, etudes, recherche*, chercheur*, chercheuse*, scientifique*, science*, universite*, ulb, uclouvain, uliege, umons, unamur, revue scientifique, laboratoire*, inrae, inserm, cnrs]
+      en: [study, research*, researcher*, scientist*, scientific, science, university, universities, journal*, published in, meta analysis, systematic review, randomized, randomised, trial*, cohort, laboratory, findings]
+      de: [studien, forschung*, forscher*, wissenschaft*, universitat*, universitaet*, fachzeitschrift*, metaanalyse*, labor]
+
+  - code: gezondheid
+    naam: Gezondheid & voeding
+    omschrijving: Voeding, gezondheid, voedingsstoffen, ziektes en voedingsadvies.
+    trefwoorden:
+      nl: [gezond*, gezondheid*, voeding, voedingswaarde*, voedingsdeskundige*, dietist*, voedingsstof*, vitamine*, b12, eiwit, eiwitten, eiwitinname, ijzer, calcium, omega 3, cholesterol*, hart en vaatziekte*, hartziekte*, kanker*, diabetes, obesitas, overgewicht, darm*, microbioom*, zwanger*, arts, artsen, dokter*, ziekte*, levensverwachting, ultrabewerkt*, voedingsdriehoek, hoge gezondheidsraad, sciensano]
+      fr: [sante, nutrition*, nutritionnel*, alimentation*, dieteticien*, nutritionniste*, vitamine*, proteines, carence*, cholesterol*, cardiovasculaire*, cancer*, diabete*, obesite, surpoids, intestin*, microbiote*, enceinte, medecin*, maladie*, esperance de vie, ultra transforme*, conseil superieur de la sante]
+      en: [health, healthy, healthier, nutrition*, nutrient*, dietitian*, dietician*, nutritionist*, diet, diets, dietary, vitamin*, protein intake, iron, deficienc*, cholesterol, heart disease, cardiovascular, cancer*, diabetes, obesity, overweight, gut, microbiome, pregnan*, doctor*, physician*, disease*, mortality, life expectancy, longevity, ultra processed, ultraprocessed, blood pressure, inflammation]
+      de: [gesundheit*, gesund, ernahrung*, ernaehrung*, vitamin*, eisen, cholesterin*, herz kreislauf*, krebs*, ubergewicht*, darm*, mikrobiom*, schwanger*, arzt*, arzte, krankheit*, lebenserwartung, hochverarbeitet*]
+
+  - code: klimaat
+    naam: Klimaat & milieu
+    omschrijving: Uitstoot, klimaat, biodiversiteit, duurzaamheid en voedselverspilling.
+    trefwoorden:
+      nl: [klimaat*, uitstoot, broeikasgas*, co2, koolstof*, methaan, stikstof*, ontbossing, biodiversiteit*, duurzaam*, duurzaamheid*, milieu*, ecologisch*, voetafdruk, waterverbruik, landgebruik, opwarming, voedselverspilling, planeet]
+      fr: [climat*, climatique*, emissions, gaz a effet de serre, carbone, methane, azote, deforestation, biodiversite, durable*, durabilite, environnement*, ecologique*, empreinte, rechauffement, gaspillage alimentaire, planete]
+      en: [climate, emissions, greenhouse gas*, ghg, carbon, methane, nitrogen, deforestation, biodiversity, sustainab*, environment*, ecological, footprint, global warming, land use, water use, food waste, planet]
+      de: [klima*, treibhausgas*, kohlenstoff*, methan, stickstoff*, abholzung, biodiversitat*, nachhaltig*, umwelt*, okologisch*, fussabdruck, erderwarmung, lebensmittelverschwendung]
+
+  - code: landbouw
+    naam: Landbouw & voedselsysteem
+    omschrijving: Boeren en veehouderij, de vlees- en zuivelsector, teelt van eiwitgewassen en het voedselsysteem.
+    trefwoorden:
+      nl: [landbouw*, landbouwer*, boer, boeren, boerderij*, veeteelt*, veehouder*, veehouderij*, veestapel*, vee, melkveehouder*, zuivelsector, vleessector, vleesindustrie, vleesconsumptie, vleesproductie, varkenshouder*, pluimvee*, akkerbouw*, telers, gewas*, peulvruchten, plantaardige landbouw, voedselsysteem*, voedselproductie, voedselzekerheid, voedselstrategie*, boerenbond, landbouwbeleid, mest*, uitkoopregeling*]
+      fr: [agriculture*, agricole*, agriculteur*, agricultrice*, eleveur*, eleveuse*, elevage*, betail, cheptel, filiere viande, filiere laitiere, secteur laitier, industrie de la viande, consommation de viande, production de viande, legumineuse*, systeme alimentaire, securite alimentaire, pac]
+      en: [agricultur*, farming, farmer*, farm, farms, livestock, cattle, dairy industry, dairy farm*, meat industry, meat sector, meat consumption, meat production, pig farm*, poultry, crops, crop, legumes, pulses, food system*, food production, food security, common agricultural policy]
+      de: [landwirtschaft*, landwirt*, bauer*, bauern, bauernhof*, viehzucht*, tierhaltung, nutztier*, milchwirtschaft*, fleischindustrie*, fleischkonsum*, fleischproduktion*, schweinehalt*, geflugel*, ackerbau*, hulsenfrucht*, ernahrungssystem*]
+
+  - code: evenementen
+    naam: Evenementen
+    omschrijving: Festivals, markten, beurzen, workshops, lezingen, prijzen en themadagen zoals World Vegan Day.
+    trefwoorden:
+      nl: [festival*, beurs, beurzen, vegan markt, veganmarkt*, kerstmarkt*, evenement*, workshop*, kookworkshop*, kookles*, lezing*, congres*, conferentie*, wereldvegandag, world vegan day, vegan maand, braderie, opendeur*, open dag, proeverij*, wedstrijd*, prijsuitreiking*, award*]
+      fr: [salon, salons, foire*, marche vegan, evenement*, atelier*, conference*, journee mondiale, mois vegan, degustation*, concours, remise des prix]
+      en: [event, events, expo, expos, exhibition*, food fair, vegan fair, summit*, world vegan month, tasting*, competition*, awards]
+      de: [messe*, veranstaltung*, kochkurs*, konferenz*, kongress*, weltvegantag, verkostung*, wettbewerb*, auszeichnung*]
+
+  - code: koken
+    naam: Koken & recepten
+    omschrijving: Recepten, kookboeken, gerechten en kooktips.
+    trefwoorden:
+      nl: [recept*, koken, kook*, kookboek*, gerecht*, keuken*, ingredient*, bakken, bereiden, maaltijd*, ontbijt*, kerstmenu*, feestmenu*, dessert*, taart*, soep*, saus*, foodblog*]
+      fr: [recette*, cuisine*, cuisiner, livre de cuisine, plat, plats, repas, petit dejeuner, menu de noel, gateau*, soupe*, sauce*]
+      en: [recipe*, cooking, cook, cooks, cookbook*, dish, dishes, cuisine, baking, bake, meal*, breakfast*, lunch*, dinner*, thanksgiving, christmas dinner, cake*, soup*, sauce*]
+      de: [rezept*, kochen, kochbuch*, kuche*, zutat*, backen, mahlzeit*, fruhstuck*, mittagessen, abendessen, nachtisch, kuchen, suppe*]
+
+  - code: media
+    naam: Media & cultuur
+    omschrijving: Documentaires, films, boeken, podcasts, tv-programma's, kunst en sociale media.
+    trefwoorden:
+      nl: [documentaire*, film*, boek, boeken, podcast*, televisie*, tv, serie, reeks, uitzending*, interview*, column*, tentoonstelling*, kunst, kunstenaar*, muziek*, artiest*, instagram, tiktok, youtube*, influencer*, sociale media, netflix]
+      fr: [livre, livres, television, tele, chronique*, exposition*, art, musique*, artiste*, influenceu*, reseaux sociaux, rtbf]
+      en: [documentar*, movie*, book, books, tv, television, series, episode*, exhibition*, art, music*, musician*, artist*, social media, bbc, celebrity, celebrities, actor*, actress*, singer*]
+      de: [dokumentation*, buch, bucher, fernseh*, sendung*, kolumne*, ausstellung*, musik*, kunstler*, soziale medien]
+
+  - code: instellingen
+    naam: Scholen, zorg & catering
+    omschrijving: Maaltijden in scholen, ziekenhuizen, woonzorgcentra, bedrijfsrestaurants, defensie en overheidsaankopen.
+    trefwoorden:
+      nl: [school*, scholen, leerling*, onderwijs*, kinderopvang*, refter*, schoolmaaltijd*, studentenrestaurant*, mensa, campus*, ziekenhuis*, ziekenhuizen, woonzorgcentrum*, rusthuis*, zorginstelling*, gevangenis*, defensie, kazerne*, kantine*, bedrijfsrestaurant*, grootkeuken*, catering*, overheidsaankoop*, aanbesteding*]
+      fr: [ecole*, eleve*, enseignement*, cantine*, creche*, restaurant universitaire, hopital*, hopitaux, maison de repos, prison*, armee, caserne*, restauration collective, cuisine collective, marche public*]
+      en: [schools, pupil*, student*, education, canteen*, cafeteria*, school meal*, school lunch*, hospital*, care home*, nursing home*, prison*, military, army, public procurement, food service, foodservice]
+      de: [schule*, schuler*, kita*, schulessen, schulverpflegung, krankenhaus*, krankenhauser, pflegeheim*, gefangnis*, bundeswehr, gemeinschaftsverpflegung]
+
+  - code: lifestyle
+    naam: Mode, cosmetica & sport
+    omschrijving: Vegan mode en leder, cosmetica zonder dierproeven, sporters en levensstijl.
+    trefwoorden:
+      nl: [mode, kleding*, kledij, vegan leer, lederalternatie*, schoen*, sneaker*, cosmetica, cosmetisch*, huidverzorging, make up, parfum*, dierproefvrij, wol, zijde, dons, sport, sporten, sporter*, atleet*, atleten, voetbal*, wielren*, renner*, marathon*, olympisch*, fitness*, levensstijl*, lifestyle*]
+      fr: [vetement*, cuir, chaussure*, cosmetique*, maquillage, soins de la peau, sans cruaute, laine, soie, athlete*, sportif*, sportive*, football*, cycliste*, olympique*, style de vie]
+      en: [fashion*, clothing, apparel, leather, vegan leather, shoe*, handbag*, cosmetic*, beauty, skincare, makeup, perfume*, cruelty free, wool, silk, athlete*, sports, footballer*, football, soccer, cyclist*, olympic*, bodybuilder*, nba, nfl, ufc, boxer*, tennis, travel*]
+      de: [kleidung*, leder*, schuh*, kosmetik*, hautpflege, tierversuchsfrei, wolle, seide, daunen, sportler*, athlet*, fussball*, radsport*, olympi*, lebensstil]
+
+  - code: gemeenschap
+    naam: Gemeenschap & personen
+    omschrijving: Bekende en minder bekende vegans, getuigenissen, lokale groepen, opinie en debat.
+    trefwoorden:
+      nl: [gemeenschap*, community, getuigenis*, portret*, levensverhaal*, werd vegan, wordt vegan, vegan geworden, gaat vegan, meetup*, potluck*, lokale groep*, opinie*, lezersbrief*, bekende vlaming*]
+      fr: [communaute*, temoignage*, portrait*, parcours, devenu vegan, devenue vegane, carte blanche, tribune*, opinion*]
+      en: [communities, testimony, went vegan, goes vegan, going vegan, became vegan, turned vegan, op ed, opinion*]
+      de: [gemeinschaft*, erfahrungsbericht*, portrat*, vegan geworden, vegan leben, meinung*, kommentar*]
+
+  - code: overig
+    naam: Overig
+    omschrijving: Berichten die bij geen enkel ander onderwerp passen.
+    trefwoorden: {}
+
+# Trefwoorden die aangeven dat een bericht over veganisme, plantaardige voeding of
+# dierenrechten gaat. Bij algemene bronnen (alleen_vegan: ja) blijft een bericht enkel
+# behouden als het minstens één van deze woorden bevat.
+relevantie:
+  - "*vegan*"
+  - "*vegetari*"
+  - veggie*
+  - "*plantaardig*"
+  - plant based
+  - plantbased
+  - plant forward
+  - pflanzlich*
+  - pflanzenbasiert*
+  - vegetal
+  - vegetale
+  - vegetales
+  - vegetaux
+  - vegetalien*
+  - vegetalisme
+  - flexitari*
+  - "*dierenrecht*"
+  - "*dierenwelzijn*"
+  - dierenleed
+  - dierenbescherming
+  - droits des animaux
+  - bien etre animal
+  - maltraitance animale
+  - cause animale
+  - animal rights
+  - animal welfare
+  - animal cruelty
+  - tierschutz*
+  - tierrecht*
+  - tierwohl
+  - tierleid
+  - kweekvlees
+  - gekweekt vlees
+  - cultivated meat
+  - cultured meat
+  - lab grown meat
+  - viande cultivee
+  - viande de culture
+  - laborfleisch
+  - kultiviertes fleisch
+  - precisiefermentatie
+  - precision fermentation
+  - prazisionsfermentation
+  - fermentation de precision
+  - vleesvervang*
+  - vleesalternatie*
+  - vleesloos*
+  - vleesloze
+  - minder vlees
+  - meat alternative*
+  - meat substitute*
+  - meatless
+  - meat free
+  - sans viande
+  - simili viande
+  - fleischersatz*
+  - fleischlos*
+  - fleischalternative*
+  - zuivelvrij*
+  - zuivelalternatie*
+  - dairy free
+  - dairy alternative*
+  - milchalternative*
+  - havermelk
+  - haverdrank*
+  - sojadrank*
+  - sojamelk
+  - amandeldrank*
+  - oat milk
+  - oatmilk
+  - plant milk
+  - lait vegetal
+  - boisson vegetale
+  - hafermilch
+  - haferdrink
+  - tofu
+  - tempeh
+  - seitan
+  - alternatieve eiwitten
+  - alternative protein*
+  - alt protein
+  - eiwittransitie
+  - protein transition
+  - transition proteique
+  - proteinwende
+  - beyond meat
+  - impossible foods
+  - oatly
+  - alpro
+  - quorn
+  - violife
+  - garden gourmet
+  - vegetarian butcher
+  - vegetarische slager
+  - those vegan cowboys
+  - proveg
+  - eva vzw
+  - bevegan
+  - gaia
+  - bite back
+  - l214
+  - peta
+  - animal equality
+  - mercy for animals
+  - humane world for animals
+  - humane league
+  - dagen zonder vlees
+  - veggiedag
+  - meatless monday
+  - lundi vert
+  - good food institute
+  - slachthuis*
+  - abattoir*
+  - slaughterhouse*
+  - schlachthof*
+  - factory farm*
+  - massentierhaltung
+  - intensieve veehouderij
+  - elevage intensif
+  - legbatterij*
+  - battery cage*
+  - kooivrij*
+  - cage free
+  - end the cage age
+  - bontverbod
+  - fur ban
+  - fur farm*
+  - pelsdier*
+  - fourrure
+  - foie gras
+  - stopfleber
+  - dierproef*
+  - proefdier*
+  - animal testing
+  - experimentation animale
+  - tierversuch*
+  - cruelty free
+  - crueltyfree
+  - onverdoofd slachten
+  - sans etourdissement
+
+# Soort gebeurtenis, getoond als label bij restaurants, winkels, bedrijven en producten.
+gebeurtenissen:
+  opening:
+    naam: Opening
+    geldt_voor: [horeca, retail, bedrijven]
+    trefwoorden: [opent, opende, openen, geopend, heropent, heropend, nieuwe vestiging*, nieuwe zaak, nieuw restaurant, nieuwe winkel, opent de deuren, ouvre, ouvert, ouverture, ouvrira, inaugure*, inauguration, nouveau restaurant, nouvelle adresse, opens, opened, grand opening, now open, eroffnet, eroffnung, neueroffnung, eroeffnet, eroeffnung]
+  sluiting:
+    naam: Sluiting
+    geldt_voor: [horeca, retail, bedrijven]
+    trefwoorden: [sluit, sluiten, gesloten, sluiting, definitief dicht, deuren dicht, stopt ermee, failliet, faillissement, ferme ses portes, ferme definitivement, fermeture, faillite, closes, closed, closing, shuts, shut down, shutters, bankrupt*, bankruptcy, insolvency, schliesst, schliessung, geschlossen, insolvenz, pleite]
+  lancering:
+    naam: Nieuw product
+    geldt_voor: [producten, bedrijven, innovatie, retail]
+    trefwoorden: [lanceert, gelanceerd, lancering, introduceert, nieuw product, nieuwe producten, nieuw in het assortiment, brengt op de markt, lance, lancement, nouveau produit, nouvelle gamme, launches, launched, launch, unveils, unveiled, rolls out, new product, new range, markteinfuhrung, bringt auf den markt, neu im sortiment, neues produkt]

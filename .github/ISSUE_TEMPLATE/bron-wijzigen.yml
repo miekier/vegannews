@@ -1,0 +1,28 @@
+name: Bron uitschakelen, inschakelen of verwijderen
+description: Een bron uit het register tijdelijk uitschakelen, opnieuw inschakelen of definitief verwijderen.
+title: "Bron wijzigen: "
+body:
+  - type: input
+    id: bron
+    attributes:
+      label: Bron
+      description: Naam, adres of zoekterm zoals op de pagina Bronnen.
+      placeholder: "bv. EVA vzw"
+    validations:
+      required: true
+  - type: dropdown
+    id: actie
+    attributes:
+      label: Actie
+      options:
+        - Uitschakelen (tijdelijk niet meer ophalen)
+        - Opnieuw inschakelen
+        - Verwijderen uit het register
+      default: 0
+    validations:
+      required: true
+  - type: textarea
+    id: reden
+    attributes:
+      label: Reden
+      description: Optioneel.

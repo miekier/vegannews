@@ -1,0 +1,12 @@
+{
+  "name": "Vegannieuws",
+  "short_name": "Vegannieuws",
+  "description": "Nationaal en internationaal nieuws over veganisme, met bronvermelding.",
+  "lang": "nl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f5f1",
+  "theme_color": "#1f6b45",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

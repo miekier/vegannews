@@ -1,0 +1,37 @@
+# Instellingen van Vegannieuws. Alle waarden zijn optioneel; dit zijn de standaardwaarden.
+
+# Taal van het overzicht: nl (Nederlands) of en (Engels).
+doeltaal: nl
+# Berichten in deze talen worden niet vertaald (de kernzin komt wel in de doeltaal).
+talen_zonder_vertaling: [nl, en]
+tijdzone: Europe/Brussels
+
+# Berichten ouder dan dit aantal dagen worden bij het ophalen genegeerd.
+max_leeftijd_dagen: 60
+# Beperking bij zoekopdrachten in Google Nieuws (when:7d = afgelopen 7 dagen).
+google_recentheid: "when:7d"
+# Wachttijd tussen twee verzoeken aan Google Nieuws, in seconden.
+google_pauze_s: 1.5
+# Aantal bronnen dat tegelijk wordt opgehaald.
+gelijktijdig: 12
+
+# Gratis taalmodel via GitHub Models (vertalen, kernzin, onderwerp, land en plaats).
+# Werkt automatisch in GitHub Actions; zonder taalmodel gebeurt de indeling met trefwoorden.
+llm_aan: ja
+# Modellen in volgorde van voorkeur; het volgende wordt gebruikt als een model niet beschikbaar is.
+llm_modellen: [openai/gpt-4.1-mini, openai/gpt-4o-mini]
+# Gratis limiet: ca. 150 verzoeken per dag. Eén verzoek verwerkt llm_batch berichten.
+llm_max_verzoeken_per_run: 40
+llm_max_verzoeken_per_dag: 140
+llm_batch: 12
+llm_pauze_s: 4.5
+llm_max_pogingen: 3
+# Enkel berichten van de afgelopen ... dagen gaan nog naar het taalmodel.
+llm_max_leeftijd_dagen: 21
+
+# Reservevertaling van titels via MyMemory (gratis, ca. 5 000 tekens per dag)
+# voor berichten die het taalmodel (nog) niet verwerkte.
+reserve_vertaling: ja
+reserve_max_tekens_per_dag: 4500
+# Optioneel: met een e-mailadres stijgt de MyMemory-limiet naar 50 000 tekens per dag.
+mymemory_email: ""

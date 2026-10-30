@@ -1,0 +1,454 @@
+# Bronnenregister: websites, feeds en sociale-media-accounts die gevolgd worden.
+#
+# Toevoegen of uitschakelen kan op twee manieren:
+#   1. Via de knop "Bron toevoegen" op de website (een formulier op GitHub; werkt ook op je gsm).
+#      De bron wordt eerst getest en daarna automatisch in deze lijst gezet.
+#   2. Door dit bestand rechtstreeks op GitHub te bewerken (potloodicoon).
+#
+# Velden per bron:
+#   naam:         weergavenaam (verplicht)
+#   url:          adres van de website, RSS-feed, Bluesky-, Mastodon- of YouTube-account (verplicht)
+#                 - website: de feed wordt automatisch gezocht
+#                 - Bluesky: https://bsky.app/profile/naam.bsky.social
+#                 - Mastodon: https://mastodon.social/@naam
+#                 - YouTube: https://www.youtube.com/@kanaalnaam
+#   type:         organisatie | horeca | bedrijf | persoon | medium | overheid | wetenschap
+#                 (organisatie, horeca, bedrijf, persoon, overheid en wetenschap = primaire bron)
+#   land:         BE voor Belgische bronnen, anders de landcode (NL, FR, DE, GB, US, ...) of INT
+#   taal:         nl | fr | en | de | ...
+#   alleen_vegan: ja = enkel berichten over veganisme/dierenrechten bewaren (algemene bronnen)
+#                 nee = alle berichten van deze bron bewaren (bron gaat volledig over het thema)
+#   actief:       nee = tijdelijk niet ophalen (standaard: ja)
+#   notitie:      vrije tekst
+#
+# Instagram, Facebook, X en TikTok bieden geen gratis toegang en kunnen niet gevolgd worden.
+
+bronnen:
+  # --- België: organisaties ---------------------------------------------------
+  - naam: EVA vzw
+    url: https://www.evavzw.be
+    type: organisatie
+    land: BE
+    taal: nl
+    alleen_vegan: nee
+  - naam: BE Vegan
+    url: https://www.bevegan.be
+    type: organisatie
+    land: BE
+    taal: nl
+    alleen_vegan: nee
+  - naam: GAIA
+    url: https://www.gaia.be/nl
+    type: organisatie
+    land: BE
+    taal: nl
+    alleen_vegan: nee
+  - naam: Animal Rights
+    url: https://www.animalrights.be
+    type: organisatie
+    land: BE
+    taal: nl
+    alleen_vegan: nee
+  - naam: Bite Back
+    url: https://www.biteback.org
+    type: organisatie
+    land: BE
+    taal: nl
+    alleen_vegan: nee
+  - naam: Végétik
+    url: https://www.vegetik.org
+    type: organisatie
+    land: BE
+    taal: fr
+    alleen_vegan: nee
+  - naam: Dagen Zonder Vlees
+    url: https://www.dagenzondervlees.be
+    type: organisatie
+    land: BE
+    taal: nl
+    alleen_vegan: nee
+
+  # --- België: bedrijven --------------------------------------------------------
+  - naam: Those Vegan Cowboys
+    url: https://www.thosevegancowboys.com
+    type: bedrijf
+    land: BE
+    taal: en
+    alleen_vegan: nee
+  - naam: Paleo
+    url: https://www.paleo-taste.com
+    type: bedrijf
+    land: BE
+    taal: en
+    alleen_vegan: nee
+
+  # --- België: algemene en regionale media (enkel vegan-gerelateerde berichten) ---
+  - naam: VRT NWS
+    url: https://www.vrt.be/vrtnws/nl.rss.articles.xml
+    type: medium
+    land: BE
+    taal: nl
+  - naam: De Standaard
+    url: https://www.standaard.be
+    type: medium
+    land: BE
+    taal: nl
+  - naam: Knack
+    url: https://www.knack.be
+    type: medium
+    land: BE
+    taal: nl
+  - naam: Bruzz
+    url: https://www.bruzz.be
+    type: medium
+    land: BE
+    taal: nl
+  - naam: The Brussels Times
+    url: https://www.brusselstimes.com
+    type: medium
+    land: BE
+    taal: en
+  - naam: Apache
+    url: https://www.apache.be
+    type: medium
+    land: BE
+    taal: nl
+  - naam: MO*
+    url: https://www.mo.be
+    type: medium
+    land: BE
+    taal: nl
+  - naam: DeWereldMorgen
+    url: https://www.dewereldmorgen.be
+    type: medium
+    land: BE
+    taal: nl
+  - naam: Le Soir
+    url: https://www.lesoir.be
+    type: medium
+    land: BE
+    taal: fr
+  - naam: La Libre
+    url: https://www.lalibre.be
+    type: medium
+    land: BE
+    taal: fr
+  - naam: RTBF Info
+    url: https://www.rtbf.be/info
+    type: medium
+    land: BE
+    taal: fr
+  - naam: L'Avenir
+    url: https://www.lavenir.net
+    type: medium
+    land: BE
+    taal: fr
+  - naam: ROB-tv
+    url: https://www.robtv.be
+    type: medium
+    land: BE
+    taal: nl
+  - naam: ATV
+    url: https://atv.be
+    type: medium
+    land: BE
+    taal: nl
+  - naam: AVS
+    url: https://www.avs.be
+    type: medium
+    land: BE
+    taal: nl
+  - naam: TV Limburg
+    url: https://www.tvl.be
+    type: medium
+    land: BE
+    taal: nl
+  - naam: Focus-WTV
+    url: https://www.focus-wtv.be
+    type: medium
+    land: BE
+    taal: nl
+  - naam: Ring TV
+    url: https://www.ringtv.be
+    type: medium
+    land: BE
+    taal: nl
+  - naam: TV Oost
+    url: https://www.tvoost.be
+    type: medium
+    land: BE
+    taal: nl
+  - naam: RTV
+    url: https://www.rtv.be
+    type: medium
+    land: BE
+    taal: nl
+
+  # --- België: vakpers, wetenschap en overheid ------------------------------------
+  - naam: Gondola
+    url: https://www.gondola.be
+    type: medium
+    land: BE
+    taal: nl
+  - naam: VILT
+    url: https://www.vilt.be
+    type: medium
+    land: BE
+    taal: nl
+  - naam: Gault&Millau België
+    url: https://be.gaultmillau.com
+    type: medium
+    land: BE
+    taal: nl
+  - naam: Le Sillon Belge
+    url: https://www.sillonbelge.be
+    type: medium
+    land: BE
+    taal: fr
+  - naam: Eos Wetenschap
+    url: https://www.eoswetenschap.eu
+    type: medium
+    land: BE
+    taal: nl
+  - naam: Gezondheid en Wetenschap
+    url: https://www.gezondheidenwetenschap.be
+    type: wetenschap
+    land: BE
+    taal: nl
+    alleen_vegan: ja
+  - naam: FAVV
+    url: https://www.favv-afsca.be
+    type: overheid
+    land: BE
+    taal: nl
+
+  # --- Internationaal: vegan nieuwsmedia -------------------------------------------
+  - naam: vegconomist
+    url: https://vegconomist.com/feed/
+    type: medium
+    land: INT
+    taal: en
+    alleen_vegan: nee
+  - naam: vegconomist (Duits)
+    url: https://vegconomist.de/feed/
+    type: medium
+    land: INT
+    taal: de
+    alleen_vegan: nee
+  - naam: Green Queen
+    url: https://www.greenqueen.com.hk/feed/
+    type: medium
+    land: INT
+    taal: en
+    alleen_vegan: nee
+  - naam: VegNews
+    url: https://vegnews.com
+    type: medium
+    land: US
+    taal: en
+    alleen_vegan: nee
+  - naam: Plant Based News
+    url: https://plantbasednews.org/feed/
+    type: medium
+    land: GB
+    taal: en
+    alleen_vegan: nee
+  - naam: Vegan Food & Living
+    url: https://www.veganfoodandliving.com/feed/
+    type: medium
+    land: GB
+    taal: en
+    alleen_vegan: nee
+  - naam: LIVEKINDLY
+    url: https://www.livekindly.com/feed/
+    type: medium
+    land: INT
+    taal: en
+    alleen_vegan: nee
+  - naam: The Vegan Review
+    url: https://theveganreview.com/feed/
+    type: medium
+    land: GB
+    taal: en
+    alleen_vegan: nee
+  - naam: Sentient Media
+    url: https://sentientmedia.org/feed/
+    type: medium
+    land: US
+    taal: en
+    alleen_vegan: nee
+  - naam: The Guardian – Veganism
+    url: https://www.theguardian.com/lifeandstyle/veganism/rss
+    type: medium
+    land: GB
+    taal: en
+    alleen_vegan: nee
+
+  # --- Internationaal: organisaties -------------------------------------------------
+  - naam: ProVeg International
+    url: https://proveg.org
+    type: organisatie
+    land: INT
+    taal: en
+    alleen_vegan: nee
+  - naam: The Vegan Society
+    url: https://www.vegansociety.com/news
+    type: organisatie
+    land: GB
+    taal: en
+    alleen_vegan: nee
+  - naam: Veganuary
+    url: https://veganuary.com/feed/
+    type: organisatie
+    land: INT
+    taal: en
+    alleen_vegan: nee
+  - naam: The Good Food Institute
+    url: https://gfi.org/feed/
+    type: organisatie
+    land: US
+    taal: en
+    alleen_vegan: nee
+  - naam: GFI Europe
+    url: https://gfieurope.org/feed/
+    type: organisatie
+    land: INT
+    taal: en
+    alleen_vegan: nee
+  - naam: Faunalytics
+    url: https://faunalytics.org/feed/
+    type: organisatie
+    land: US
+    taal: en
+    alleen_vegan: nee
+  - naam: Eurogroup for Animals
+    url: https://www.eurogroupforanimals.org
+    type: organisatie
+    land: INT
+    taal: en
+    alleen_vegan: nee
+  - naam: Animal Equality
+    url: https://animalequality.org/feed/
+    type: organisatie
+    land: INT
+    taal: en
+    alleen_vegan: nee
+  - naam: Mercy For Animals
+    url: https://mercyforanimals.org/feed/
+    type: organisatie
+    land: US
+    taal: en
+    alleen_vegan: nee
+  - naam: Humane World for Animals
+    url: https://www.humaneworld.org
+    type: organisatie
+    land: US
+    taal: en
+    alleen_vegan: nee
+  - naam: PETA
+    url: https://www.peta.org/feed/
+    type: organisatie
+    land: US
+    taal: en
+    alleen_vegan: nee
+  - naam: Nederlandse Vereniging voor Veganisme
+    url: https://www.veganisme.org
+    type: organisatie
+    land: NL
+    taal: nl
+    alleen_vegan: nee
+  - naam: Vegetariërsbond
+    url: https://www.vegetariers.nl
+    type: organisatie
+    land: NL
+    taal: nl
+    alleen_vegan: nee
+  - naam: Dier&Recht
+    url: https://www.dierenrecht.nl
+    type: organisatie
+    land: NL
+    taal: nl
+    alleen_vegan: nee
+  - naam: Wakker Dier
+    url: https://www.wakkerdier.nl
+    type: organisatie
+    land: NL
+    taal: nl
+    alleen_vegan: nee
+  - naam: Varkens in Nood
+    url: https://www.varkensinnood.nl
+    type: organisatie
+    land: NL
+    taal: nl
+    alleen_vegan: nee
+  - naam: L214
+    url: https://www.l214.com
+    type: organisatie
+    land: FR
+    taal: fr
+    alleen_vegan: nee
+  - naam: Association Végétarienne de France
+    url: https://www.vegetarisme.fr
+    type: organisatie
+    land: FR
+    taal: fr
+    alleen_vegan: nee
+  - naam: Albert Schweitzer Stiftung
+    url: https://albert-schweitzer-stiftung.de
+    type: organisatie
+    land: DE
+    taal: de
+    alleen_vegan: nee
+
+  # --- Internationaal: vakpers en wetenschap (enkel vegan-gerelateerde berichten) ------
+  - naam: AgFunderNews
+    url: https://agfundernews.com/feed
+    type: medium
+    land: INT
+    taal: en
+  - naam: FoodNavigator
+    url: https://www.foodnavigator.com
+    type: medium
+    land: INT
+    taal: en
+  - naam: Food Dive
+    url: https://www.fooddive.com/feeds/news/
+    type: medium
+    land: US
+    taal: en
+  - naam: Euractiv – Landbouw en voeding
+    url: https://www.euractiv.com/sections/agriculture-food/feed/
+    type: medium
+    land: INT
+    taal: en
+  - naam: Foodlog
+    url: https://www.foodlog.nl
+    type: medium
+    land: NL
+    taal: nl
+  - naam: ScienceDaily – Voeding
+    url: https://www.sciencedaily.com/rss/health_medicine/nutrition.xml
+    type: wetenschap
+    land: INT
+    taal: en
+    alleen_vegan: ja
+
+  # --- Personen ---------------------------------------------------------------------
+  - naam: NutritionFacts.org (Michael Greger)
+    url: https://nutritionfacts.org/feed/
+    type: persoon
+    land: US
+    taal: en
+    alleen_vegan: nee
+  - naam: Earthling Ed (YouTube)
+    url: https://www.youtube.com/@EarthlingEd
+    type: persoon
+    land: GB
+    taal: en
+    alleen_vegan: nee
+  - naam: Mic the Vegan (YouTube)
+    url: https://www.youtube.com/@MictheVegan
+    type: persoon
+    land: US
+    taal: en
+    alleen_vegan: nee

@@ -1,0 +1,5 @@
+<?xml version="1.0" ?>
+<PubmedArticleSet>
+<PubmedArticle><MedlineCitation Status="In-Data-Review" Owner="NLM"><PMID Version="1">41234567</PMID><Article PubModel="Electronic"><Journal><Title>Nutrients</Title></Journal><ArticleTitle>Vitamin B12 status in <i>vegan</i> children: a cross-sectional study.</ArticleTitle><Abstract><AbstractText Label="BACKGROUND">Vegan diets are increasingly popular among families.</AbstractText><AbstractText Label="RESULTS">B12 status was adequate in supplemented children.</AbstractText></Abstract></Article></MedlineCitation>
+<PubmedData><History><PubMedPubDate PubStatus="received"><Year>2026</Year><Month>8</Month><Day>1</Day></PubMedPubDate><PubMedPubDate PubStatus="entrez"><Year>2026</Year><Month>10</Month><Day>28</Day></PubMedPubDate></History></PubmedData></PubmedArticle>
+</PubmedArticleSet>

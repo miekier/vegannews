@@ -1,0 +1,3482 @@
+{
+ "bron": "pycountry (iso-codes), GeoNames (CC BY 4.0) via geonamescache, aangevuld met handmatige lijsten",
+ "landen": {
+  "AW": {
+   "naam": "Aruba",
+   "namen": [
+    "Aruba"
+   ],
+   "bijvoeglijk": []
+  },
+  "AF": {
+   "naam": "Afghanistan",
+   "namen": [
+    "Afghanistan"
+   ],
+   "bijvoeglijk": []
+  },
+  "AO": {
+   "naam": "Angola",
+   "namen": [
+    "Angola"
+   ],
+   "bijvoeglijk": []
+  },
+  "AI": {
+   "naam": "Anguilla",
+   "namen": [
+    "Anguilla"
+   ],
+   "bijvoeglijk": []
+  },
+  "AX": {
+   "naam": "Ålandseilanden",
+   "namen": [
+    "Åland Islands",
+    "Åland-Inseln",
+    "Ålandseilanden"
+   ],
+   "bijvoeglijk": []
+  },
+  "AL": {
+   "naam": "Albanië",
+   "namen": [
+    "Albania",
+    "Albanie",
+    "Albanien",
+    "Albanië"
+   ],
+   "bijvoeglijk": []
+  },
+  "AD": {
+   "naam": "Andorra",
+   "namen": [
+    "Andorra",
+    "Andorre"
+   ],
+   "bijvoeglijk": []
+  },
+  "AE": {
+   "naam": "Verenigde Arabische Emiraten",
+   "namen": [
+    "United Arab Emirates",
+    "Vereinigte Arabische Emirate",
+    "Verenigde Arabische Emiraten",
+    "Émirats arabes unis"
+   ],
+   "bijvoeglijk": []
+  },
+  "AR": {
+   "naam": "Argentinië",
+   "namen": [
+    "Argentina",
+    "Argentine",
+    "Argentinien",
+    "Argentinië"
+   ],
+   "bijvoeglijk": []
+  },
+  "AM": {
+   "naam": "Armenië",
+   "namen": [
+    "Armenia",
+    "Armenien",
+    "Armenië",
+    "Arménie"
+   ],
+   "bijvoeglijk": []
+  },
+  "AS": {
+   "naam": "Amerikaans-Samoa",
+   "namen": [
+    "American Samoa",
+    "Amerikaans-Samoa",
+    "Amerikanisch-Samoa",
+    "Samoa américaines"
+   ],
+   "bijvoeglijk": []
+  },
+  "AQ": {
+   "naam": "Antarctica",
+   "namen": [
+    "Antarctica",
+    "Antarctique",
+    "Antarktis"
+   ],
+   "bijvoeglijk": []
+  },
+  "TF": {
+   "naam": "Franse Zuidelijke Gebieden",
+   "namen": [
+    "Franse Zuidelijke Gebieden",
+    "Französische Süd- und Antarktisgebiete",
+    "French Southern Territories",
+    "Terres australes françaises"
+   ],
+   "bijvoeglijk": []
+  },
+  "AG": {
+   "naam": "Antigua en Barbuda",
+   "namen": [
+    "Antigua and Barbuda",
+    "Antigua en Barbuda",
+    "Antigua und Barbuda",
+    "Antigua-et-Barbuda"
+   ],
+   "bijvoeglijk": []
+  },
+  "AU": {
+   "naam": "Australië",
+   "namen": [
+    "Australia",
+    "Australie",
+    "Australien",
+    "Australië"
+   ],
+   "bijvoeglijk": [
+    "Australisch",
+    "Australische",
+    "australien",
+    "australienne",
+    "Australian",
+    "australische"
+   ]
+  },
+  "AT": {
+   "naam": "Oostenrijk",
+   "namen": [
+    "Austria",
+    "Autriche",
+    "Oostenrijk",
+    "Österreich"
+   ],
+   "bijvoeglijk": [
+    "Oostenrijks",
+    "Oostenrijkse",
+    "autrichien",
+    "autrichienne",
+    "Austrian",
+    "österreichische"
+   ]
+  },
+  "AZ": {
+   "naam": "Azerbeidzjan",
+   "namen": [
+    "Aserbaidschan",
+    "Azerbaijan",
+    "Azerbaïdjan",
+    "Azerbeidzjan"
+   ],
+   "bijvoeglijk": []
+  },
+  "BI": {
+   "naam": "Burundi",
+   "namen": [
+    "Burundi"
+   ],
+   "bijvoeglijk": []
+  },
+  "BE": {
+   "naam": "België",
+   "namen": [
+    "Belgien",
+    "Belgique",
+    "Belgium",
+    "België"
+   ],
+   "bijvoeglijk": [
+    "Belgisch",
+    "Belgische",
+    "Belg",
+    "Belgen",
+    "belge",
+    "belges",
+    "Belgian",
+    "Belgians",
+    "belgischen",
+    "belgischer"
+   ]
+  },
+  "BJ": {
+   "naam": "Benin",
+   "namen": [
+    "Benin",
+    "Bénin"
+   ],
+   "bijvoeglijk": []
+  },
+  "BQ": {
+   "naam": "Bonaire",
+   "namen": [],
+   "bijvoeglijk": []
+  },
+  "BF": {
+   "naam": "Burkina Faso",
+   "namen": [
+    "Burkina Faso"
+   ],
+   "bijvoeglijk": []
+  },
+  "BD": {
+   "naam": "Bangladesh",
+   "namen": [
+    "Bangladesch",
+    "Bangladesh"
+   ],
+   "bijvoeglijk": []
+  },
+  "BG": {
+   "naam": "Bulgarije",
+   "namen": [
+    "Bulgaria",
+    "Bulgarie",
+    "Bulgarien",
+    "Bulgarije"
+   ],
+   "bijvoeglijk": []
+  },
+  "BH": {
+   "naam": "Bahrein",
+   "namen": [
+    "Bahrain",
+    "Bahrein",
+    "Bahreïn"
+   ],
+   "bijvoeglijk": []
+  },
+  "BS": {
+   "naam": "Bahama's",
+   "namen": [
+    "Bahama's",
+    "Bahamas"
+   ],
+   "bijvoeglijk": []
+  },
+  "BA": {
+   "naam": "Bosnië en Herzegovina",
+   "namen": [
+    "Bosnia and Herzegovina",
+    "Bosnie-Herzégovine",
+    "Bosnien und Herzegowina",
+    "Bosnië en Herzegovina"
+   ],
+   "bijvoeglijk": []
+  },
+  "BL": {
+   "naam": "Saint-Barthélemy",
+   "namen": [
+    "Saint Barthélemy",
+    "Saint-Barthélemy"
+   ],
+   "bijvoeglijk": []
+  },
+  "BY": {
+   "naam": "Wit-Rusland",
+   "namen": [
+    "Belarus",
+    "Bélarus",
+    "Wit-Rusland"
+   ],
+   "bijvoeglijk": []
+  },
+  "BZ": {
+   "naam": "Belize",
+   "namen": [
+    "Belize"
+   ],
+   "bijvoeglijk": []
+  },
+  "BM": {
+   "naam": "Bermuda",
+   "namen": [
+    "Bermuda",
+    "Bermudes"
+   ],
+   "bijvoeglijk": []
+  },
+  "BO": {
+   "naam": "Bolivia",
+   "namen": [
+    "Bolivia",
+    "Bolivie",
+    "Bolivien"
+   ],
+   "bijvoeglijk": []
+  },
+  "BR": {
+   "naam": "Brazilië",
+   "namen": [
+    "Brasilien",
+    "Brazil",
+    "Brazilië",
+    "Brésil"
+   ],
+   "bijvoeglijk": [
+    "Braziliaans",
+    "Braziliaanse",
+    "brésilien",
+    "brésilienne",
+    "Brazilian",
+    "brasilianische"
+   ]
+  },
+  "BB": {
+   "naam": "Barbados",
+   "namen": [
+    "Barbade",
+    "Barbados"
+   ],
+   "bijvoeglijk": []
+  },
+  "BN": {
+   "naam": "Brunei",
+   "namen": [
+    "Brunei",
+    "Brunei Darussalam",
+    "Brunéi Darussalam"
+   ],
+   "bijvoeglijk": []
+  },
+  "BT": {
+   "naam": "Bhutan",
+   "namen": [
+    "Bhoutan",
+    "Bhutan"
+   ],
+   "bijvoeglijk": []
+  },
+  "BV": {
+   "naam": "Bouveteiland",
+   "namen": [
+    "Bouvet Island",
+    "Bouvet-Insel",
+    "Bouveteiland",
+    "Île Bouvet"
+   ],
+   "bijvoeglijk": []
+  },
+  "BW": {
+   "naam": "Botswana",
+   "namen": [
+    "Botsuana",
+    "Botswana"
+   ],
+   "bijvoeglijk": []
+  },
+  "CF": {
+   "naam": "Centraal-Afrikaanse Republiek",
+   "namen": [
+    "Centraal-Afrikaanse Republiek",
+    "Central African Republic",
+    "République centrafricaine",
+    "Zentralafrikanische Republik"
+   ],
+   "bijvoeglijk": []
+  },
+  "CA": {
+   "naam": "Canada",
+   "namen": [
+    "Canada",
+    "Kanada"
+   ],
+   "bijvoeglijk": [
+    "Canadees",
+    "Canadese",
+    "canadien",
+    "canadienne",
+    "Canadian",
+    "kanadische"
+   ]
+  },
+  "CC": {
+   "naam": "Cocoseilanden (Keelingeilanden)",
+   "namen": [],
+   "bijvoeglijk": []
+  },
+  "CH": {
+   "naam": "Zwitserland",
+   "namen": [
+    "Schweiz",
+    "Suisse",
+    "Switzerland",
+    "Zwitserland"
+   ],
+   "bijvoeglijk": [
+    "Zwitsers",
+    "Zwitserse",
+    "Swiss",
+    "Schweizer"
+   ]
+  },
+  "CL": {
+   "naam": "Chili",
+   "namen": [
+    "Chile",
+    "Chili"
+   ],
+   "bijvoeglijk": []
+  },
+  "CN": {
+   "naam": "China",
+   "namen": [
+    "China",
+    "Chine"
+   ],
+   "bijvoeglijk": [
+    "Chinees",
+    "Chinese",
+    "chinois",
+    "chinoise",
+    "chinesische"
+   ]
+  },
+  "CI": {
+   "naam": "Ivoorkust",
+   "namen": [
+    "Côte d'Ivoire",
+    "Ivoorkust"
+   ],
+   "bijvoeglijk": []
+  },
+  "CM": {
+   "naam": "Kameroen",
+   "namen": [
+    "Cameroon",
+    "Cameroun",
+    "Kameroen",
+    "Kamerun"
+   ],
+   "bijvoeglijk": []
+  },
+  "CD": {
+   "naam": "Congo",
+   "namen": [
+    "Demokratische Republik Kongo",
+    "République démocratique du Congo"
+   ],
+   "bijvoeglijk": []
+  },
+  "CG": {
+   "naam": "Congo",
+   "namen": [
+    "Congo",
+    "Kongo",
+    "République du Congo"
+   ],
+   "bijvoeglijk": []
+  },
+  "CK": {
+   "naam": "Cookeilanden",
+   "namen": [
+    "Cook Islands",
+    "Cookeilanden",
+    "Cookinseln",
+    "Îles Cook"
+   ],
+   "bijvoeglijk": []
+  },
+  "CO": {
+   "naam": "Colombia",
+   "namen": [
+    "Colombia",
+    "Colombie",
+    "Kolumbien"
+   ],
+   "bijvoeglijk": []
+  },
+  "KM": {
+   "naam": "Comoren",
+   "namen": [
+    "Comoren",
+    "Comores",
+    "Comoros",
+    "Komoren"
+   ],
+   "bijvoeglijk": []
+  },
+  "CV": {
+   "naam": "Kaapverdië",
+   "namen": [
+    "Cabo Verde",
+    "Cap-Vert",
+    "Kaapverdië",
+    "Kap Verde"
+   ],
+   "bijvoeglijk": []
+  },
+  "CR": {
+   "naam": "Costa Rica",
+   "namen": [
+    "Costa Rica"
+   ],
+   "bijvoeglijk": []
+  },
+  "CU": {
+   "naam": "Cuba",
+   "namen": [
+    "Cuba",
+    "Kuba"
+   ],
+   "bijvoeglijk": []
+  },
+  "CW": {
+   "naam": "Curaçao",
+   "namen": [
+    "Curaçao"
+   ],
+   "bijvoeglijk": []
+  },
+  "CX": {
+   "naam": "Christmaseiland",
+   "namen": [
+    "Christmas Island",
+    "Christmaseiland",
+    "Weihnachtsinseln"
+   ],
+   "bijvoeglijk": []
+  },
+  "KY": {
+   "naam": "Kaaimaneilanden",
+   "namen": [
+    "Cayman Islands",
+    "Cayman-Inseln",
+    "Kaaimaneilanden",
+    "Îles Caïmans"
+   ],
+   "bijvoeglijk": []
+  },
+  "CY": {
+   "naam": "Cyprus",
+   "namen": [
+    "Chypre",
+    "Cyprus",
+    "Zypern"
+   ],
+   "bijvoeglijk": []
+  },
+  "CZ": {
+   "naam": "Tsjechië",
+   "namen": [
+    "Czech Republic",
+    "Czechia",
+    "République tchèque",
+    "Tchéquie",
+    "Tschechien",
+    "Tsjechië"
+   ],
+   "bijvoeglijk": [
+    "Tsjechisch",
+    "Tsjechische",
+    "tchèque",
+    "Czech",
+    "tschechische"
+   ]
+  },
+  "DE": {
+   "naam": "Duitsland",
+   "namen": [
+    "Allemagne",
+    "Deutschland",
+    "Duitsland",
+    "Germany"
+   ],
+   "bijvoeglijk": [
+    "Duitse",
+    "allemand",
+    "allemande",
+    "German",
+    "deutsche",
+    "deutschen"
+   ]
+  },
+  "DJ": {
+   "naam": "Djibouti",
+   "namen": [
+    "Djibouti",
+    "Dschibuti"
+   ],
+   "bijvoeglijk": []
+  },
+  "DM": {
+   "naam": "Dominica",
+   "namen": [
+    "Dominica",
+    "Dominique"
+   ],
+   "bijvoeglijk": []
+  },
+  "DK": {
+   "naam": "Denemarken",
+   "namen": [
+    "Danemark",
+    "Denemarken",
+    "Denmark",
+    "Dänemark"
+   ],
+   "bijvoeglijk": [
+    "Deens",
+    "Deense",
+    "danois",
+    "danoise",
+    "Danish",
+    "dänische"
+   ]
+  },
+  "DO": {
+   "naam": "Dominicaanse Republiek",
+   "namen": [
+    "Dominicaanse Republiek",
+    "Dominican Republic",
+    "Dominikanische Republik",
+    "République dominicaine"
+   ],
+   "bijvoeglijk": []
+  },
+  "DZ": {
+   "naam": "Algerije",
+   "namen": [
+    "Algeria",
+    "Algerien",
+    "Algerije",
+    "Algérie"
+   ],
+   "bijvoeglijk": []
+  },
+  "EC": {
+   "naam": "Ecuador",
+   "namen": [
+    "Ecuador",
+    "Équateur"
+   ],
+   "bijvoeglijk": []
+  },
+  "EG": {
+   "naam": "Egypte",
+   "namen": [
+    "Egypt",
+    "Egypte",
+    "Ägypten",
+    "Égypte"
+   ],
+   "bijvoeglijk": []
+  },
+  "ER": {
+   "naam": "Eritrea",
+   "namen": [
+    "Eritrea",
+    "Érythrée"
+   ],
+   "bijvoeglijk": []
+  },
+  "EH": {
+   "naam": "Westelijke Sahara",
+   "namen": [
+    "Sahara occidental",
+    "Westelijke Sahara",
+    "Western Sahara",
+    "Westsahara"
+   ],
+   "bijvoeglijk": []
+  },
+  "ES": {
+   "naam": "Spanje",
+   "namen": [
+    "Espagne",
+    "Spain",
+    "Spanien",
+    "Spanje"
+   ],
+   "bijvoeglijk": [
+    "Spaans",
+    "Spaanse",
+    "espagnol",
+    "espagnole",
+    "Spanish",
+    "spanische"
+   ]
+  },
+  "EE": {
+   "naam": "Estland",
+   "namen": [
+    "Estland",
+    "Estonia",
+    "Estonie"
+   ],
+   "bijvoeglijk": []
+  },
+  "ET": {
+   "naam": "Ethiopië",
+   "namen": [
+    "Ethiopia",
+    "Ethiopië",
+    "Äthiopien",
+    "Éthiopie"
+   ],
+   "bijvoeglijk": []
+  },
+  "FI": {
+   "naam": "Finland",
+   "namen": [
+    "Finland",
+    "Finlande",
+    "Finnland"
+   ],
+   "bijvoeglijk": [
+    "Fins",
+    "Finse",
+    "finlandais",
+    "finlandaise",
+    "Finnish",
+    "finnische"
+   ]
+  },
+  "FJ": {
+   "naam": "Fiji",
+   "namen": [
+    "Fidji",
+    "Fidschi",
+    "Fiji"
+   ],
+   "bijvoeglijk": []
+  },
+  "FK": {
+   "naam": "Falklandeilanden (Malvinas)",
+   "namen": [],
+   "bijvoeglijk": []
+  },
+  "FR": {
+   "naam": "Frankrijk",
+   "namen": [
+    "France",
+    "Frankreich",
+    "Frankrijk"
+   ],
+   "bijvoeglijk": [
+    "Franse",
+    "français",
+    "française",
+    "French",
+    "französische",
+    "französischen"
+   ]
+  },
+  "FO": {
+   "naam": "Faeröer",
+   "namen": [
+    "Faeröer",
+    "Faroe Islands",
+    "Färöer-Inseln",
+    "Îles Féroé"
+   ],
+   "bijvoeglijk": []
+  },
+  "FM": {
+   "naam": "Micronesia",
+   "namen": [
+    "Micronesia"
+   ],
+   "bijvoeglijk": []
+  },
+  "GA": {
+   "naam": "Gabon",
+   "namen": [
+    "Gabon",
+    "Gabun"
+   ],
+   "bijvoeglijk": []
+  },
+  "GB": {
+   "naam": "Verenigd Koninkrijk",
+   "namen": [
+    "Angleterre",
+    "Britain",
+    "Engeland",
+    "England",
+    "Grande-Bretagne",
+    "Great Britain",
+    "Groot-Brittannië",
+    "Großbritannien",
+    "Royaume-Uni",
+    "Schotland",
+    "Schottland",
+    "Scotland",
+    "U.K.",
+    "UK",
+    "United Kingdom",
+    "Vereinigtes Königreich",
+    "Verenigd Koninkrijk",
+    "Wales",
+    "Écosse"
+   ],
+   "bijvoeglijk": [
+    "Britse",
+    "Engelse",
+    "britannique",
+    "anglais",
+    "anglaise",
+    "British",
+    "britische",
+    "britischen"
+   ]
+  },
+  "GE": {
+   "naam": "Georgia",
+   "namen": [
+    "Georgien",
+    "Géorgie"
+   ],
+   "bijvoeglijk": []
+  },
+  "GG": {
+   "naam": "Guernsey",
+   "namen": [
+    "Guernesey",
+    "Guernsey"
+   ],
+   "bijvoeglijk": []
+  },
+  "GH": {
+   "naam": "Ghana",
+   "namen": [
+    "Ghana"
+   ],
+   "bijvoeglijk": []
+  },
+  "GI": {
+   "naam": "Gibraltar",
+   "namen": [
+    "Gibraltar"
+   ],
+   "bijvoeglijk": []
+  },
+  "GN": {
+   "naam": "Guinee",
+   "namen": [
+    "Guinee",
+    "Guinée"
+   ],
+   "bijvoeglijk": []
+  },
+  "GP": {
+   "naam": "Guadeloupe",
+   "namen": [
+    "Guadeloupe"
+   ],
+   "bijvoeglijk": []
+  },
+  "GM": {
+   "naam": "Gambia",
+   "namen": [
+    "Gambia",
+    "Gambie"
+   ],
+   "bijvoeglijk": []
+  },
+  "GW": {
+   "naam": "Guinee-Bissau",
+   "namen": [
+    "Guinea-Bissau",
+    "Guinee-Bissau",
+    "Guinée-Bissau"
+   ],
+   "bijvoeglijk": []
+  },
+  "GQ": {
+   "naam": "Equatoriaal-Guinea",
+   "namen": [
+    "Equatoriaal-Guinea",
+    "Equatorial Guinea",
+    "Guinée Équatoriale",
+    "Äquatorialguinea"
+   ],
+   "bijvoeglijk": []
+  },
+  "GR": {
+   "naam": "Griekenland",
+   "namen": [
+    "Greece",
+    "Griechenland",
+    "Griekenland",
+    "Grèce"
+   ],
+   "bijvoeglijk": [
+    "Grieks",
+    "Griekse",
+    "grec",
+    "grecque",
+    "Greek",
+    "griechische"
+   ]
+  },
+  "GD": {
+   "naam": "Grenada",
+   "namen": [
+    "Grenada",
+    "Grenade"
+   ],
+   "bijvoeglijk": []
+  },
+  "GL": {
+   "naam": "Groenland",
+   "namen": [
+    "Greenland",
+    "Groenland",
+    "Groënland",
+    "Grönland"
+   ],
+   "bijvoeglijk": []
+  },
+  "GT": {
+   "naam": "Guatemala",
+   "namen": [
+    "Guatemala"
+   ],
+   "bijvoeglijk": []
+  },
+  "GF": {
+   "naam": "Frans-Guyana",
+   "namen": [
+    "Frans-Guyana",
+    "Französisch-Guyana",
+    "French Guiana",
+    "Guyane française"
+   ],
+   "bijvoeglijk": []
+  },
+  "GU": {
+   "naam": "Guam",
+   "namen": [
+    "Guam"
+   ],
+   "bijvoeglijk": []
+  },
+  "GY": {
+   "naam": "Guyana",
+   "namen": [
+    "Guyana"
+   ],
+   "bijvoeglijk": []
+  },
+  "HK": {
+   "naam": "Hongkong",
+   "namen": [
+    "Hong Kong",
+    "Hongkong"
+   ],
+   "bijvoeglijk": []
+  },
+  "HM": {
+   "naam": "Heardeiland en McDonaldeilanden",
+   "namen": [
+    "Heard Island and McDonald Islands",
+    "Heard und McDonaldinseln",
+    "Heardeiland en McDonaldeilanden",
+    "Îles Heard-et-MacDonald"
+   ],
+   "bijvoeglijk": []
+  },
+  "HN": {
+   "naam": "Honduras",
+   "namen": [
+    "Honduras"
+   ],
+   "bijvoeglijk": []
+  },
+  "HR": {
+   "naam": "Kroatië",
+   "namen": [
+    "Croatia",
+    "Croatie",
+    "Kroatien",
+    "Kroatië"
+   ],
+   "bijvoeglijk": []
+  },
+  "HT": {
+   "naam": "Haïti",
+   "namen": [
+    "Haiti",
+    "Haïti"
+   ],
+   "bijvoeglijk": []
+  },
+  "HU": {
+   "naam": "Hongarije",
+   "namen": [
+    "Hongarije",
+    "Hongrie",
+    "Hungary",
+    "Ungarn"
+   ],
+   "bijvoeglijk": []
+  },
+  "ID": {
+   "naam": "Indonesië",
+   "namen": [
+    "Indonesia",
+    "Indonesien",
+    "Indonesië",
+    "Indonésie"
+   ],
+   "bijvoeglijk": []
+  },
+  "IM": {
+   "naam": "Eiland Man",
+   "namen": [
+    "Eiland Man",
+    "Insel Man",
+    "Isle of Man",
+    "Île de Man"
+   ],
+   "bijvoeglijk": []
+  },
+  "IN": {
+   "naam": "India",
+   "namen": [
+    "Inde",
+    "India",
+    "Indien"
+   ],
+   "bijvoeglijk": [
+    "Indiaas",
+    "Indiase",
+    "Indian",
+    "indische"
+   ]
+  },
+  "IO": {
+   "naam": "Brits Indische Oceaanterritorium",
+   "namen": [
+    "Britisches Territorium im Indischen Ozean",
+    "British Indian Ocean Territory",
+    "Brits Indische Oceaanterritorium",
+    "Territoire britannique de l'océan Indien"
+   ],
+   "bijvoeglijk": []
+  },
+  "IE": {
+   "naam": "Ierland",
+   "namen": [
+    "Ierland",
+    "Ireland",
+    "Irland",
+    "Irlande"
+   ],
+   "bijvoeglijk": [
+    "Iers",
+    "Ierse",
+    "irlandais",
+    "irlandaise",
+    "Irish",
+    "irische"
+   ]
+  },
+  "IR": {
+   "naam": "Iran",
+   "namen": [
+    "Iran"
+   ],
+   "bijvoeglijk": []
+  },
+  "IQ": {
+   "naam": "Irak",
+   "namen": [
+    "Irak",
+    "Iraq"
+   ],
+   "bijvoeglijk": []
+  },
+  "IS": {
+   "naam": "IJsland",
+   "namen": [
+    "IJsland",
+    "Iceland",
+    "Island",
+    "Islande"
+   ],
+   "bijvoeglijk": []
+  },
+  "IL": {
+   "naam": "Israël",
+   "namen": [
+    "Israel",
+    "Israël"
+   ],
+   "bijvoeglijk": [
+    "Israëlisch",
+    "Israëlische",
+    "israélien",
+    "israélienne",
+    "Israeli",
+    "israelische"
+   ]
+  },
+  "IT": {
+   "naam": "Italië",
+   "namen": [
+    "Italie",
+    "Italien",
+    "Italië",
+    "Italy"
+   ],
+   "bijvoeglijk": [
+    "Italiaans",
+    "Italiaanse",
+    "italien",
+    "italienne",
+    "Italian",
+    "italienische"
+   ]
+  },
+  "JM": {
+   "naam": "Jamaica",
+   "namen": [
+    "Jamaica",
+    "Jamaika",
+    "Jamaïque"
+   ],
+   "bijvoeglijk": []
+  },
+  "JE": {
+   "naam": "Jersey",
+   "namen": [],
+   "bijvoeglijk": []
+  },
+  "JO": {
+   "naam": "Jordanië",
+   "namen": [
+    "Jordanie",
+    "Jordanien",
+    "Jordanië"
+   ],
+   "bijvoeglijk": []
+  },
+  "JP": {
+   "naam": "Japan",
+   "namen": [
+    "Japan",
+    "Japon"
+   ],
+   "bijvoeglijk": [
+    "Japans",
+    "Japanse",
+    "japonais",
+    "japonaise",
+    "Japanese",
+    "japanische"
+   ]
+  },
+  "KZ": {
+   "naam": "Kazachstan",
+   "namen": [
+    "Kasachstan",
+    "Kazachstan",
+    "Kazakhstan"
+   ],
+   "bijvoeglijk": []
+  },
+  "KE": {
+   "naam": "Kenia",
+   "namen": [
+    "Kenia",
+    "Kenya"
+   ],
+   "bijvoeglijk": []
+  },
+  "KG": {
+   "naam": "Kirgizië",
+   "namen": [
+    "Kirghizistan",
+    "Kirgisistan",
+    "Kirgizië",
+    "Kyrgyzstan"
+   ],
+   "bijvoeglijk": []
+  },
+  "KH": {
+   "naam": "Cambodja",
+   "namen": [
+    "Cambodge",
+    "Cambodia",
+    "Cambodja",
+    "Kambodscha"
+   ],
+   "bijvoeglijk": []
+  },
+  "KI": {
+   "naam": "Kiribati",
+   "namen": [
+    "Kiribati"
+   ],
+   "bijvoeglijk": []
+  },
+  "KN": {
+   "naam": "Saint Kitts en Nevis",
+   "namen": [
+    "Saint Kitts and Nevis",
+    "Saint Kitts en Nevis",
+    "Saint-Christophe-et-Niévès",
+    "St. Kitts und Nevis"
+   ],
+   "bijvoeglijk": []
+  },
+  "KR": {
+   "naam": "Zuid-Korea",
+   "namen": [
+    "Corée du Sud",
+    "South Korea",
+    "Südkorea",
+    "Zuid-Korea"
+   ],
+   "bijvoeglijk": [
+    "Zuid-Koreaans",
+    "Zuid-Koreaanse",
+    "sud-coréen",
+    "sud-coréenne",
+    "South Korean",
+    "südkoreanische"
+   ]
+  },
+  "KW": {
+   "naam": "Koeweit",
+   "namen": [
+    "Koeweit",
+    "Koweït",
+    "Kuwait"
+   ],
+   "bijvoeglijk": []
+  },
+  "LA": {
+   "naam": "Laos",
+   "namen": [
+    "Lao People's Democratic Republic",
+    "Laos",
+    "Laos Democratische Volksrepubliek"
+   ],
+   "bijvoeglijk": []
+  },
+  "LB": {
+   "naam": "Libanon",
+   "namen": [
+    "Lebanon",
+    "Liban",
+    "Libanon"
+   ],
+   "bijvoeglijk": []
+  },
+  "LR": {
+   "naam": "Liberia",
+   "namen": [
+    "Liberia",
+    "Libéria"
+   ],
+   "bijvoeglijk": []
+  },
+  "LY": {
+   "naam": "Libië",
+   "namen": [
+    "Libië",
+    "Libya",
+    "Libye",
+    "Libyen"
+   ],
+   "bijvoeglijk": []
+  },
+  "LC": {
+   "naam": "Saint Lucia",
+   "namen": [
+    "Saint Lucia",
+    "Sainte-Lucie",
+    "St. Lucia"
+   ],
+   "bijvoeglijk": []
+  },
+  "LI": {
+   "naam": "Liechtenstein",
+   "namen": [
+    "Liechtenstein"
+   ],
+   "bijvoeglijk": []
+  },
+  "LK": {
+   "naam": "Sri Lanka",
+   "namen": [
+    "Sri Lanka"
+   ],
+   "bijvoeglijk": []
+  },
+  "LS": {
+   "naam": "Lesotho",
+   "namen": [
+    "Lesotho"
+   ],
+   "bijvoeglijk": []
+  },
+  "LT": {
+   "naam": "Litouwen",
+   "namen": [
+    "Litauen",
+    "Lithuania",
+    "Litouwen",
+    "Lituanie"
+   ],
+   "bijvoeglijk": []
+  },
+  "LU": {
+   "naam": "Luxemburg",
+   "namen": [
+    "Luxembourg",
+    "Luxemburg"
+   ],
+   "bijvoeglijk": [
+    "Luxemburgs",
+    "Luxemburgse",
+    "luxembourgeois",
+    "luxembourgeoise",
+    "Luxembourgish"
+   ]
+  },
+  "LV": {
+   "naam": "Letland",
+   "namen": [
+    "Latvia",
+    "Letland",
+    "Lettland",
+    "Lettonie"
+   ],
+   "bijvoeglijk": []
+  },
+  "MO": {
+   "naam": "Macau",
+   "namen": [
+    "Macao",
+    "Macau"
+   ],
+   "bijvoeglijk": []
+  },
+  "MF": {
+   "naam": "Sint-Maarten (Frans deel)",
+   "namen": [],
+   "bijvoeglijk": []
+  },
+  "MA": {
+   "naam": "Marokko",
+   "namen": [
+    "Maroc",
+    "Marokko",
+    "Morocco"
+   ],
+   "bijvoeglijk": []
+  },
+  "MC": {
+   "naam": "Monaco",
+   "namen": [
+    "Monaco"
+   ],
+   "bijvoeglijk": []
+  },
+  "MD": {
+   "naam": "Moldavië",
+   "namen": [
+    "Moldau",
+    "Moldavie",
+    "Moldavië",
+    "Moldova"
+   ],
+   "bijvoeglijk": []
+  },
+  "MG": {
+   "naam": "Madagaskar",
+   "namen": [
+    "Madagascar",
+    "Madagaskar"
+   ],
+   "bijvoeglijk": []
+  },
+  "MV": {
+   "naam": "Maldiven",
+   "namen": [
+    "Maldiven",
+    "Maldives",
+    "Malediven"
+   ],
+   "bijvoeglijk": []
+  },
+  "MX": {
+   "naam": "Mexico",
+   "namen": [
+    "Mexico",
+    "Mexiko",
+    "Mexique"
+   ],
+   "bijvoeglijk": [
+    "Mexicaans",
+    "Mexicaanse",
+    "mexicain",
+    "mexicaine",
+    "Mexican",
+    "mexikanische"
+   ]
+  },
+  "MH": {
+   "naam": "Marshalleilanden",
+   "namen": [
+    "Marshall Islands",
+    "Marshalleilanden",
+    "Marshallinseln",
+    "Îles Marshall"
+   ],
+   "bijvoeglijk": []
+  },
+  "MK": {
+   "naam": "Noord-Macedonië",
+   "namen": [
+    "Macédoine du Nord",
+    "Noord-Macedonië",
+    "Nordmazedonien",
+    "North Macedonia"
+   ],
+   "bijvoeglijk": []
+  },
+  "ML": {
+   "naam": "Mali",
+   "namen": [],
+   "bijvoeglijk": []
+  },
+  "MT": {
+   "naam": "Malta",
+   "namen": [
+    "Malta",
+    "Malte"
+   ],
+   "bijvoeglijk": []
+  },
+  "MM": {
+   "naam": "Myanmar",
+   "namen": [
+    "Birmanie",
+    "Myanmar"
+   ],
+   "bijvoeglijk": []
+  },
+  "ME": {
+   "naam": "Montenegro",
+   "namen": [
+    "Montenegro",
+    "Monténégro"
+   ],
+   "bijvoeglijk": []
+  },
+  "MN": {
+   "naam": "Mongolië",
+   "namen": [
+    "Mongolei",
+    "Mongolia",
+    "Mongolie",
+    "Mongolië"
+   ],
+   "bijvoeglijk": []
+  },
+  "MP": {
+   "naam": "Noordelijke Marianen",
+   "namen": [
+    "Noordelijke Marianen",
+    "Northern Mariana Islands",
+    "Nördliche Marianen",
+    "Îles Mariannes du Nord"
+   ],
+   "bijvoeglijk": []
+  },
+  "MZ": {
+   "naam": "Mozambique",
+   "namen": [
+    "Mosambik",
+    "Mozambique"
+   ],
+   "bijvoeglijk": []
+  },
+  "MR": {
+   "naam": "Mauritanië",
+   "namen": [
+    "Mauretanien",
+    "Mauritania",
+    "Mauritanie",
+    "Mauritanië"
+   ],
+   "bijvoeglijk": []
+  },
+  "MS": {
+   "naam": "Montserrat",
+   "namen": [
+    "Montserrat"
+   ],
+   "bijvoeglijk": []
+  },
+  "MQ": {
+   "naam": "Martinique",
+   "namen": [
+    "Martinique"
+   ],
+   "bijvoeglijk": []
+  },
+  "MU": {
+   "naam": "Mauritius",
+   "namen": [
+    "Maurice",
+    "Mauritius"
+   ],
+   "bijvoeglijk": []
+  },
+  "MW": {
+   "naam": "Malawi",
+   "namen": [
+    "Malawi"
+   ],
+   "bijvoeglijk": []
+  },
+  "MY": {
+   "naam": "Maleisië",
+   "namen": [
+    "Malaisie",
+    "Malaysia",
+    "Maleisië"
+   ],
+   "bijvoeglijk": []
+  },
+  "YT": {
+   "naam": "Mayotte",
+   "namen": [
+    "Mayotte"
+   ],
+   "bijvoeglijk": []
+  },
+  "NA": {
+   "naam": "Namibië",
+   "namen": [
+    "Namibia",
+    "Namibie",
+    "Namibië"
+   ],
+   "bijvoeglijk": []
+  },
+  "NC": {
+   "naam": "Nieuw-Caledonië",
+   "namen": [
+    "Neukaledonien",
+    "New Caledonia",
+    "Nieuw-Caledonië",
+    "Nouvelle-Calédonie"
+   ],
+   "bijvoeglijk": []
+  },
+  "NE": {
+   "naam": "Niger",
+   "namen": [],
+   "bijvoeglijk": []
+  },
+  "NF": {
+   "naam": "Norfolk",
+   "namen": [
+    "Norfolk",
+    "Norfolk Island",
+    "Norfolkinsel",
+    "Île Norfolk"
+   ],
+   "bijvoeglijk": []
+  },
+  "NG": {
+   "naam": "Nigeria",
+   "namen": [
+    "Nigeria"
+   ],
+   "bijvoeglijk": []
+  },
+  "NI": {
+   "naam": "Nicaragua",
+   "namen": [
+    "Nicaragua"
+   ],
+   "bijvoeglijk": []
+  },
+  "NU": {
+   "naam": "Niue",
+   "namen": [
+    "Nioue",
+    "Niue"
+   ],
+   "bijvoeglijk": []
+  },
+  "NL": {
+   "naam": "Nederland",
+   "namen": [
+    "Holland",
+    "Nederland",
+    "Netherlands",
+    "Niederlande",
+    "Pays-Bas"
+   ],
+   "bijvoeglijk": [
+    "Nederlands",
+    "Nederlandse",
+    "Hollandse",
+    "néerlandais",
+    "néerlandaise",
+    "Dutch",
+    "niederländische",
+    "niederländischen"
+   ]
+  },
+  "NO": {
+   "naam": "Noorwegen",
+   "namen": [
+    "Noorwegen",
+    "Norvège",
+    "Norway",
+    "Norwegen"
+   ],
+   "bijvoeglijk": [
+    "Noors",
+    "Noorse",
+    "norvégien",
+    "norvégienne",
+    "Norwegian",
+    "norwegische"
+   ]
+  },
+  "NP": {
+   "naam": "Nepal",
+   "namen": [
+    "Nepal",
+    "Népal"
+   ],
+   "bijvoeglijk": []
+  },
+  "NR": {
+   "naam": "Nauru",
+   "namen": [
+    "Nauru"
+   ],
+   "bijvoeglijk": []
+  },
+  "NZ": {
+   "naam": "Nieuw-Zeeland",
+   "namen": [
+    "Neuseeland",
+    "New Zealand",
+    "Nieuw-Zeeland",
+    "Nouvelle-Zélande"
+   ],
+   "bijvoeglijk": [
+    "Nieuw-Zeelands",
+    "Nieuw-Zeelandse",
+    "néo-zélandais",
+    "néo-zélandaise",
+    "neuseeländische"
+   ]
+  },
+  "OM": {
+   "naam": "Oman",
+   "namen": [],
+   "bijvoeglijk": []
+  },
+  "PK": {
+   "naam": "Pakistan",
+   "namen": [
+    "Pakistan"
+   ],
+   "bijvoeglijk": []
+  },
+  "PA": {
+   "naam": "Panama",
+   "namen": [
+    "Panama"
+   ],
+   "bijvoeglijk": []
+  },
+  "PN": {
+   "naam": "Pitcairneilanden",
+   "namen": [
+    "Pitcairn",
+    "Pitcairneilanden",
+    "Îles Pitcairn"
+   ],
+   "bijvoeglijk": []
+  },
+  "PE": {
+   "naam": "Peru",
+   "namen": [
+    "Peru",
+    "Pérou"
+   ],
+   "bijvoeglijk": []
+  },
+  "PH": {
+   "naam": "Filipijnen",
+   "namen": [
+    "Filipijnen",
+    "Philippinen",
+    "Philippines"
+   ],
+   "bijvoeglijk": []
+  },
+  "PW": {
+   "naam": "Palau",
+   "namen": [
+    "Palaos",
+    "Palau"
+   ],
+   "bijvoeglijk": []
+  },
+  "PG": {
+   "naam": "Papoea-Nieuw-Guinea",
+   "namen": [
+    "Papoea-Nieuw-Guinea",
+    "Papouasie-Nouvelle-Guinée",
+    "Papua New Guinea",
+    "Papua-Neuguinea"
+   ],
+   "bijvoeglijk": []
+  },
+  "PL": {
+   "naam": "Polen",
+   "namen": [
+    "Poland",
+    "Polen",
+    "Pologne"
+   ],
+   "bijvoeglijk": [
+    "Pools",
+    "Poolse",
+    "polonais",
+    "polonaise",
+    "Polish",
+    "polnische"
+   ]
+  },
+  "PR": {
+   "naam": "Puerto Rico",
+   "namen": [
+    "Porto Rico",
+    "Puerto Rico"
+   ],
+   "bijvoeglijk": []
+  },
+  "KP": {
+   "naam": "Noord-Korea",
+   "namen": [
+    "Corée du Nord",
+    "Noord-Korea",
+    "Nordkorea",
+    "North Korea"
+   ],
+   "bijvoeglijk": []
+  },
+  "PT": {
+   "naam": "Portugal",
+   "namen": [
+    "Portugal"
+   ],
+   "bijvoeglijk": [
+    "Portugees",
+    "Portugese",
+    "portugais",
+    "portugaise",
+    "Portuguese",
+    "portugiesische"
+   ]
+  },
+  "PY": {
+   "naam": "Paraguay",
+   "namen": [
+    "Paraguay"
+   ],
+   "bijvoeglijk": []
+  },
+  "PS": {
+   "naam": "Palestina",
+   "namen": [],
+   "bijvoeglijk": []
+  },
+  "PF": {
+   "naam": "Frans-Polynesië",
+   "namen": [
+    "Frans-Polynesië",
+    "Französisch-Polynesien",
+    "French Polynesia",
+    "Polynésie française"
+   ],
+   "bijvoeglijk": []
+  },
+  "QA": {
+   "naam": "Qatar",
+   "namen": [
+    "Katar",
+    "Qatar"
+   ],
+   "bijvoeglijk": []
+  },
+  "RE": {
+   "naam": "Réunion",
+   "namen": [
+    "Réunion"
+   ],
+   "bijvoeglijk": []
+  },
+  "RO": {
+   "naam": "Roemenië",
+   "namen": [
+    "Roemenië",
+    "Romania",
+    "Roumanie",
+    "Rumänien"
+   ],
+   "bijvoeglijk": []
+  },
+  "RU": {
+   "naam": "Rusland",
+   "namen": [
+    "Rusland",
+    "Russia",
+    "Russian Federation",
+    "Russie",
+    "Russische Föderation",
+    "Russland"
+   ],
+   "bijvoeglijk": []
+  },
+  "RW": {
+   "naam": "Rwanda",
+   "namen": [
+    "Ruanda",
+    "Rwanda"
+   ],
+   "bijvoeglijk": []
+  },
+  "SA": {
+   "naam": "Saoedi-Arabië",
+   "namen": [
+    "Arabie saoudite",
+    "Saoedi-Arabië",
+    "Saudi Arabia",
+    "Saudi-Arabien"
+   ],
+   "bijvoeglijk": []
+  },
+  "SD": {
+   "naam": "Soedan",
+   "namen": [
+    "Soedan",
+    "Soudan",
+    "Sudan"
+   ],
+   "bijvoeglijk": []
+  },
+  "SN": {
+   "naam": "Senegal",
+   "namen": [
+    "Senegal",
+    "Sénégal"
+   ],
+   "bijvoeglijk": []
+  },
+  "SG": {
+   "naam": "Singapore",
+   "namen": [
+    "Singapore",
+    "Singapour",
+    "Singapur"
+   ],
+   "bijvoeglijk": [
+    "Singaporees",
+    "Singaporese",
+    "singapourien",
+    "singapourienne",
+    "Singaporean"
+   ]
+  },
+  "GS": {
+   "naam": "Zuid-Georgia en de Zuidelijke Sandwicheilanden",
+   "namen": [
+    "Géorgie du Sud et les îles Sandwich du Sud",
+    "South Georgia and the South Sandwich Islands",
+    "South Georgia und die Südlichen Sandwichinseln",
+    "Zuid-Georgia en de Zuidelijke Sandwicheilanden"
+   ],
+   "bijvoeglijk": []
+  },
+  "SH": {
+   "naam": "Sint-Helena",
+   "namen": [],
+   "bijvoeglijk": []
+  },
+  "SJ": {
+   "naam": "Spitsbergen en Jan Mayen",
+   "namen": [
+    "Spitsbergen en Jan Mayen",
+    "Svalbard and Jan Mayen",
+    "Svalbard et île Jan Mayen",
+    "Svalbard und Jan Mayen"
+   ],
+   "bijvoeglijk": []
+  },
+  "SB": {
+   "naam": "Salomonseilanden",
+   "namen": [
+    "Salomoninseln",
+    "Salomonseilanden",
+    "Solomon Islands"
+   ],
+   "bijvoeglijk": []
+  },
+  "SL": {
+   "naam": "Sierra Leone",
+   "namen": [
+    "Sierra Leone"
+   ],
+   "bijvoeglijk": []
+  },
+  "SV": {
+   "naam": "El Salvador",
+   "namen": [
+    "El Salvador",
+    "Salvador"
+   ],
+   "bijvoeglijk": []
+  },
+  "SM": {
+   "naam": "San Marino",
+   "namen": [
+    "Saint-Marin",
+    "San Marino"
+   ],
+   "bijvoeglijk": []
+  },
+  "SO": {
+   "naam": "Somalië",
+   "namen": [
+    "Somalia",
+    "Somalie",
+    "Somalië"
+   ],
+   "bijvoeglijk": []
+  },
+  "PM": {
+   "naam": "Saint-Pierre en Miquelon",
+   "namen": [
+    "Saint Pierre and Miquelon",
+    "Saint-Pierre en Miquelon",
+    "Saint-Pierre-et-Miquelon",
+    "St. Pierre und Miquelon"
+   ],
+   "bijvoeglijk": []
+  },
+  "RS": {
+   "naam": "Servië",
+   "namen": [
+    "Serbia",
+    "Serbie",
+    "Serbien",
+    "Servië"
+   ],
+   "bijvoeglijk": []
+  },
+  "SS": {
+   "naam": "Zuid-Soedan",
+   "namen": [
+    "Soudan du Sud",
+    "South Sudan",
+    "Südsudan",
+    "Zuid-Soedan"
+   ],
+   "bijvoeglijk": []
+  },
+  "ST": {
+   "naam": "Sao Tomé en Principe",
+   "namen": [
+    "Sao Tome and Principe",
+    "Sao Tomé en Principe",
+    "Sao Tomé-et-Principe",
+    "São Tomé und Príncipe"
+   ],
+   "bijvoeglijk": []
+  },
+  "SR": {
+   "naam": "Suriname",
+   "namen": [
+    "Surinam",
+    "Suriname"
+   ],
+   "bijvoeglijk": []
+  },
+  "SK": {
+   "naam": "Slowakije",
+   "namen": [
+    "Slovakia",
+    "Slovaquie",
+    "Slowakei",
+    "Slowakije"
+   ],
+   "bijvoeglijk": []
+  },
+  "SI": {
+   "naam": "Slovenië",
+   "namen": [
+    "Slovenia",
+    "Slovenië",
+    "Slovénie",
+    "Slowenien"
+   ],
+   "bijvoeglijk": []
+  },
+  "SE": {
+   "naam": "Zweden",
+   "namen": [
+    "Schweden",
+    "Suède",
+    "Sweden",
+    "Zweden"
+   ],
+   "bijvoeglijk": [
+    "Zweeds",
+    "Zweedse",
+    "suédois",
+    "suédoise",
+    "Swedish",
+    "schwedische"
+   ]
+  },
+  "SZ": {
+   "naam": "Eswatini",
+   "namen": [
+    "Eswatini"
+   ],
+   "bijvoeglijk": []
+  },
+  "SX": {
+   "naam": "Sint Maarten (Nederlands deel)",
+   "namen": [],
+   "bijvoeglijk": []
+  },
+  "SC": {
+   "naam": "Seychellen",
+   "namen": [
+    "Seychellen",
+    "Seychelles"
+   ],
+   "bijvoeglijk": []
+  },
+  "SY": {
+   "naam": "Syrië",
+   "namen": [
+    "Syria",
+    "Syrian Arab Republic",
+    "Syrie",
+    "Syrien",
+    "Syrië"
+   ],
+   "bijvoeglijk": []
+  },
+  "TC": {
+   "naam": "Turks- en Caicoseilanden",
+   "namen": [
+    "Turks and Caicos Islands",
+    "Turks- en Caicoseilanden",
+    "Turks- und Caicosinseln",
+    "Îles Turques-et-Caïques"
+   ],
+   "bijvoeglijk": []
+  },
+  "TD": {
+   "naam": "Tsjaad",
+   "namen": [
+    "Tchad",
+    "Tschad",
+    "Tsjaad"
+   ],
+   "bijvoeglijk": []
+  },
+  "TG": {
+   "naam": "Togo",
+   "namen": [],
+   "bijvoeglijk": []
+  },
+  "TH": {
+   "naam": "Thailand",
+   "namen": [
+    "Thailand",
+    "Thaïlande"
+   ],
+   "bijvoeglijk": [
+    "Thaise",
+    "thaïlandais",
+    "thaïlandaise",
+    "Thai"
+   ]
+  },
+  "TJ": {
+   "naam": "Tadzjikistan",
+   "namen": [
+    "Tadjikistan",
+    "Tadschikistan",
+    "Tadzjikistan",
+    "Tajikistan"
+   ],
+   "bijvoeglijk": []
+  },
+  "TK": {
+   "naam": "Tokelau",
+   "namen": [
+    "Tokelau"
+   ],
+   "bijvoeglijk": []
+  },
+  "TM": {
+   "naam": "Turkmenistan",
+   "namen": [
+    "Turkmenistan",
+    "Turkménistan"
+   ],
+   "bijvoeglijk": []
+  },
+  "TL": {
+   "naam": "Oost-Timor",
+   "namen": [
+    "Oost-Timor",
+    "Timor oriental",
+    "Timor-Leste"
+   ],
+   "bijvoeglijk": []
+  },
+  "TO": {
+   "naam": "Tonga",
+   "namen": [
+    "Tonga"
+   ],
+   "bijvoeglijk": []
+  },
+  "TT": {
+   "naam": "Trinidad en Tobago",
+   "namen": [
+    "Trinidad and Tobago",
+    "Trinidad en Tobago",
+    "Trinidad und Tobago",
+    "Trinité-et-Tobago"
+   ],
+   "bijvoeglijk": []
+  },
+  "TN": {
+   "naam": "Tunesië",
+   "namen": [
+    "Tunesien",
+    "Tunesië",
+    "Tunisia",
+    "Tunisie"
+   ],
+   "bijvoeglijk": []
+  },
+  "TR": {
+   "naam": "Turkije",
+   "namen": [
+    "Turkije",
+    "Turquie",
+    "Türkei",
+    "Türkiye"
+   ],
+   "bijvoeglijk": [
+    "Turks",
+    "Turkse",
+    "turc",
+    "turque",
+    "Turkish",
+    "türkische"
+   ]
+  },
+  "TV": {
+   "naam": "Tuvalu",
+   "namen": [
+    "Tuvalu"
+   ],
+   "bijvoeglijk": []
+  },
+  "TW": {
+   "naam": "Taiwan",
+   "namen": [
+    "Taiwan",
+    "Taïwan"
+   ],
+   "bijvoeglijk": []
+  },
+  "TZ": {
+   "naam": "Tanzania",
+   "namen": [
+    "Tansania",
+    "Tanzania",
+    "Tanzanie"
+   ],
+   "bijvoeglijk": []
+  },
+  "UG": {
+   "naam": "Oeganda",
+   "namen": [
+    "Oeganda",
+    "Ouganda",
+    "Uganda"
+   ],
+   "bijvoeglijk": []
+  },
+  "UA": {
+   "naam": "Oekraïne",
+   "namen": [
+    "Oekraïne",
+    "Ukraine"
+   ],
+   "bijvoeglijk": []
+  },
+  "UM": {
+   "naam": "Kleine afgelegen eilanden van de Verenigde Staten",
+   "namen": [
+    "Kleine afgelegen eilanden van de Verenigde Staten",
+    "United States Minor Outlying Islands",
+    "Îles mineures éloignées des États-Unis"
+   ],
+   "bijvoeglijk": []
+  },
+  "UY": {
+   "naam": "Uruguay",
+   "namen": [
+    "Uruguay"
+   ],
+   "bijvoeglijk": []
+  },
+  "US": {
+   "naam": "Verenigde Staten",
+   "namen": [
+    "America",
+    "Amerika",
+    "Etats-Unis",
+    "U.S.",
+    "U.S.A.",
+    "USA",
+    "United States",
+    "VS",
+    "Vereinigte Staaten",
+    "Verenigde Staten",
+    "États-Unis"
+   ],
+   "bijvoeglijk": [
+    "Amerikaans",
+    "Amerikaanse",
+    "américain",
+    "américaine",
+    "American",
+    "Americans",
+    "amerikanische",
+    "amerikanischen"
+   ]
+  },
+  "UZ": {
+   "naam": "Oezbekistan",
+   "namen": [
+    "Oezbekistan",
+    "Ouzbékistan",
+    "Usbekistan",
+    "Uzbekistan"
+   ],
+   "bijvoeglijk": []
+  },
+  "VA": {
+   "naam": "Vaticaanstad",
+   "namen": [],
+   "bijvoeglijk": []
+  },
+  "VC": {
+   "naam": "Saint Vincent en de Grenadines",
+   "namen": [
+    "Saint Vincent and the Grenadines",
+    "Saint Vincent en de Grenadines",
+    "Saint-Vincent-et-les-Grenadines",
+    "St. Vincent und die Grenadinen"
+   ],
+   "bijvoeglijk": []
+  },
+  "VE": {
+   "naam": "Venezuela",
+   "namen": [
+    "Venezuela",
+    "Vénézuela"
+   ],
+   "bijvoeglijk": []
+  },
+  "VG": {
+   "naam": "Maagdeneilanden",
+   "namen": [
+    "Britische Jungferninseln",
+    "Îles Vierges britanniques"
+   ],
+   "bijvoeglijk": []
+  },
+  "VI": {
+   "naam": "Maagdeneilanden",
+   "namen": [
+    "Amerikanische Jungferninseln"
+   ],
+   "bijvoeglijk": []
+  },
+  "VN": {
+   "naam": "Vietnam",
+   "namen": [
+    "Viet Nam",
+    "Vietnam",
+    "Viêt Nam",
+    "Viëtnam"
+   ],
+   "bijvoeglijk": []
+  },
+  "VU": {
+   "naam": "Vanuatu",
+   "namen": [
+    "Vanuatu"
+   ],
+   "bijvoeglijk": []
+  },
+  "WF": {
+   "naam": "Wallis en Futuna",
+   "namen": [
+    "Wallis and Futuna",
+    "Wallis en Futuna",
+    "Wallis et Futuna",
+    "Wallis und Futuna"
+   ],
+   "bijvoeglijk": []
+  },
+  "WS": {
+   "naam": "Samoa",
+   "namen": [
+    "Samoa"
+   ],
+   "bijvoeglijk": []
+  },
+  "YE": {
+   "naam": "Jemen",
+   "namen": [
+    "Jemen",
+    "Yemen",
+    "Yémen"
+   ],
+   "bijvoeglijk": []
+  },
+  "ZA": {
+   "naam": "Zuid-Afrika",
+   "namen": [
+    "Afrique du Sud",
+    "South Africa",
+    "Südafrika",
+    "Zuid-Afrika"
+   ],
+   "bijvoeglijk": [
+    "Zuid-Afrikaans",
+    "Zuid-Afrikaanse",
+    "sud-africain",
+    "sud-africaine",
+    "South African",
+    "südafrikanische"
+   ]
+  },
+  "ZM": {
+   "naam": "Zambia",
+   "namen": [
+    "Sambia",
+    "Zambia",
+    "Zambie"
+   ],
+   "bijvoeglijk": []
+  },
+  "ZW": {
+   "naam": "Zimbabwe",
+   "namen": [
+    "Simbabwe",
+    "Zimbabwe"
+   ],
+   "bijvoeglijk": []
+  },
+  "EU": {
+   "naam": "Europese Unie",
+   "namen": [
+    "Commission européenne",
+    "EU",
+    "EU-Kommission",
+    "European Commission",
+    "European Parliament",
+    "European Union",
+    "Europees Parlement",
+    "Europese Commissie",
+    "Europese Unie",
+    "Europäische Union",
+    "Europäisches Parlament",
+    "Parlement européen",
+    "UE",
+    "Union européenne"
+   ],
+   "bijvoeglijk": [
+    "Europees",
+    "Europese",
+    "européen",
+    "européenne",
+    "européens",
+    "européennes",
+    "europäische",
+    "europäischen"
+   ]
+  }
+ },
+ "steden": {
+  "'s-Hertogenbosch": "NL",
+  "A Coruña": "ES",
+  "Aachen": "DE",
+  "Aba": "NG",
+  "Aberdeen": "GB",
+  "Abidjan": "CI",
+  "Abobo": "CI",
+  "Abu Dhabi": "AE",
+  "Abuja": "NG",
+  "Accra": "GH",
+  "Acilia-Castel Fusano-Ostia Antica": "IT",
+  "Adana": "TR",
+  "Addis Ababa": "ET",
+  "Adelaide": "AU",
+  "Aden": "YE",
+  "Agra": "IN",
+  "Ahmedabad": "IN",
+  "Aix-en-Provence": "FR",
+  "Aix-la-Chapelle": "DE",
+  "Aken": "DE",
+  "Alabama": "US",
+  "Alaska": "US",
+  "Albacete": "ES",
+  "Alcalá de Henares": "ES",
+  "Alcobendas": "ES",
+  "Alcorcón": "ES",
+  "Aleppo": "SY",
+  "Alexandria": "EG",
+  "Algeciras": "ES",
+  "Algiers": "DZ",
+  "Alicante": "ES",
+  "Almaty": "KZ",
+  "Almere Stad": "NL",
+  "Almería": "ES",
+  "Amersfoort": "NL",
+  "Amiens": "FR",
+  "Amman": "JO",
+  "Amritsar": "IN",
+  "Amsterdam": "NL",
+  "Angers": "FR",
+  "Ankara": "TR",
+  "Anshan": "CN",
+  "Antalya": "TR",
+  "Antananarivo": "MG",
+  "Anyang": "CN",
+  "Apeldoorn": "NL",
+  "Archway": "GB",
+  "Arequipa": "PE",
+  "Arezzo": "IT",
+  "Arganzuela": "ES",
+  "Argenteuil": "FR",
+  "Arizona": "US",
+  "Arkansas": "US",
+  "Arnhem": "NL",
+  "Arras": "FR",
+  "Ashgabat": "TM",
+  "Astana": "KZ",
+  "Asunción": "PY",
+  "Athen": "GR",
+  "Athene": "GR",
+  "Athens": "GR",
+  "Athènes": "GR",
+  "Atrecht": "FR",
+  "Auckland": "NZ",
+  "Augsburg": "DE",
+  "Aurangabad": "IN",
+  "Badajoz": "ES",
+  "Badalona": "ES",
+  "Baghdad": "IQ",
+  "Baku": "AZ",
+  "Bamako": "ML",
+  "Bandar Lampung": "ID",
+  "Bandung": "ID",
+  "Bangkok": "TH",
+  "Bannu": "PK",
+  "Bao'an": "CN",
+  "Baoding": "CN",
+  "Baoji": "CN",
+  "Baoshan": "CN",
+  "Baotou": "CN",
+  "Barakaldo": "ES",
+  "Barcelona": "ES",
+  "Barcelone": "ES",
+  "Bari": "IT",
+  "Barquisimeto": "VE",
+  "Barranquilla": "CO",
+  "Basel": "CH",
+  "Basingstoke": "GB",
+  "Basrah": "IQ",
+  "Batam": "ID",
+  "Bayan Nur": "CN",
+  "Bazel": "CH",
+  "Bazhong": "CN",
+  "Becontree": "GB",
+  "Beijing": "CN",
+  "Beirut": "LB",
+  "Bekasi": "ID",
+  "Belfast": "GB",
+  "Belgrade": "RS",
+  "Belo Horizonte": "BR",
+  "Belém": "BR",
+  "Bengaluru": "IN",
+  "Benin City": "NG",
+  "Bergamo": "IT",
+  "Bergedorf": "DE",
+  "Bergisch Gladbach": "DE",
+  "Berlijn": "DE",
+  "Berlin": "DE",
+  "Bern": "CH",
+  "Berne": "CH",
+  "Besançon": "FR",
+  "Bexley": "GB",
+  "Bhopal": "IN",
+  "Bielefeld": "DE",
+  "Bijie": "CN",
+  "Bilbao": "ES",
+  "Birkenhead": "GB",
+  "Birmingham": "GB",
+  "Biên Hòa": "VN",
+  "Blackburn": "GB",
+  "Blackpool": "GB",
+  "Bochum": "DE",
+  "Boedapest": "HU",
+  "Bogor": "ID",
+  "Bogotá": "CO",
+  "Bologna": "IT",
+  "Bolzano": "IT",
+  "Bonn": "DE",
+  "Bordeaux": "FR",
+  "Bottrop": "DE",
+  "Boulogne-Billancourt": "FR",
+  "Bournemouth": "GB",
+  "Bozhou": "CN",
+  "Bradford": "GB",
+  "Brasília": "BR",
+  "Braunschweig": "DE",
+  "Brazzaville": "CG",
+  "Breda": "NL",
+  "Bremen": "DE",
+  "Bremerhaven": "DE",
+  "Brescia": "IT",
+  "Brest": "FR",
+  "Brighton": "GB",
+  "Brisbane": "AU",
+  "Bristol": "GB",
+  "Brooklyn": "US",
+  "Bucharest": "RO",
+  "Budapest": "HU",
+  "Budta": "PH",
+  "Buenos Aires": "AR",
+  "Burgos": "ES",
+  "Burnley": "GB",
+  "Bursa": "TR",
+  "Burton upon Trent": "GB",
+  "Busan": "KR",
+  "Bâle": "CH",
+  "Cadiz": "ES",
+  "Caen": "FR",
+  "Cagliari": "IT",
+  "Cairo": "EG",
+  "Calgary": "CA",
+  "Cali": "CO",
+  "California": "US",
+  "Callao": "PE",
+  "Caloocan": "PH",
+  "Camayenne": "GN",
+  "Cambridge": "GB",
+  "Campinas": "BR",
+  "Cape Town": "ZA",
+  "Carabanchel": "ES",
+  "Caracas": "VE",
+  "Cardiff": "GB",
+  "Cartagena": "ES",
+  "Casablanca": "MA",
+  "Castelló de la Plana": "ES",
+  "Catania": "IT",
+  "Cergy-Pontoise": "FR",
+  "Chamartín": "ES",
+  "Chamberí": "ES",
+  "Changchun": "CN",
+  "Changde": "CN",
+  "Changsha": "CN",
+  "Changshu": "CN",
+  "Changwon": "KR",
+  "Changzhi": "CN",
+  "Changzhou": "CN",
+  "Chaozhou": "CN",
+  "Charlottenburg": "DE",
+  "Chattogram": "BD",
+  "Chelmsford": "GB",
+  "Cheltenham": "GB",
+  "Chelyabinsk": "RU",
+  "Chemnitz": "DE",
+  "Chengdu": "CN",
+  "Chennai": "IN",
+  "Chesterfield": "GB",
+  "Chicago": "US",
+  "Chongqing": "CN",
+  "Circoiscrizione II": "IT",
+  "Circoiscrizione III": "IT",
+  "Circoiscrizione V": "IT",
+  "Circoiscrizione VI": "IT",
+  "Circoiscrizione VIII": "IT",
+  "City of Westminster": "GB",
+  "Ciudad Juárez": "MX",
+  "Ciudad Lineal": "ES",
+  "Ciudad Nezahualcoyotl": "MX",
+  "Ciutat Vella": "ES",
+  "Cixi": "CN",
+  "Clermont-Ferrand": "FR",
+  "Coimbatore": "IN",
+  "Colchester": "GB",
+  "Cologne": "DE",
+  "Colorado": "US",
+  "Conakry": "GN",
+  "Connecticut": "US",
+  "Copenhagen": "DK",
+  "Copenhague": "DK",
+  "Coventry": "GB",
+  "Cracovie": "PL",
+  "Croydon": "GB",
+  "Curitiba": "BR",
+  "Córdoba": "AR",
+  "Da Nang": "VN",
+  "Daegu": "KR",
+  "Daejeon": "KR",
+  "Dagenham": "GB",
+  "Dakar": "SN",
+  "Dalian": "CN",
+  "Dallas": "US",
+  "Damascus": "SY",
+  "Dammam": "SA",
+  "Daqing": "CN",
+  "Dar es Salaam": "TZ",
+  "Darmstadt": "DE",
+  "Datong": "CN",
+  "Davao": "PH",
+  "Dazhou": "CN",
+  "Delaware": "US",
+  "Delhi": "IN",
+  "Delicias": "ES",
+  "Den Haag": "NL",
+  "Depok": "ID",
+  "Dhaka": "BD",
+  "Dhanbad": "IN",
+  "Dijon": "FR",
+  "District of Columbia": "US",
+  "Dombivali": "IN",
+  "Donaustadt": "AT",
+  "Doncaster": "GB",
+  "Dongguan": "CN",
+  "Dordrecht": "NL",
+  "Dortmund": "DE",
+  "Dos Hermanas": "ES",
+  "Douala": "CM",
+  "Dresden": "DE",
+  "Dubai": "AE",
+  "Dublin": "IE",
+  "Dudley": "GB",
+  "Duinkerke": "FR",
+  "Duisburg": "DE",
+  "Dundee": "GB",
+  "Dunkerque": "FR",
+  "Durban": "ZA",
+  "Düsseldorf": "DE",
+  "Eastbourne": "GB",
+  "Ecatepec de Morelos": "MX",
+  "Edinburgh": "GB",
+  "Edmonton": "CA",
+  "Eimsbüttel": "DE",
+  "Eindhoven": "NL",
+  "Eixample": "ES",
+  "Elche": "ES",
+  "Enfield Town": "GB",
+  "Enschede": "NL",
+  "Erbil": "IQ",
+  "Erfurt": "DE",
+  "Erlangen": "DE",
+  "Exeter": "GB",
+  "Faisalabad": "PK",
+  "Faridabad": "IN",
+  "Fengxiang": "CN",
+  "Ferrara": "IT",
+  "Fes": "MA",
+  "Firenze": "IT",
+  "Florence": "IT",
+  "Florida": "US",
+  "Floridsdorf": "AT",
+  "Foggia": "IT",
+  "Forlì": "IT",
+  "Fort Worth": "US",
+  "Fortaleza": "BR",
+  "Foshan": "CN",
+  "Frankfurt": "DE",
+  "Frankfurt am Main": "DE",
+  "Freiburg": "DE",
+  "Friedrichshain": "DE",
+  "Fuencarral": "ES",
+  "Fuencarral-El Pardo": "ES",
+  "Fuenlabrada": "ES",
+  "Fukuoka": "JP",
+  "Fushun": "CN",
+  "Fuyang": "CN",
+  "Fuzhou": "CN",
+  "Fürth": "DE",
+  "Ganzhou": "CN",
+  "Gaziantep": "TR",
+  "Gazipur": "BD",
+  "Gelsenkirchen": "DE",
+  "Geneva": "CH",
+  "Genf": "CH",
+  "Genoa": "IT",
+  "Genève": "CH",
+  "Getafe": "ES",
+  "Gijón": "ES",
+  "Gillingham": "GB",
+  "Girona": "ES",
+  "Giza": "EG",
+  "Glasgow": "GB",
+  "Gloucester": "GB",
+  "Goiânia": "BR",
+  "Gorakhpur": "IN",
+  "Goyang-si": "KR",
+  "Gqeberha": "ZA",
+  "Granada": "ES",
+  "Graz": "AT",
+  "Grenoble": "FR",
+  "Groningen": "NL",
+  "Gràcia": "ES",
+  "Guadalajara": "MX",
+  "Guangzhou": "CN",
+  "Guankou": "CN",
+  "Guarulhos": "BR",
+  "Guayaquil": "EC",
+  "Guigang": "CN",
+  "Guilin": "CN",
+  "Guiyang": "CN",
+  "Gujranwala": "PK",
+  "Gustavo Adolfo Madero": "MX",
+  "Gwalior": "IN",
+  "Gwangju": "KR",
+  "Göttingen": "DE",
+  "Haarlem": "NL",
+  "Haikou": "CN",
+  "Haiphong": "VN",
+  "Hambourg": "DE",
+  "Hamburg": "DE",
+  "Hamburg-Mitte": "DE",
+  "Hamburg-Nord": "DE",
+  "Handan": "CN",
+  "Hangzhou": "CN",
+  "Hannover": "DE",
+  "Hanoi": "VN",
+  "Hanzhong": "CN",
+  "Harare": "ZW",
+  "Harbin": "CN",
+  "Harburg": "DE",
+  "Harrow": "GB",
+  "Havana": "CU",
+  "Hawaii": "US",
+  "Hefei": "CN",
+  "Heidelberg": "DE",
+  "Heilbronn": "DE",
+  "Hengyang": "CN",
+  "Herne": "DE",
+  "Heshan": "CN",
+  "Heze": "CN",
+  "Hezhou": "CN",
+  "High Wycombe": "GB",
+  "Hildesheim": "DE",
+  "Hiroshima": "JP",
+  "Ho Chi Minh City": "VN",
+  "Hohhot": "CN",
+  "Hong Kong": "CN",
+  "Hong Kong Island": "HK",
+  "Hongkong": "CN",
+  "Hoofddorp": "NL",
+  "Horta-Guinardó": "ES",
+  "Hortaleza": "ES",
+  "Houston": "US",
+  "Howrah": "IN",
+  "Huai'an": "CN",
+  "Huaibei": "CN",
+  "Huainan": "CN",
+  "Huddersfield": "GB",
+  "Huelva": "ES",
+  "Huizhou": "CN",
+  "Huzhou": "CN",
+  "Hyderabad": "IN",
+  "Ibadan": "NG",
+  "Idaho": "US",
+  "Ilford": "GB",
+  "Illinois": "US",
+  "Ilorin": "NG",
+  "Incheon": "KR",
+  "Indiana": "US",
+  "Indore": "IN",
+  "Ingolstadt": "DE",
+  "Innsbruck": "AT",
+  "Iowa": "US",
+  "Ipswich": "GB",
+  "Isfahan": "IR",
+  "Islington": "GB",
+  "Istanbul": "TR",
+  "Iztapalapa": "MX",
+  "Jabalpur": "IN",
+  "Jacksonville": "US",
+  "Jaipur": "IN",
+  "Jakarta": "ID",
+  "Jamshedpur": "IN",
+  "Jaén": "ES",
+  "Jeddah": "SA",
+  "Jena": "DE",
+  "Jepara": "ID",
+  "Jerez de la Frontera": "ES",
+  "Jiading": "CN",
+  "Jiangmen": "CN",
+  "Jiangyin": "CN",
+  "Jiaxing": "CN",
+  "Jieyang": "CN",
+  "Jilin": "CN",
+  "Jinan": "CN",
+  "Jingzhou": "CN",
+  "Jinhua": "CN",
+  "Jining": "CN",
+  "Jinjiang": "CN",
+  "Jinzhong": "CN",
+  "Jiujiang": "CN",
+  "Jodhpur": "IN",
+  "Johannesburg": "ZA",
+  "Kabul": "AF",
+  "Kaduna": "NG",
+  "Kaifeng": "CN",
+  "Kakamega": "KE",
+  "Kallakurichi": "IN",
+  "Kamerijk": "FR",
+  "Kampala": "UG",
+  "Kananga": "CD",
+  "Kanpur": "IN",
+  "Kansas": "US",
+  "Kaohsiung": "TW",
+  "Karachi": "PK",
+  "Karaj": "IR",
+  "Karbala": "IQ",
+  "Karlsruhe": "DE",
+  "Kassel": "DE",
+  "Kathmandu": "NP",
+  "Kawasaki": "JP",
+  "Kayseri": "TR",
+  "Kazan": "RU",
+  "Kentucky": "US",
+  "Keulen": "DE",
+  "Kharkiv": "UA",
+  "Khartoum": "SD",
+  "Khartoum North": "SD",
+  "Khulna": "BD",
+  "Kigali": "RW",
+  "Kingston upon Hull": "GB",
+  "Kinshasa": "CD",
+  "Kirkuk": "IQ",
+  "Kisangani": "CD",
+  "Klagenfurt am Wörthersee": "AT",
+  "Kobe": "JP",
+  "Koblenz": "DE",
+  "Kolkata": "IN",
+  "Konya": "TR",
+  "Kopenhagen": "DK",
+  "Kota": "IN",
+  "Kowloon": "HK",
+  "Krakau": "PL",
+  "Kraków": "PL",
+  "Krasnoyarsk": "RU",
+  "Krefeld": "DE",
+  "Kreuzberg": "DE",
+  "Kuala Lumpur": "MY",
+  "Kumasi": "GH",
+  "Kunming": "CN",
+  "Kunshan": "CN",
+  "Kyiv": "UA",
+  "Kyoto": "JP",
+  "Köln": "DE",
+  "L'Hospitalet de Llobregat": "ES",
+  "La Haye": "NL",
+  "La Laguna": "ES",
+  "La Paz": "BO",
+  "Lagos": "NG",
+  "Lahore": "PK",
+  "Lanzhou": "CN",
+  "Las Palmas de Gran Canaria": "ES",
+  "Lausanne": "CH",
+  "Le Havre": "FR",
+  "Le Mans": "FR",
+  "Leeds": "GB",
+  "Leeuwarden": "NL",
+  "Leganés": "ES",
+  "Leicester": "GB",
+  "Leiden": "NL",
+  "Leipzig": "DE",
+  "Leverkusen": "DE",
+  "León": "ES",
+  "León de los Aldama": "MX",
+  "Lianyungang": "CN",
+  "Liaocheng": "CN",
+  "Lille": "FR",
+  "Lilongwe": "MW",
+  "Lima": "PE",
+  "Limoges": "FR",
+  "Linyi": "CN",
+  "Linz": "AT",
+  "Lisboa": "PT",
+  "Lisbon": "PT",
+  "Lisbonne": "PT",
+  "Lissabon": "PT",
+  "Liupanshui": "CN",
+  "Liuzhou": "CN",
+  "Liverpool": "GB",
+  "Livorno": "IT",
+  "Lleida": "ES",
+  "Logroño": "ES",
+  "Lomé": "TG",
+  "Londen": "GB",
+  "London": "GB",
+  "Londres": "GB",
+  "Longyan": "CN",
+  "Los Angeles": "US",
+  "Louisiana": "US",
+  "Luanda": "AO",
+  "Lubumbashi": "CD",
+  "Lucknow": "IN",
+  "Ludhiana": "IN",
+  "Ludwigshafen am Rhein": "DE",
+  "Luohe": "CN",
+  "Luohu District": "CN",
+  "Luoyang": "CN",
+  "Lusaka": "ZM",
+  "Luxembourg-Ville": "LU",
+  "Luxemburg-Stad": "LU",
+  "Lu’an": "CN",
+  "Lyon": "FR",
+  "Lübeck": "DE",
+  "Lüliang": "CN",
+  "Maastricht": "NL",
+  "Maceió": "BR",
+  "Madinah": "SA",
+  "Madrid": "ES",
+  "Madrid Centro": "ES",
+  "Madurai": "IN",
+  "Magdeburg": "DE",
+  "Maidstone": "GB",
+  "Maiduguri": "NG",
+  "Mailand": "IT",
+  "Maine": "US",
+  "Mainz": "DE",
+  "Makassar": "ID",
+  "Makkah": "SA",
+  "Malingao": "PH",
+  "Manaus": "BR",
+  "Manchester": "GB",
+  "Mandalay": "MM",
+  "Manhattan": "US",
+  "Manila": "PH",
+  "Mannheim": "DE",
+  "Mansfield": "GB",
+  "Maoming": "CN",
+  "Maputo": "MZ",
+  "Maracaibo": "VE",
+  "Marbella": "ES",
+  "Marienthal": "DE",
+  "Marne La Vallée": "FR",
+  "Marseille": "FR",
+  "Maryland": "US",
+  "Marzahn": "DE",
+  "Mashhad": "IR",
+  "Massachusetts": "US",
+  "Mataró": "ES",
+  "Matola": "MZ",
+  "Mbuji-Mayi": "CD",
+  "Medan": "ID",
+  "Medellín": "CO",
+  "Meerut": "IN",
+  "Meishan": "CN",
+  "Melbourne": "AU",
+  "Mendip": "GB",
+  "Messina": "IT",
+  "Mestre": "IT",
+  "Metz": "FR",
+  "Mexicali": "MX",
+  "Mexico City": "MX",
+  "Mianyang": "CN",
+  "Michigan": "US",
+  "Middlesbrough": "GB",
+  "Milaan": "IT",
+  "Milan": "IT",
+  "Milano": "IT",
+  "Milton Keynes": "GB",
+  "Minhang": "CN",
+  "Minnesota": "US",
+  "Minsk": "BY",
+  "Mississippi": "US",
+  "Missouri": "US",
+  "Modena": "IT",
+  "Mogadishu": "SO",
+  "Mombasa": "KE",
+  "Moncloa-Aravaca": "ES",
+  "Monrovia": "LR",
+  "Montana": "US",
+  "Monterrey": "MX",
+  "Montevideo": "UY",
+  "Montpellier": "FR",
+  "Montreuil": "FR",
+  "Montréal": "CA",
+  "Monza": "IT",
+  "Moratalaz": "ES",
+  "Moscou": "RU",
+  "Moscow": "RU",
+  "Moskau": "RU",
+  "Moskou": "RU",
+  "Mosul": "IQ",
+  "Mulhouse": "FR",
+  "Multan": "PK",
+  "Mumbai": "IN",
+  "Munich": "DE",
+  "Murcia": "ES",
+  "Mwanza": "TZ",
+  "Málaga": "ES",
+  "Mérida": "MX",
+  "Móstoles": "ES",
+  "Mönchengladbach": "DE",
+  "Mülheim": "DE",
+  "München": "DE",
+  "Münster": "DE",
+  "N'Djamena": "TD",
+  "Nagoya": "JP",
+  "Nagpur": "IN",
+  "Nairobi": "KE",
+  "Najafgarh": "IN",
+  "Nanchang": "CN",
+  "Nanchong": "CN",
+  "Nanjing": "CN",
+  "Nanning": "CN",
+  "Nantes": "FR",
+  "Nantong": "CN",
+  "Nanyang": "CN",
+  "Napels": "IT",
+  "Naples": "IT",
+  "Napoli": "IT",
+  "Nashik": "IN",
+  "Navi Mumbai": "IN",
+  "Nebraska": "US",
+  "Neijiang": "CN",
+  "Neue Neustadt": "DE",
+  "Neukölln": "DE",
+  "Neuss": "DE",
+  "Nevada": "US",
+  "New Hampshire": "US",
+  "New Jersey": "US",
+  "New Mexico": "US",
+  "New Taipei City": "TW",
+  "New Territories": "HK",
+  "New York": "US",
+  "New York City": "US",
+  "Newcastle under Lyme": "GB",
+  "Newcastle upon Tyne": "GB",
+  "Newport": "GB",
+  "Niamey": "NE",
+  "Nijmegen": "NL",
+  "Ningbo": "CN",
+  "Nippes": "DE",
+  "Nizhniy Novgorod": "RU",
+  "North Carolina": "US",
+  "North Dakota": "US",
+  "Northampton": "GB",
+  "Norwich": "GB",
+  "Nottingham": "GB",
+  "Nou Barris": "ES",
+  "Nouakchott": "MR",
+  "Novara": "IT",
+  "Novosibirsk": "RU",
+  "Nowrangapur": "IN",
+  "Nuremberg": "DE",
+  "Nîmes": "FR",
+  "Oberhausen": "DE",
+  "Odesa": "UA",
+  "Offenbach": "DE",
+  "Ohio": "US",
+  "Oklahoma": "US",
+  "Oldenburg": "DE",
+  "Oldham": "GB",
+  "Omdurman": "SD",
+  "Omsk": "RU",
+  "Onitsha": "NG",
+  "Ordos": "CN",
+  "Oregon": "US",
+  "Orihuela": "ES",
+  "Orléans": "FR",
+  "Osaka": "JP",
+  "Oslo": "NO",
+  "Osnabrück": "DE",
+  "Ottakring": "AT",
+  "Ottawa": "CA",
+  "Ouagadougou": "BF",
+  "Ourense": "ES",
+  "Oviedo": "ES",
+  "Oxford": "GB",
+  "Paderborn": "DE",
+  "Padua": "IT",
+  "Palembang": "ID",
+  "Palermo": "IT",
+  "Pamplona": "ES",
+  "Panjin": "CN",
+  "Parijs": "FR",
+  "Paris": "FR",
+  "Parla": "ES",
+  "Parma": "IT",
+  "Patna": "IN",
+  "Pekanbaru": "ID",
+  "Peking": "CN",
+  "Pennsylvania": "US",
+  "Perpignan": "FR",
+  "Perth": "AU",
+  "Perugia": "IT",
+  "Pescara": "IT",
+  "Peshawar": "PK",
+  "Peterborough": "GB",
+  "Pforzheim": "DE",
+  "Philadelphia": "US",
+  "Phnom Penh": "KH",
+  "Piacenza": "IT",
+  "Pikine": "SN",
+  "Pimpri": "IN",
+  "Pimpri-Chinchwad": "IN",
+  "Pisa": "IT",
+  "Plymouth": "GB",
+  "Pointe-Noire": "CG",
+  "Poole": "GB",
+  "Port Harcourt": "NG",
+  "Port-au-Prince": "HT",
+  "Porto Alegre": "BR",
+  "Portsmouth": "GB",
+  "Porz am Rhein": "DE",
+  "Potsdam": "DE",
+  "Praag": "CZ",
+  "Prag": "CZ",
+  "Prague": "CZ",
+  "Prato": "IT",
+  "Prayagraj": "IN",
+  "Prenzlauer Berg": "DE",
+  "Pretoria": "ZA",
+  "Pudong": "CN",
+  "Puebla": "MX",
+  "Puente de Vallecas": "ES",
+  "Pune": "IN",
+  "Putian": "CN",
+  "Putuo": "CN",
+  "Puxi": "CN",
+  "Puyang": "CN",
+  "Pyongyang": "KP",
+  "Pékin": "CN",
+  "Qingdao": "CN",
+  "Qingpu": "CN",
+  "Qingyang": "CN",
+  "Qingyuan": "CN",
+  "Qinzhou": "CN",
+  "Quanzhou": "CN",
+  "Quarto Oggiaro": "IT",
+  "Quetta": "PK",
+  "Quezon City": "PH",
+  "Quito": "EC",
+  "Qujing": "CN",
+  "Rabat": "MA",
+  "Raipur": "IN",
+  "Ranchi": "IN",
+  "Rangpur": "BD",
+  "Rawalpindi": "PK",
+  "Recife": "BR",
+  "Recklinghausen": "DE",
+  "Regensburg": "DE",
+  "Reggio Calabria": "IT",
+  "Reggio nell'Emilia": "IT",
+  "Reims": "FR",
+  "Remscheid": "DE",
+  "Rennes": "FR",
+  "Retiro": "ES",
+  "Reus": "ES",
+  "Reutlingen": "DE",
+  "Rhode Island": "US",
+  "Rijsel": "FR",
+  "Rimini": "IT",
+  "Rio de Janeiro": "BR",
+  "Riyadh": "SA",
+  "Rodenkirchen": "DE",
+  "Rom": "IT",
+  "Roma": "IT",
+  "Rome": "IT",
+  "Rostock": "DE",
+  "Rostov-on-Don": "RU",
+  "Rotherham": "GB",
+  "Rotterdam": "NL",
+  "Rouen": "FR",
+  "Saarbrücken": "DE",
+  "Sabadell": "ES",
+  "Sadr City": "IQ",
+  "Saint Peters": "GB",
+  "Saint Petersburg": "RU",
+  "Saint-Quentin-en-Yvelines": "FR",
+  "Saint-Étienne": "FR",
+  "Saitama": "JP",
+  "Salamanca": "ES",
+  "Salerno": "IT",
+  "Salford": "GB",
+  "Salzburg": "AT",
+  "Salzgitter": "DE",
+  "Samara": "RU",
+  "San Antonio": "US",
+  "San Blas-Canillejas": "ES",
+  "San Diego": "US",
+  "San Francisco": "US",
+  "Sanaa": "YE",
+  "Sant Andreu": "ES",
+  "Sant Martí": "ES",
+  "Santa Coloma de Gramenet": "ES",
+  "Santa Cruz de Tenerife": "ES",
+  "Santa Cruz de la Sierra": "BO",
+  "Santander": "ES",
+  "Santiago": "CL",
+  "Santiago de Querétaro": "MX",
+  "Santiago de los Caballeros": "DO",
+  "Santo Domingo": "DO",
+  "Sants-Montjuïc": "ES",
+  "Sanya": "CN",
+  "Sapporo": "JP",
+  "Sarrià-Sant Gervasi": "ES",
+  "Schöneberg": "DE",
+  "Semarang": "ID",
+  "Sendai": "JP",
+  "Seoul": "KR",
+  "Sevilla": "ES",
+  "Shanghai": "CN",
+  "Shangqiu": "CN",
+  "Shangrao": "CN",
+  "Shantou": "CN",
+  "Shaoguan": "CN",
+  "Shaoxing": "CN",
+  "Sharjah": "AE",
+  "Sheffield": "GB",
+  "Shenyang": "CN",
+  "Shenzhen": "CN",
+  "Shijiazhuang": "CN",
+  "Shiraz": "IR",
+  "Shivaji Nagar": "IN",
+  "Shiyan": "CN",
+  "Shymkent": "KZ",
+  "Simmering": "AT",
+  "Singapore": "SG",
+  "Siracusa": "IT",
+  "Sofia": "BG",
+  "Sokoto": "NG",
+  "Solihull": "GB",
+  "Solingen": "DE",
+  "Songjiang": "CN",
+  "South Carolina": "US",
+  "South Dakota": "US",
+  "South Tangerang": "ID",
+  "Southampton": "GB",
+  "Southend-on-Sea": "GB",
+  "Soweto": "ZA",
+  "Srinagar": "IN",
+  "St Helens": "GB",
+  "Stockholm": "SE",
+  "Stockport": "GB",
+  "Stoke-on-Trent": "GB",
+  "Straatsburg": "FR",
+  "Strasbourg": "FR",
+  "Stuttgart": "DE",
+  "Sunderland": "GB",
+  "Suqian": "CN",
+  "Surabaya": "ID",
+  "Surat": "IN",
+  "Sutton Coldfield": "GB",
+  "Suwon": "KR",
+  "Suzhou": "CN",
+  "Swansea": "GB",
+  "Swindon": "GB",
+  "Sydney": "AU",
+  "São Paulo": "BR",
+  "Séville": "ES",
+  "Tabriz": "IR",
+  "Taguig": "PH",
+  "Taichung": "TW",
+  "Tainan": "TW",
+  "Taipei": "TW",
+  "Taiyuan": "CN",
+  "Taizhou": "CN",
+  "Tai’an": "CN",
+  "Tangerang": "ID",
+  "Tangier": "MA",
+  "Tangshan": "CN",
+  "Taranto": "IT",
+  "Tarragona": "ES",
+  "Tashkent": "UZ",
+  "Tbilisi": "GE",
+  "Tehran": "IR",
+  "Telford": "GB",
+  "Teni": "IN",
+  "Tennessee": "US",
+  "Terni": "IT",
+  "Terrassa": "ES",
+  "Tetuán de las Victorias": "ES",
+  "Texas": "US",
+  "The Bronx": "US",
+  "The Hague": "NL",
+  "Tianjin": "CN",
+  "Tianshui": "CN",
+  "Tijuana": "MX",
+  "Tilburg": "NL",
+  "Tiruchirappalli": "IN",
+  "Tirunelveli": "IN",
+  "Tokio": "JP",
+  "Tokyo": "JP",
+  "Torino": "IT",
+  "Toronto": "CA",
+  "Torrejón de Ardoz": "ES",
+  "Tottenham": "GB",
+  "Touba": "SN",
+  "Toulon": "FR",
+  "Toulouse": "FR",
+  "Trento": "IT",
+  "Trier": "DE",
+  "Trieste": "IT",
+  "Tripoli": "LY",
+  "Trujillo": "PE",
+  "Turijn": "IT",
+  "Turin": "IT",
+  "Udine": "IT",
+  "Ufa": "RU",
+  "Ulm": "DE",
+  "Ulsan": "KR",
+  "Usera": "ES",
+  "Utah": "US",
+  "Utrecht": "NL",
+  "Vadodara": "IN",
+  "Valence": "ES",
+  "Valencia": "ES",
+  "Valladolid": "ES",
+  "Varanasi": "IN",
+  "Varsovie": "PL",
+  "Venedig": "IT",
+  "Venetië": "IT",
+  "Venice": "IT",
+  "Venise": "IT",
+  "Venlo": "NL",
+  "Vermont": "US",
+  "Verona": "IT",
+  "Vicenza": "IT",
+  "Vienna": "AT",
+  "Vienne": "AT",
+  "Vigo": "ES",
+  "Vijayawada": "IN",
+  "Villaverde": "ES",
+  "Villeurbanne": "FR",
+  "Virginia": "US",
+  "Visakhapatnam": "IN",
+  "Volgograd": "RU",
+  "Voronezh": "RU",
+  "Wakefield": "GB",
+  "Walsall": "GB",
+  "Walthamstow": "GB",
+  "Wandsbek": "DE",
+  "Wanzhou": "CN",
+  "Warrington": "GB",
+  "Warsaw": "PL",
+  "Warschau": "PL",
+  "Washington D.C.": "US",
+  "Watford": "GB",
+  "Weifang": "CN",
+  "Weinan": "CN",
+  "Wenen": "AT",
+  "Wenzhou": "CN",
+  "West Bromwich": "GB",
+  "West Virginia": "US",
+  "Wien": "AT",
+  "Wiesbaden": "DE",
+  "Wilmersdorf": "DE",
+  "Winterthur": "CH",
+  "Wisconsin": "US",
+  "Woking": "GB",
+  "Wolfsburg": "DE",
+  "Wolverhampton": "GB",
+  "Worcester": "GB",
+  "Worthing": "GB",
+  "Wuhan": "CN",
+  "Wuhu": "CN",
+  "Wuppertal": "DE",
+  "Wuwei": "CN",
+  "Wuxi": "CN",
+  "Wuzhong": "CN",
+  "Wyoming": "US",
+  "Würzburg": "DE",
+  "Xiamen": "CN",
+  "Xiangyang": "CN",
+  "Xianyang": "CN",
+  "Xining": "CN",
+  "Xinxiang": "CN",
+  "Xinyang": "CN",
+  "Xi’an": "CN",
+  "Xuchang": "CN",
+  "Xuhui": "CN",
+  "Xuzhou": "CN",
+  "Yancheng": "CN",
+  "Yangjiang": "CN",
+  "Yangon": "MM",
+  "Yangpu": "CN",
+  "Yangzhou": "CN",
+  "Yantai": "CN",
+  "Yaoundé": "CM",
+  "Yekaterinburg": "RU",
+  "Yerevan": "AM",
+  "Yichang": "CN",
+  "Yichun": "CN",
+  "Yinchuan": "CN",
+  "Yiwu": "CN",
+  "Yixing": "CN",
+  "Yokohama": "JP",
+  "Yongzhou": "CN",
+  "Yulin": "CN",
+  "Yunfu": "CN",
+  "Zaanstad": "NL",
+  "Zamboanga": "PH",
+  "Zapopan": "MX",
+  "Zaragoza": "ES",
+  "Zhangjiagang": "CN",
+  "Zhanjiang": "CN",
+  "Zhaoqing": "CN",
+  "Zhengzhou": "CN",
+  "Zhongshan": "CN",
+  "Zhongwei": "CN",
+  "Zhu Cheng City": "CN",
+  "Zhuhai": "CN",
+  "Zhuzhou": "CN",
+  "Zibo": "CN",
+  "Zigong": "CN",
+  "Zoetermeer": "NL",
+  "Zunyi": "CN",
+  "Zurich": "CH",
+  "Zwolle": "NL",
+  "Zürich": "CH",
+  "Édimbourg": "GB",
+  "Ürümqi": "CN"
+ }
+}
