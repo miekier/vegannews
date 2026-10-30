@@ -265,8 +265,11 @@ def diagnose_taalmodel(token: str, modellen: list[str], sessie: requests.Session
     return regels
 
 
-def systeemprompt(lexicon: Lexicon, doeltaal: str) -> str:
+def systeemprompt(lexicon: Lexicon, doeltaal: str, talen_zonder_vertaling: list[str] | None = None) -> str:
     taal = TAALNAMEN.get(doeltaal, "Nederlands")
+    # Titels en samenvattingen in deze talen worden niet vertaald: het model hoeft ze niet te herhalen.
+    codes = sorted(set(talen_zonder_vertaling or []) | {doeltaal})
+    zonder = " of ".join([", ".join(codes[:-1]), codes[-1]]) if len(codes) > 1 else codes[0]
     categorieen = "\n".join(f"- {c.code}: {c.naam}. {c.omschrijving}" for c in lexicon.categorieen)
     return f"""Je bent een nauwkeurige redacteur van een persoonlijk nieuwsoverzicht over veganisme, plantaardige voeding en dierenrechten.
 Je krijgt een JSON-lijst met nieuwsberichten (id, titel, tekst, bron, taal). Verwerk elk bericht en antwoord uitsluitend met één JSON-object van de vorm:
@@ -275,8 +278,8 @@ Je krijgt een JSON-lijst met nieuwsberichten (id, titel, tekst, bron, taal). Ver
 Regels:
 - Gebruik uitsluitend informatie uit de titel en tekst van het bericht. Verzin niets en voeg geen kennis van buitenaf toe.
 - kernzin: één feitelijke zin in het {taal} van hoogstens 25 woorden die zegt wat er gebeurde, wie het betreft en waar, bijvoorbeeld "Vegan restaurant Komkommertijd opent een tweede zaak in Gent." Geen oordeel, geen reclametaal.
-- titel: de titel vertaald naar het {taal}. Laat eigennamen, merknamen en namen van gerechten onvertaald. Staat de titel al in het {taal}, neem hem dan letterlijk over.
-- samenvatting: hoogstens twee zinnen in het {taal} op basis van de tekst; "" als er geen tekst is.
+- titel: de titel vertaald naar het {taal}. Laat eigennamen, merknamen en namen van gerechten onvertaald. Is het veld taal {zonder}, geef dan "".
+- samenvatting: hoogstens twee zinnen in het {taal} op basis van de tekst; "" als er geen tekst is of als het veld taal {zonder} is.
 - categorieen: 1 tot 3 codes uit de lijst hieronder, de belangrijkste eerst.
 - gebeurtenis: "opening" (een zaak of winkel opent), "sluiting" (sluit of gaat failliet), "lancering" (nieuw product) of "".
 - land: ISO 3166-1 alfa-2-code in hoofdletters van het land waarover het nieuws gaat; "EU" voor beleid van de Europese Unie. Je mag hiervoor algemeen bekende feiten gebruiken, zoals het land van een bekend bedrijf of een bekende organisatie, maar enkel als je zeker bent; anders "".
@@ -383,7 +386,7 @@ def verrijk(berichten: list[Bericht], client: GitHubModels, lexicon: Lexicon, ge
             talen_zonder_vertaling: list[str], batch: int, max_verzoeken: int, max_pogingen: int,
             log=print) -> LlmStatistiek:
     stat = LlmStatistiek(aanbieder=getattr(client, "naam", ""), model=client.model, achterstand=len(berichten))
-    systeem = systeemprompt(lexicon, doeltaal)
+    systeem = systeemprompt(lexicon, doeltaal, talen_zonder_vertaling)
     for start in range(0, len(berichten), batch):
         if stat.verzoeken >= max_verzoeken:
             stat.melding = f"maximum van {max_verzoeken} verzoeken per run bereikt"
