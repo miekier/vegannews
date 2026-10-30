@@ -350,3 +350,22 @@ def test_sociale_post_uit_gewone_zoekopdracht_enkel_belgie(wortel, monkeypatch):
     verzamel(Paden(wortel), inst, log=lambda *_: None)
     over = json.loads((wortel / "site/data/berichten/2026-10.json").read_text(encoding="utf-8"))["berichten"]
     assert [b["land"] for b in over] == ["BE"]          # de Parijse post valt weg (sociaal_enkel_land: BE)
+
+
+def test_sociale_post_met_kopie_wordt_ook_geweigerd(tmp_path):
+    from datetime import date
+    from vegannieuws.archief import Archief
+    from vegannieuws.model import Bericht
+    from vegannieuws.verzamelen import _ruim_kandidaten_op
+    archief = Archief(tmp_path)
+    post = Bericht(id="p1", titel="Recept voor vegan scones", url="https://news.google.com/a", bron="g",
+                   bron_naam="Facebook via Google Nieuws", datum="2026-10-27", sociaal="Facebook", methode="llm",
+                   land="", extra=[{"naam": "Facebook", "url": "https://news.google.com/b", "id": "p2"}])
+    bevestigd = Bericht(id="p3", titel="Nieuwe vegan zaak opent", url="https://news.google.com/c", bron="g",
+                        bron_naam="Instagram via Google Nieuws", datum="2026-10-27", sociaal="Instagram",
+                        methode="llm", land="", extra=[{"naam": "Het Nieuwsblad", "url": "https://nieuwsblad.be/x", "id": "p4"}])
+    archief.voeg_toe([post, bevestigd])
+    staat = Staat()
+    assert _ruim_kandidaten_op(archief, staat, date(2026, 10, 30), 21, {}, "BE") == 1
+    assert archief.bericht("p1") is None and archief.bericht("p3") is not None   # door een medium bevestigd
+    assert set(staat.geweigerd) == {"p1", "p2"}

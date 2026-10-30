@@ -12,7 +12,7 @@ from zoneinfo import ZoneInfo
 
 from . import __version__
 from .archief import Archief
-from .bronnen import SOORT_NAMEN, TYPES, Bron, laad_register, sociaal_platform
+from .bronnen import SOCIALE_MEDIA, SOORT_NAMEN, TYPES, Bron, laad_register, sociaal_platform
 from .classificatie import Lexicon, deel_in, laad_lexicon
 from .config import Instellingen, Paden
 from .locatie import Geo
@@ -218,19 +218,27 @@ def _ruim_kandidaten_op(archief: Archief, staat: Staat, vandaag: date, max_leeft
     met 'enkel_land', en bij posts op sociale media (instelling sociaal_enkel_land)."""
     grens = (vandaag - timedelta(days=max_leeftijd)).isoformat()
     enkel_land = enkel_land or {}
+    platformen = set(SOCIALE_MEDIA.values())
     afgewezen = 0
+
+    def weiger(b: Bericht) -> None:
+        # Ook de kopieën (dezelfde post via een andere zoekopdracht) komen niet terug.
+        for id_ in [b.id] + [e["id"] for e in b.extra if e.get("id")]:
+            staat.geweigerd[id_] = vandaag.isoformat()
+        archief.verwijder(b.id)
+
     for b in list(archief.geladen()):
         land = enkel_land.get(b.bron) or (sociaal_land if b.sociaal else "")
-        if land and b.methode == "llm" and b.land != land and not b.extra:
-            staat.geweigerd[b.id] = vandaag.isoformat()
-            archief.verwijder(b.id)
+        # Een medium dat hetzelfde nieuws bracht (extra bron die geen sociaal netwerk is) bevestigt het bericht.
+        bevestigd = any(e.get("naam") not in platformen for e in b.extra)
+        if land and b.methode == "llm" and b.land != land and not bevestigd:
+            weiger(b)
             afgewezen += 1
             continue
         if not b.kandidaat:
             continue
         if b.methode == "llm" and not b.relevant:
-            staat.geweigerd[b.id] = vandaag.isoformat()
-            archief.verwijder(b.id)
+            weiger(b)
             afgewezen += 1
         elif b.datum < grens:
             archief.verwijder(b.id)
