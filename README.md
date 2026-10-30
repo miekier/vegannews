@@ -46,15 +46,53 @@ Voor de Verenigde Staten volgt het register onder meer VegNews, Sentient Media, 
 
 ### Instagram en Facebook
 
-Instagram en Facebook bieden geen gratis toegang voor zo'n overzicht. Google Nieuws vindt wel openbare posts van zaken en organisaties. Zo werkt het:
+Er zijn twee routes:
 
-- De zoekopdrachten `site:instagram.com vegan …` en `site:facebook.com vegan …` (Belgische edities) vinden posts.
-- Elke post gaat langs het taalmodel. Enkel posts met nieuws over België blijven, zoals een opening, sluiting, nieuw product, evenement of actie. Recepten, maaltijdfoto's, wedstrijden en reclame vallen weg.
-- De link loopt via news.google.com en stuurt door naar de post.
+1. **Zelf gekozen Instagram-accounts, via de officiële API** (zie hieronder). Je krijgt alle recente posts van die accounts, met een rechtstreekse link naar de post.
+2. **Zoekopdrachten in Google Nieuws.** `site:instagram.com vegan …` en `site:facebook.com vegan …` (Belgische edities) vinden openbare posts van om het even welk account. De link loopt via news.google.com. Google vindt niet elke post; stories en posts van privé-accounts ontbreken.
 
-Een specifieke zaak of organisatie volgen kan met een eigen zoekopdracht, bijvoorbeeld `site:instagram.com "naam van de zaak"`.
+Bij beide routes gaat elke post langs het taalmodel. Enkel posts met nieuws blijven, zoals een opening, sluiting, nieuw product, evenement of actie. Recepten, maaltijdfoto's, wedstrijden en reclame vallen weg. Bij route 2 blijven enkel posts over België.
 
-Google vindt niet elke post. Posts van privé-accounts, stories en een deel van de reels ontbreken.
+#### Instagram-accounts volgen (officiële API)
+
+Dit gebruikt de functie *Business Discovery* van de Instagram API with Facebook Login. Ze is gratis en vraagt geen goedkeuring (App Review) door Meta: voor gebruik met je eigen account volstaat *Standard Access*.
+
+- **Wel:** openbare zakelijke en creator-accounts, wat de meeste restaurants en organisaties zijn.
+- **Niet:** persoonlijke accounts en accounts met een leeftijdsgrens. Stories zitten er ook niet in.
+
+**Eenmalige instelling.** Reken op ongeveer 30 minuten, op een computer.
+
+1. **Een eigen zakelijk Instagram-account, gekoppeld aan een Facebookpagina.**
+   - Zet je Instagram-account om naar een professioneel account: Instellingen → *Accounttype en hulpmiddelen* → *Overschakelen naar professioneel account*. Kies *Zakelijk* of *Creator*. Een apart, nieuw account mag ook.
+   - Maak een Facebookpagina, bijvoorbeeld "Vegannieuws".
+   - Koppel het Instagram-account aan die pagina, via de instellingen van de pagina (*Gekoppelde accounts* → Instagram) of via Meta Business Suite.
+2. **Een app bij Meta for Developers.**
+   - Ga naar [developers.facebook.com](https://developers.facebook.com) en registreer je als ontwikkelaar met je Facebookaccount.
+   - *My Apps* → *Create app*. Kies de variant **Instagram API with Facebook Login** (niet *Instagram Login*: Business Discovery werkt enkel met Facebook Login).
+   - Laat de app in *Development mode* staan.
+3. **Een toegangssleutel (access token).**
+   - Open de [Graph API Explorer](https://developers.facebook.com/tools/explorer/) en kies je app.
+   - Kies *Get User Access Token* en vink deze toestemmingen aan: `instagram_basic`, `instagram_manage_insights`, `pages_read_engagement`, `pages_show_list`. Geeft de test later een fout over Business Manager, voeg dan ook `ads_read` toe.
+   - Klik *Generate Access Token* en geef toegang tot je pagina en je Instagram-account.
+   - Plak de sleutel in de [Access Token Debugger](https://developers.facebook.com/tools/debug/accesstoken/), klik *Debug* en daarna *Extend Access Token*. Die verlengde sleutel is 60 dagen geldig.
+4. **De sleutel in GitHub.** Repository → Settings → Secrets and variables → Actions → *New repository secret*. Naam: `INSTAGRAM_TOKEN`, waarde: de verlengde sleutel.
+5. **Accounts toevoegen.** Website → Bronnen → *Inloggen als beheerder* → **＋ Bron toevoegen**.
+   - Adres: `https://www.instagram.com/gebruikersnaam/`.
+   - Soort: bv. *Restaurant of horeca* of *Organisatie*. Land: België.
+   - Het programma test het account meteen. Een persoonlijk account geeft "account niet gevonden, of geen zakelijk of creator-account".
+
+**Sleutel vernieuwen.** Om de 60 dagen herhaal je stap 3 en 4 (5 minuten). Twee weken vooraf verschijnt een waarschuwing op de pagina Bronnen en in het verslag van de run. Is de sleutel verlopen, dan meldt de pagina Bronnen bij elk Instagram-account "Instagram-sleutel ongeldig of verlopen".
+
+**Zonder vervaldatum (optioneel).** Een sleutel van een *systeemgebruiker* vervalt niet. Zo maak je er een:
+
+1. Maak op [business.facebook.com](https://business.facebook.com) een business-portfolio aan en voeg je pagina, je Instagram-account en de app eraan toe.
+2. Ga naar *Bedrijfsinstellingen* → *Gebruikers* → *Systeemgebruikers* en maak een systeemgebruiker aan.
+3. Geef hem toegang tot de pagina en de app.
+4. Kies *Nieuw token genereren* met vervaldatum *Nooit* en dezelfde toestemmingen.
+
+Meta wijzigt deze schermen geregeld. Lukt het niet, gebruik dan de sleutel van 60 dagen.
+
+**Gebruik en limieten.** Per run en per account is er één verzoek, voor de laatste 12 posts (instelling `instagram_posts_per_account`). Bij één run per dag blijft dat ver onder de limieten van Meta.
 
 ### Beheer en login
 
@@ -166,7 +204,7 @@ Voor het taalmodel zet je de sleutel in de omgevingsvariabele `GEMINI_API_KEY` o
 
 ## Beperkingen
 
-- Instagram en Facebook worden enkel gevolgd via de posts die Google Nieuws vindt (zie hoger). X en TikTok worden niet gevolgd.
+- Instagram: zelf gekozen zakelijke en creator-accounts via de officiële API (sleutel nodig, zie hoger), en daarnaast de posts die Google Nieuws vindt. Facebook enkel via Google Nieuws. X en TikTok worden niet gevolgd.
   - Restaurants die enkel daar posten, verschijnen enkel als media erover schrijven (via de zoekopdrachten).
   - Volg ze ook via Bluesky, Mastodon, YouTube of hun website als ze daar actief zijn.
 - Websites zonder RSS-feed kunnen niet rechtstreeks gevolgd worden.

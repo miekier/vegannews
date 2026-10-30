@@ -360,12 +360,47 @@ def test_sociale_post_met_kopie_wordt_ook_geweigerd(tmp_path):
     archief = Archief(tmp_path)
     post = Bericht(id="p1", titel="Recept voor vegan scones", url="https://news.google.com/a", bron="g",
                    bron_naam="Facebook via Google Nieuws", datum="2026-10-27", sociaal="Facebook", methode="llm",
-                   land="", extra=[{"naam": "Facebook", "url": "https://news.google.com/b", "id": "p2"}])
+                   brontype="zoekopdracht", land="",
+                   extra=[{"naam": "Facebook", "url": "https://news.google.com/b", "id": "p2"}])
     bevestigd = Bericht(id="p3", titel="Nieuwe vegan zaak opent", url="https://news.google.com/c", bron="g",
                         bron_naam="Instagram via Google Nieuws", datum="2026-10-27", sociaal="Instagram",
-                        methode="llm", land="", extra=[{"naam": "Het Nieuwsblad", "url": "https://nieuwsblad.be/x", "id": "p4"}])
-    archief.voeg_toe([post, bevestigd])
+                        methode="llm", brontype="zoekopdracht", land="",
+                        extra=[{"naam": "Het Nieuwsblad", "url": "https://nieuwsblad.be/x", "id": "p4"}])
+    gevolgd = Bericht(id="p5", titel="Wij openen een tweede zaak", url="https://www.instagram.com/p/abc/", bron="kt",
+                      bron_naam="Komkommertijd", datum="2026-10-27", sociaal="Instagram", methode="llm",
+                      brontype="horeca", land="")
+    archief.voeg_toe([post, bevestigd, gevolgd])
     staat = Staat()
     assert _ruim_kandidaten_op(archief, staat, date(2026, 10, 30), 21, {}, "BE") == 1
     assert archief.bericht("p1") is None and archief.bericht("p3") is not None   # door een medium bevestigd
+    assert archief.bericht("p5") is not None          # zelf gevolgd account: geen landregel
     assert set(staat.geweigerd) == {"p1", "p2"}
+
+
+def test_gevolgd_instagram_account_in_verzamelrun(wortel, monkeypatch):
+    from vegannieuws import verzamelen
+    (wortel / "bronnen.yml").write_text(
+        "bronnen:\n  - naam: Komkommertijd\n    url: https://www.instagram.com/komkommertijd/\n    type: horeca\n"
+        "    land: BE\n    taal: nl\n    alleen_vegan: nee\n", encoding="utf-8")
+    (wortel / "zoekopdrachten.yml").write_text("zoekopdrachten: []\n", encoding="utf-8")
+    posts = json.dumps({"business_discovery": {"name": "Komkommertijd", "media": {"data": [
+        {"caption": "Ons pop-up in Parijs opent aan de rue Oberkampf", "permalink": "https://www.instagram.com/p/A1/",
+         "timestamp": "2026-10-29T09:00:00+0000"},
+        {"caption": "Mijn lunch vandaag #vegan", "permalink": "https://www.instagram.com/p/A2/",
+         "timestamp": "2026-10-29T12:00:00+0000"}]}}}).encode()
+    sessie = FakeSessie({"me/accounts": (200, b'{"data": [{"instagram_business_account": {"id": "1784"}}]}', {}),
+                         "debug_token": (200, b'{"data": {"expires_at": 0}}', {}),
+                         "graph.facebook.com/v26.0/1784?": (200, posts, {})})
+    monkeypatch.setenv("INSTAGRAM_TOKEN", "EAAGgeheim1234567890")
+    monkeypatch.delenv("INSTAGRAM_USER_ID", raising=False)
+    monkeypatch.setattr(Ophaler, "_maak_sessie", staticmethod(lambda repo: sessie))
+    monkeypatch.setattr(verzamelen, "maak_taalmodellen", lambda *a, **k: [NepSociaalModel()])
+    inst = Instellingen(reserve_vertaling=False, max_leeftijd_dagen=36500, llm_max_leeftijd_dagen=36500, llm_pauze_s=0)
+    rapport = verzamel(Paden(wortel), inst, log=lambda *_: None)
+    assert rapport.bronnen_fout == 0 and rapport.kandidaten == 2
+    over = json.loads((wortel / "site/data/berichten/2026-10.json").read_text(encoding="utf-8"))["berichten"]
+    # De lunchpost is geen nieuws; de pop-up in Parijs blijft: een zelf gevolgd account valt niet onder de landregel.
+    assert [(b["url"], b["sociaal"], b["relatie"], b["land"]) for b in over] == \
+        [("https://www.instagram.com/p/A1/", "Instagram", "primair", "FR")]
+    bronnen = json.loads((wortel / "site/data/bronnen.json").read_text(encoding="utf-8"))["bronnen"]
+    assert bronnen[0]["soort"] == "instagram" and "EAAG" not in json.dumps(bronnen)

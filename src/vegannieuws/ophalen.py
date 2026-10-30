@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import html
+import os
 import re
 import threading
 import time
@@ -15,7 +16,7 @@ import feedparser
 import requests
 import urllib3
 
-from .bronnen import Bron, bing_url, google_url, sociaal_platform, standaard_editie, vaste_feed
+from .bronnen import Bron, bing_url, google_url, instagram_gebruiker, sociaal_platform, standaard_editie, vaste_feed
 from .config import Instellingen
 from .staat import Staat
 from .tekst import kort_in, zuiver_html
@@ -30,6 +31,18 @@ VEELGEBRUIKTE_FEEDPADEN = (
     "blog?format=rss", "blog-feed.xml", "feeds/posts/default",
 )
 MAX_ONTDEKKINGSPOGINGEN = 18
+GRAPH_API = "https://graph.facebook.com"
+INSTAGRAM_UITLEG = "zie README, Instagram-accounts volgen"
+_GEHEIMEN = ("INSTAGRAM_TOKEN", "GEMINI_API_KEY", "GROQ_API_KEY", "ANTHROPIC_API_KEY", "GITHUB_TOKEN")
+
+
+def zonder_geheimen(tekst: str) -> str:
+    """Haalt sleutels uit een melding: meldingen verschijnen op de openbare website."""
+    for naam in _GEHEIMEN:
+        waarde = os.environ.get(naam, "")
+        if len(waarde) >= 8:
+            tekst = tekst.replace(waarde, "***")
+    return re.sub(r"(access_token|input_token|api_key|key)=[^&\s]+", r"\1=***", tekst)
 
 
 class OphaalFout(Exception):
@@ -212,6 +225,10 @@ class Ophaler:
         self._slot = threading.Lock()
         self._google_slot = threading.Lock()
         self._laatste_google = 0.0
+        self._instagram_slot = threading.Lock()
+        self._instagram_id = ""
+        self._instagram_fout = ""
+        self.waarschuwingen: list[str] = []      # voor het verslag en de pagina Bronnen
 
     @staticmethod
     def _maak_sessie(repo: str) -> requests.Session:
@@ -306,14 +323,17 @@ class Ophaler:
                 return self._haal_feed(bron, self._youtube_feed(bron))
             if bron.soort == "website":
                 return self._haal_website(bron)
+            if bron.soort == "instagram":
+                return self._instagram(bron)
             feed = vaste_feed(bron)
             if not feed:
                 raise OphaalFout("geen feedadres af te leiden uit de URL")
             return self._haal_feed(bron, feed)
         except OphaalFout as fout:
-            return Resultaat(bron, status="fout", melding=str(fout))
+            return Resultaat(bron, status="fout", melding=zonder_geheimen(str(fout)))
         except Exception as fout:  # een kapotte bron mag de rest niet tegenhouden
-            return Resultaat(bron, status="fout", melding=f"onverwachte fout: {type(fout).__name__}: {fout}"[:300])
+            return Resultaat(bron, status="fout",
+                             melding=zonder_geheimen(f"onverwachte fout: {type(fout).__name__}: {fout}")[:300])
 
     def _haal_feed(self, bron: Bron, feed: str, conditioneel: bool = True) -> Resultaat:
         antwoord = self.get(feed, conditioneel=conditioneel)
@@ -438,6 +458,78 @@ class Ophaler:
             }
         return feed
 
+    # -- Instagram: officiële API (Instagram API with Facebook Login, Business Discovery) ---------
+
+    def _graph(self, pad: str, params: dict, token: str) -> dict:
+        try:
+            antwoord = self.sessie.get(f"{GRAPH_API}/{self.inst.instagram_api_versie}/{pad}",
+                                       params={**params, "access_token": token}, timeout=(10, 30))
+        except requests.RequestException as fout:
+            # Zonder de foutmelding van requests: die bevat het adres, met de sleutel erin.
+            raise OphaalFout(f"Instagram-API onbereikbaar ({type(fout).__name__})") from None
+        try:
+            gegevens = antwoord.json()
+        except ValueError:
+            raise OphaalFout(f"Instagram-API: onverwacht antwoord (HTTP {antwoord.status_code})") from None
+        fout = gegevens.get("error") if isinstance(gegevens, dict) else None
+        if fout or antwoord.status_code >= 400:
+            raise OphaalFout(graph_fout(fout if isinstance(fout, dict) else {}, antwoord.status_code))
+        return gegevens if isinstance(gegevens, dict) else {}
+
+    def _instagram_gebruikers_id(self, token: str) -> str:
+        """Id van het eigen zakelijke Instagram-account (instelling of opgezocht via de gekoppelde pagina)."""
+        with self._instagram_slot:
+            if self._instagram_fout:
+                raise OphaalFout(self._instagram_fout)
+            if not self._instagram_id:
+                try:
+                    ig_id = os.environ.get("INSTAGRAM_USER_ID", "").strip()
+                    if not ig_id:
+                        paginas = self._graph("me/accounts", {"fields": "instagram_business_account{id,username}",
+                                                              "limit": 100}, token)
+                        ids = [p["instagram_business_account"]["id"] for p in paginas.get("data", [])
+                               if (p.get("instagram_business_account") or {}).get("id")]
+                        if not ids:
+                            raise OphaalFout("de Instagram-sleutel geeft geen toegang tot een zakelijk Instagram-account "
+                                             f"dat aan een Facebookpagina gekoppeld is ({INSTAGRAM_UITLEG})")
+                        ig_id = ids[0]
+                except OphaalFout as fout:
+                    self._instagram_fout = str(fout)
+                    raise
+                self._instagram_id = ig_id
+                self._controleer_instagram_sleutel(token)
+            return self._instagram_id
+
+    def _controleer_instagram_sleutel(self, token: str) -> None:
+        """Waarschuwt twee weken voor de vervaldatum van de sleutel (als Meta die meldt)."""
+        try:
+            info = self._graph("debug_token", {"input_token": token}, token).get("data") or {}
+        except OphaalFout:
+            return
+        verloopt = int(info.get("expires_at") or 0)
+        if verloopt and verloopt - time.time() < 14 * 86400:
+            datum = datetime.fromtimestamp(verloopt, timezone.utc).date().isoformat()
+            self.waarschuwingen.append(f"De Instagram-sleutel verloopt op {datum}: maak tijdig een nieuwe ({INSTAGRAM_UITLEG}).")
+
+    def _instagram(self, bron: Bron) -> Resultaat:
+        gebruiker = instagram_gebruiker(bron.url)
+        if not gebruiker:
+            raise OphaalFout("geen Instagram-gebruikersnaam in het adres (verwacht: https://www.instagram.com/naam/)")
+        token = os.environ.get("INSTAGRAM_TOKEN", "").strip()
+        bron_feed = f"Instagram-API (@{gebruiker})"
+        if not token:
+            return Resultaat(bron, status="leeg", feed=bron_feed,
+                             melding=f"geen Instagram-sleutel ingesteld (secret INSTAGRAM_TOKEN; {INSTAGRAM_UITLEG})")
+        ig_id = self._instagram_gebruikers_id(token)
+        aantal = max(1, min(50, self.inst.instagram_posts_per_account))
+        velden = f"business_discovery.username({gebruiker}){{username,name,media.limit({aantal}){{caption,permalink,timestamp}}}}"
+        gegevens = self._graph(ig_id, {"fields": velden}, token)
+        account = gegevens.get("business_discovery") or {}
+        naam = account.get("name") or account.get("username") or gebruiker
+        posts = [lees_instagram_post(m, naam) for m in (account.get("media") or {}).get("data", []) if isinstance(m, dict)]
+        berichten = [p for p in posts if p]
+        return Resultaat(bron, berichten, status="ok" if berichten else "leeg", feed=bron_feed)
+
     def _pubmed(self, bron: Bron, dagen: int = 7) -> list[RuwBericht]:
         basis = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/"
         zoek = self.sessie.get(basis + "esearch.fcgi", timeout=(10, 30), params={
@@ -454,6 +546,38 @@ class Ophaler:
         })
         self._controleer(detail)
         return lees_pubmed(detail.content)
+
+
+def graph_fout(fout: dict, status: int) -> str:
+    """Begrijpelijke melding bij een fout van de Graph API (zonder sleutels)."""
+    code = fout.get("code")
+    tekst = " ".join(str(fout.get(k) or "") for k in ("message", "error_user_title", "error_user_msg")).strip()
+    if code == 190:
+        return f"Instagram-sleutel ongeldig of verlopen: maak een nieuwe ({INSTAGRAM_UITLEG})"
+    if code in (4, 17, 32, 613) or status == 429:
+        return "limiet van de Instagram-API bereikt; de volgende run probeert opnieuw"
+    if code == 110 or "cannot be found" in tekst.lower() or "does not exist" in tekst.lower():
+        return "account niet gevonden, of geen zakelijk of creator-account (enkel die zijn via de API te volgen)"
+    if code == 10 or (isinstance(code, int) and 200 <= code < 300):
+        return f"de Instagram-sleutel mist een toestemming: {tekst[:160]} ({INSTAGRAM_UITLEG})"
+    return f"Instagram-API: {tekst[:160] or f'HTTP {status}'} (code {code})"
+
+
+def lees_instagram_post(media: dict, naam: str) -> RuwBericht | None:
+    """Een post uit Business Discovery: eerste regel van het bijschrift als titel, de rest als samenvatting."""
+    url = str(media.get("permalink") or "").strip()
+    if not url.startswith("https://"):
+        return None
+    regels = [r.strip() for r in str(media.get("caption") or "").splitlines() if r.strip()]
+    titel = kort_in(regels[0], 140) if regels else f"Nieuwe post van {naam}"
+    tekst = " ".join(regels)
+    samenvatting = kort_in(tekst, 420) if len(tekst) > len(titel) + 10 else ""
+    try:
+        moment = datetime.strptime(str(media.get("timestamp") or ""), "%Y-%m-%dT%H:%M:%S%z").astimezone(timezone.utc)
+    except ValueError:
+        moment = None
+    return RuwBericht(titel=titel, url=url, samenvatting=samenvatting, gepubliceerd=moment, uitgever=naam,
+                      uitgever_url="https://www.instagram.com")
 
 
 def lees_pubmed(inhoud: bytes) -> list[RuwBericht]:

@@ -66,6 +66,8 @@ class Instellingen:
     llm_max_pogingen: int = 3
     llm_max_leeftijd_dagen: int = 21
     sociaal_enkel_land: str = "BE"
+    instagram_api_versie: str = "v26.0"
+    instagram_posts_per_account: int = 12
     verhalen_aan: bool = True
     verhalen_venster_dagen: int = 4
     verhalen_modellen_gemini: list[str] = field(default_factory=lambda: ["gemini-flash-latest", "gemini-2.5-flash"])

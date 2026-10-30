@@ -88,7 +88,8 @@ def maak_bericht(ruw: RuwBericht, bron: Bron, nu: datetime, tz: ZoneInfo, grens:
         plaats=regio.plaats,
         gewest=regio.gewest,
         relevantie=indeling.relevantie,
-        sociaal=sociaal_platform(ruw.uitgever_url) if bron.is_zoekopdracht else "",
+        sociaal=(sociaal_platform(ruw.uitgever_url) if bron.is_zoekopdracht
+                 else "Instagram" if bron.soort == "instagram" else ""),
         uitgever_url=ruw.uitgever_url,
     )
 
@@ -228,7 +229,8 @@ def _ruim_kandidaten_op(archief: Archief, staat: Staat, vandaag: date, max_leeft
         archief.verwijder(b.id)
 
     for b in list(archief.geladen()):
-        land = enkel_land.get(b.bron) or (sociaal_land if b.sociaal else "")
+        # Posts uit zoekopdrachten: enkel over het gevraagde land. Zelf gevolgde accounts: altijd.
+        land = enkel_land.get(b.bron) or (sociaal_land if b.sociaal and b.brontype == "zoekopdracht" else "")
         # Een medium dat hetzelfde nieuws bracht (extra bron die geen sociaal netwerk is) bevestigt het bericht.
         bevestigd = any(e.get("naam") not in platformen for e in b.extra)
         if land and b.methode == "llm" and b.land != land and not bevestigd:
@@ -305,6 +307,7 @@ def verzamel(paden: Paden, inst: Instellingen, terugvullen_dagen: int = 0, gebru
     if terugvullen_dagen > 0:
         log(f"Ouder nieuws opzoeken ({terugvullen_dagen} dagen) ...")
         resultaten += _terugvullen(ophaler, actief, terugvullen_dagen, vandaag, inst.gelijktijdig)
+    rapport.waarschuwingen += [w for w in dict.fromkeys(ophaler.waarschuwingen) if w not in rapport.waarschuwingen]
 
     # Met een taalmodel worden zoekresultaten zonder vegan-woord in de titel niet weggegooid:
     # de zoekterm staat dan ergens in het artikel; het taalmodel beslist (kandidaat).

@@ -22,7 +22,7 @@ body:
     attributes:
       label: Adres (URL) of zoekterm
       description: |
-        Website of RSS-feed (https://...), Bluesky (https://bsky.app/profile/naam.bsky.social), Mastodon (https://mastodon.social/@naam) of YouTube (https://www.youtube.com/@kanaal).
+        Website of RSS-feed (https://...), Instagram-account (https://www.instagram.com/naam/; enkel zakelijke of creator-accounts), Bluesky (https://bsky.app/profile/naam.bsky.social), Mastodon (https://mastodon.social/@naam) of YouTube (https://www.youtube.com/@kanaal).
         Bij een zoekopdracht: de zoekterm, bv. vegan Gent of "vegan restaurant" OR veganistisch.
       placeholder: "https://www.evavzw.be"
     validations:

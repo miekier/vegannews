@@ -233,3 +233,86 @@ def test_taal_van_bron_bij_onbekende_taal():
     from vegannieuws.tekst import detecteer_taal
     assert detecteer_taal("Wegańska restauracja otwiera się w Krakowie i serwuje roślinne jedzenie", "pl") == "pl"
     assert detecteer_taal("The new vegan restaurant in Krakow is a success for the city", "pl") == "en"
+
+
+# --- Instagram: officiële API (Business Discovery) ---------------------------------------------
+
+def _instagram_ophaler(routes, monkeypatch, token="EAAGgeheim1234567890"):
+    from conftest import FakeSessie
+    from vegannieuws.config import Instellingen
+    from vegannieuws.ophalen import Ophaler
+    from vegannieuws.staat import Staat
+    if token:
+        monkeypatch.setenv("INSTAGRAM_TOKEN", token)
+    else:
+        monkeypatch.delenv("INSTAGRAM_TOKEN", raising=False)
+    monkeypatch.delenv("INSTAGRAM_USER_ID", raising=False)
+    sessie = FakeSessie(routes)
+    return Ophaler(Staat(), Instellingen(), sessie=sessie), sessie
+
+
+def _instagram_bron(url="https://www.instagram.com/komkommertijd/"):
+    from vegannieuws.bronnen import Bron, detecteer_soort
+    return Bron(id="kt", naam="Komkommertijd", soort=detecteer_soort(url), type="horeca", url=url, land="BE", taal="nl")
+
+
+PAGINAS = b'{"data": [{"id": "1", "instagram_business_account": {"id": "17841400000000001", "username": "mijnaccount"}}]}'
+POSTS = """{"business_discovery": {"username": "komkommertijd", "name": "Komkommertijd",
+  "media": {"data": [
+    {"caption": "Nieuw: vanaf 5 november ook open op zondag!\\nKom proeven van ons herfstmenu.", "permalink": "https://www.instagram.com/p/ABC/", "timestamp": "2026-10-29T10:15:00+0000"},
+    {"permalink": "https://www.instagram.com/p/DEF/", "timestamp": "2026-10-28T08:00:00+0000"},
+    {"caption": "geen link"}
+  ]}}, "id": "17841400000000001"}""".encode()
+
+
+def test_instagram_account_via_business_discovery(monkeypatch):
+    ophaler, sessie = _instagram_ophaler({
+        "me/accounts": (200, PAGINAS, {}),
+        "debug_token": (200, b'{"data": {"is_valid": true, "expires_at": 0}}', {}),
+        "17841400000000001?": (200, POSTS, {}),
+    }, monkeypatch)
+    res = ophaler.haal(_instagram_bron())
+    assert res.status == "ok" and res.feed == "Instagram-API (@komkommertijd)"
+    eerste, tweede = res.berichten
+    assert eerste.titel == "Nieuw: vanaf 5 november ook open op zondag!" and "herfstmenu" in eerste.samenvatting
+    assert eerste.url == "https://www.instagram.com/p/ABC/" and eerste.gepubliceerd.isoformat() == "2026-10-29T10:15:00+00:00"
+    assert tweede.titel == "Nieuwe post van Komkommertijd"
+    vraag = next(u for u, _ in sessie.verzoeken if "business_discovery" in u)
+    assert "business_discovery.username%28komkommertijd%29" in vraag and "/v26.0/" in vraag
+    assert ophaler.waarschuwingen == []
+    # Het eigen account wordt maar één keer opgezocht.
+    ophaler.haal(_instagram_bron("https://www.instagram.com/gaia_be/"))
+    assert sum("me/accounts" in u for u, _ in sessie.verzoeken) == 1
+
+
+def test_instagram_zonder_sleutel_en_met_verlopen_sleutel(monkeypatch):
+    ophaler, _ = _instagram_ophaler({}, monkeypatch, token="")
+    res = ophaler.haal(_instagram_bron())
+    assert res.status == "leeg" and "INSTAGRAM_TOKEN" in res.melding
+
+    token = "EAAGgeheim1234567890"
+    fout = b'{"error": {"message": "Error validating access token: Session has expired", "type": "OAuthException", "code": 190}}'
+    ophaler, _ = _instagram_ophaler({"me/accounts": (400, fout, {})}, monkeypatch, token=token)
+    res = ophaler.haal(_instagram_bron())
+    assert res.status == "fout" and "verlopen" in res.melding and token not in res.melding
+
+
+def test_instagram_geen_zakelijk_account_en_waarschuwing_vervaldatum(monkeypatch):
+    import time
+    bijna = int(time.time()) + 5 * 86400
+    fout = b'{"error": {"message": "Invalid user id", "code": 110, "error_user_title": "Cannot find User"}}'
+    ophaler, _ = _instagram_ophaler({
+        "me/accounts": (200, PAGINAS, {}),
+        "debug_token": (200, ('{"data": {"is_valid": true, "expires_at": %d}}' % bijna).encode(), {}),
+        "17841400000000001?": (400, fout, {}),
+    }, monkeypatch)
+    res = ophaler.haal(_instagram_bron("https://www.instagram.com/prive.persoon/"))
+    assert res.status == "fout" and "zakelijk" in res.melding
+    assert len(ophaler.waarschuwingen) == 1 and "verloopt" in ophaler.waarschuwingen[0]
+
+
+def test_instagram_adressen():
+    from vegannieuws.bronnen import detecteer_soort, instagram_gebruiker
+    assert detecteer_soort("https://www.instagram.com/bevegan.be/") == "instagram"
+    assert instagram_gebruiker("https://instagram.com/@Lil_Bao.be?igsh=x") == "lil_bao.be"
+    assert detecteer_soort("https://www.instagram.com/p/ABC/") == "website" and instagram_gebruiker("https://www.instagram.com/p/ABC/") == ""

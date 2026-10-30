@@ -105,14 +105,16 @@
   const landNaam = (code) => (code === "EU" ? "Europese Unie" : toestand.index?.landen?.[code] || code);
 
   function bronTekst(b) {
-    if (b.sociaal) return `${b.sociaal} (via Google Nieuws)`;
+    if (b.sociaal && b.brontype === "zoekopdracht") return `${b.sociaal} (via Google Nieuws)`;
+    if (b.sociaal) return `${b.bron_naam} op ${b.sociaal}`;
     const zoek = b.brontype === "zoekopdracht";
     const dienst = zoek ? (b.bron_naam || "").split(":")[0] : "";
     if (b.uitgever) return zoek ? `${b.uitgever} (via ${dienst})` : `${b.uitgever} (${b.bron_naam})`;
     return b.bron_naam || "onbekende bron";
   }
 
-  const bronNaam = (b) => b.sociaal ? `${b.sociaal}-post` : (b.uitgever || b.bron_naam || "onbekende bron");
+  const bronNaam = (b) => (b.sociaal ? (b.brontype === "zoekopdracht" ? `${b.sociaal}-post` : `${b.bron_naam} (${b.sociaal})`)
+    : (b.uitgever || b.bron_naam || "onbekende bron"));
   // Een kop eindigt niet op een punt.
   const alsKop = (s) => (s || "").trim().replace(/([^.!?…])\.$/, "$1");
   const woorden = (s) => new Set(normaliseer(s).split(/[^a-z0-9]+/).filter((w) => w.length > 2));

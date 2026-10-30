@@ -39,8 +39,13 @@ llm_max_pogingen: 3
 llm_max_leeftijd_dagen: 21
 
 # Posts op Instagram en Facebook (via Google Nieuws) blijven enkel als ze volgens het taalmodel
-# over dit land gaan. Leeg ("") = posts over alle landen behouden.
+# over dit land gaan. Leeg ("") = posts over alle landen behouden. Geldt niet voor zelf gevolgde accounts.
 sociaal_enkel_land: BE
+
+# Instagram-accounts volgen via de officiële API (secret INSTAGRAM_TOKEN; zie README).
+instagram_api_versie: v26.0
+# Aantal recente posts dat per account en per run wordt opgehaald.
+instagram_posts_per_account: 12
 
 # Verhalen: berichten van verschillende bronnen over hetzelfde nieuws worden gebundeld onder één
 # Nederlandse kop. Berichten met gelijkaardige woorden in kernzin en titel vormen kandidaatgroepen;

@@ -12,6 +12,8 @@
 #                 - Bluesky: https://bsky.app/profile/naam.bsky.social
 #                 - Mastodon: https://mastodon.social/@naam
 #                 - YouTube: https://www.youtube.com/@kanaalnaam
+#                 - Instagram: https://www.instagram.com/gebruikersnaam/ (officiële API; enkel
+#                   zakelijke of creator-accounts; vraagt de secret INSTAGRAM_TOKEN, zie README)
 #   type:         organisatie | horeca | bedrijf | persoon | medium | overheid | wetenschap
 #                 (organisatie, horeca, bedrijf, persoon, overheid en wetenschap = primaire bron)
 #   land:         BE voor Belgische bronnen, anders de landcode (NL, FR, DE, GB, US, ...) of INT
@@ -21,8 +23,9 @@
 #   actief:       nee = tijdelijk niet ophalen (standaard: ja)
 #   notitie:      vrije tekst
 #
-# Instagram en Facebook kunnen niet rechtstreeks gevolgd worden; openbare posts worden gevonden via
-# zoekopdrachten in Google Nieuws (site:instagram.com ..., zie zoekopdrachten.yml).
+# Instagram-accounts van zaken en organisaties volg je met hun adres (zie hierboven). Elke post gaat
+# langs het taalmodel; enkel posts met nieuws verschijnen. Daarnaast vinden zoekopdrachten in Google
+# Nieuws openbare Instagram- en Facebookposts (site:instagram.com ..., zie zoekopdrachten.yml).
 
 bronnen:
   # --- België: organisaties ---------------------------------------------------
@@ -443,6 +446,15 @@ bronnen:
     land: INT
     taal: en
     alleen_vegan: ja
+
+  # --- België: Instagram-accounts (officiële API) ----------------------------------------
+  # Voorbeeld (verwijder het hekje om te activeren):
+  # - naam: Naam van de zaak
+  #   url: https://www.instagram.com/gebruikersnaam/
+  #   type: horeca
+  #   land: BE
+  #   taal: nl
+  #   alleen_vegan: nee
 
   # --- Verenigde Staten -------------------------------------------------------------
   # Naast VegNews, Sentient Media, The Good Food Institute, Faunalytics, Mercy For Animals,

@@ -254,9 +254,12 @@ def verwerk_toevoeging(paden: Paden, inst: Instellingen, velden: dict[str, str],
     if res.status == "fout":
         tip = ""
         if soort == "website":
-            tip = ("\n\nTip: deze website heeft geen (vindbare) RSS-feed. Instagram- en Facebook-pagina's kunnen "
-                   "niet gratis gevolgd worden. Probeer het adres van de nieuws- of blogpagina, of een "
-                   "Bluesky-, Mastodon- of YouTube-account van dezelfde organisatie.")
+            tip = ("\n\nTip: deze website heeft geen (vindbare) RSS-feed. Probeer het adres van de nieuws- of "
+                   "blogpagina, het Instagram-account (https://www.instagram.com/naam/), of een Bluesky-, "
+                   "Mastodon- of YouTube-account van dezelfde organisatie.")
+        elif soort == "instagram":
+            tip = ("\n\nTip: via de Instagram-API zijn enkel openbare zakelijke of creator-accounts te volgen. "
+                   "Controleer de gebruikersnaam in het adres.")
         return Uitkomst(f"❌ **{naam}** kon niet worden opgehaald: {res.melding}.{tip}\n\n"
                         "Pas het adres aan in het issue (bewerken) of heropen het om het opnieuw te proberen.",
                         sluiten=False)

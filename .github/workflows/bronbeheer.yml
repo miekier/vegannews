@@ -59,6 +59,8 @@ jobs:
       - name: Aanvraag verwerken
         env:
           ISSUE_BODY: ${{ github.event.issue.body }}
+          INSTAGRAM_TOKEN: ${{ secrets.INSTAGRAM_TOKEN }}
+          INSTAGRAM_USER_ID: ${{ secrets.INSTAGRAM_USER_ID }}
         run: >-
           python -m vegannieuws bron-aanvraag --issue "$ISSUE_NR"
           --antwoord "$RUNNER_TEMP/antwoord.md" --resultaat "$RUNNER_TEMP/aanvraag.json"

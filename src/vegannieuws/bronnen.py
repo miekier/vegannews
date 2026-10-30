@@ -22,11 +22,11 @@ TYPES = {
     "zoekopdracht": "Zoekopdracht",
 }
 PRIMAIRE_TYPES = {"organisatie", "horeca", "bedrijf", "persoon", "overheid", "wetenschap"}
-SOORTEN = {"website", "rss", "bluesky", "mastodon", "youtube", "reddit", "google", "bing", "pubmed"}
+SOORTEN = {"website", "rss", "bluesky", "mastodon", "youtube", "reddit", "instagram", "google", "bing", "pubmed"}
 ZOEKDIENSTEN = {"google", "bing", "pubmed"}
 SOORT_NAMEN = {
     "website": "Website", "rss": "RSS-feed", "bluesky": "Bluesky", "mastodon": "Mastodon",
-    "youtube": "YouTube", "reddit": "Reddit", "google": "Google Nieuws", "bing": "Bing Nieuws",
+    "youtube": "YouTube", "reddit": "Reddit", "instagram": "Instagram", "google": "Google Nieuws", "bing": "Bing Nieuws",
     "pubmed": "PubMed",
 }
 
@@ -91,11 +91,27 @@ def detecteer_soort(url: str) -> str:
         return "youtube"
     if host.endswith("reddit.com") and pad.startswith("/r/"):
         return "reddit"
+    if host == "instagram.com" and instagram_gebruiker(url):
+        return "instagram"
     if host == "medium.com":
         return "rss"
     if re.fullmatch(r"/@[\w.]+/?", pad):
         return "mastodon"
     return "website"
+
+
+_INSTAGRAM_GEEN_ACCOUNT = {"p", "reel", "reels", "tv", "stories", "explore", "accounts", "direct", "about", "legal"}
+
+
+def instagram_gebruiker(url: str) -> str:
+    """Gebruikersnaam uit een Instagram-adres (https://www.instagram.com/naam/), anders ""."""
+    deel = urlparse(url if "://" in url else f"https://{url}")
+    if deel.netloc.lower().removeprefix("www.").removeprefix("m.") != "instagram.com":
+        return ""
+    eerste = deel.path.strip("/").split("/")[0].lstrip("@").lower()
+    if not re.fullmatch(r"[a-z0-9._]{1,30}", eerste) or eerste in _INSTAGRAM_GEEN_ACCOUNT:
+        return ""
+    return eerste
 
 
 def vaste_feed(bron: Bron) -> str:
