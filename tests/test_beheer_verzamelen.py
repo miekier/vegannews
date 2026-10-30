@@ -259,3 +259,79 @@ def test_kandidaat_bevestigd_door_gewoon_bericht(tmp_path):
     assert archief.voeg_toe([bevestiging]) == []
     b = archief.bericht("k1")
     assert (b.kandidaat, b.relevant, b.categorieen, b.gebeurtenis) == (False, True, ["horeca"], "opening")
+
+
+INSTAGRAM_FEED = b"""<?xml version="1.0"?><rss version="2.0"><channel><title>Google Nieuws</title>
+<item><title>Nieuw in Gent: onze tweede zaak opent op 5 november aan de Vlasmarkt - Instagram</title>
+<link>https://news.google.com/rss/articles/gent</link><pubDate>Thu, 29 Oct 2026 07:00:00 GMT</pubDate>
+<description>&lt;a href="x"&gt;Nieuw in Gent: onze tweede zaak opent op 5 november aan de Vlasmarkt&lt;/a&gt;&amp;nbsp;&lt;font&gt;Instagram&lt;/font&gt;</description>
+<source url="https://www.instagram.com">Instagram</source></item>
+<item><title>Notre nouveau restaurant ouvre ses portes rue Oberkampf - Instagram</title>
+<link>https://news.google.com/rss/articles/parijs</link><pubDate>Thu, 29 Oct 2026 08:00:00 GMT</pubDate>
+<description>&lt;a href="x"&gt;Notre nouveau restaurant ouvre ses portes rue Oberkampf&lt;/a&gt;</description>
+<source url="https://www.instagram.com">Instagram</source></item>
+<item><title>Mijn lunch vandaag #vegan - Instagram</title>
+<link>https://news.google.com/rss/articles/lunch</link><pubDate>Thu, 29 Oct 2026 09:00:00 GMT</pubDate>
+<description>&lt;a href="x"&gt;Mijn lunch vandaag #vegan&lt;/a&gt;</description>
+<source url="https://www.instagram.com">Instagram</source></item>
+</channel></rss>"""
+
+
+class NepSociaalModel:
+    naam, model, token = "Nep", "nep-model", "x"
+
+    def __init__(self):
+        self.gezien = []
+
+    def vraag(self, systeem, gebruiker):
+        invoer = json.loads(gebruiker)
+        if isinstance(invoer, dict):          # verzoek van de bundeling
+            return json.dumps({"verhalen": []})
+        uit = []
+        for item in invoer:
+            self.gezien.append(item)
+            nieuws = "lunch" not in item["titel"]
+            land = "FR" if "Oberkampf" in item["titel"] else "BE"
+            uit.append({"id": item["id"], "relevant": nieuws, "kernzin": f"Kern: {item['titel'][:30]}",
+                        "categorieen": ["horeca"], "gebeurtenis": "opening", "land": land, "plaats": ""})
+        return json.dumps({"berichten": uit})
+
+
+def test_instagram_posts_via_google_nieuws(wortel, monkeypatch):
+    from vegannieuws import verzamelen
+    (wortel / "bronnen.yml").write_text("bronnen: []\n", encoding="utf-8")
+    (wortel / "zoekopdrachten.yml").write_text(
+        "zoekopdrachten:\n  - zoekterm: site:instagram.com vegan\n    land: BE\n    taal: nl\n    enkel_land: BE\n",
+        encoding="utf-8")
+    sessie = FakeSessie({"news.google.com": (200, INSTAGRAM_FEED, {})})
+    model = NepSociaalModel()
+    monkeypatch.setattr(Ophaler, "_maak_sessie", staticmethod(lambda repo: sessie))
+    monkeypatch.setattr(ophalen.time, "sleep", lambda s: None)
+    monkeypatch.setattr(verzamelen, "maak_taalmodellen", lambda *a, **k: [model])
+    inst = Instellingen(reserve_vertaling=False, max_leeftijd_dagen=36500, llm_max_leeftijd_dagen=36500, llm_pauze_s=0)
+    paden = Paden(wortel)
+
+    rapport = verzamel(paden, inst, log=lambda *_: None)
+    # Elke post gaat als kandidaat naar het taalmodel, ook zonder vegan-woord in de titel.
+    assert rapport.kandidaten == 3 and all(item.get("sociaal") == "Instagram" for item in model.gezien)
+    assert all("zoekterm" not in item for item in model.gezien)
+    maand = json.loads((wortel / "site/data/berichten/2026-10.json").read_text(encoding="utf-8"))
+    over = maand["berichten"]
+    # Enkel de Gentse opening blijft: de lunchfoto is geen nieuws, Parijs ligt niet in België.
+    assert [b["sociaal"] for b in over] == ["Instagram"] and "Vlasmarkt" in over[0]["titel"]
+    assert over[0]["land"] == "BE" and "kandidaat" not in over[0]
+    assert rapport.kandidaten_afgewezen == 2 and len(Staat.laad(paden.staat).geweigerd) == 2
+
+
+def test_zonder_taalmodel_geen_sociale_media(wortel, monkeypatch):
+    from vegannieuws import verzamelen
+    (wortel / "bronnen.yml").write_text("bronnen: []\n", encoding="utf-8")
+    (wortel / "zoekopdrachten.yml").write_text(
+        "zoekopdrachten:\n  - zoekterm: site:instagram.com vegan\n    land: BE\n    taal: nl\n", encoding="utf-8")
+    sessie = FakeSessie({"news.google.com": (200, INSTAGRAM_FEED, {})})
+    monkeypatch.setattr(Ophaler, "_maak_sessie", staticmethod(lambda repo: sessie))
+    monkeypatch.setattr(ophalen.time, "sleep", lambda s: None)
+    monkeypatch.setattr(verzamelen, "maak_taalmodellen", lambda *a, **k: [])
+    inst = Instellingen(reserve_vertaling=False, max_leeftijd_dagen=36500, llm_pauze_s=0)
+    rapport = verzamel(Paden(wortel), inst, log=lambda *_: None)
+    assert rapport.nieuw == 0 and rapport.kandidaten == 0

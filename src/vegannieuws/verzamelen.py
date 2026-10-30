@@ -319,7 +319,10 @@ def verzamel(paden: Paden, inst: Instellingen, terugvullen_dagen: int = 0, gebru
     rapport.kandidaten_afgewezen = _ruim_kandidaten_op(archief, staat, vandaag, inst.llm_max_leeftijd_dagen,
                                                        {b.id: b.enkel_land for b in bronnen if b.enkel_land})
     if gebruik_llm and inst.llm_aan and inst.verhalen_aan:
-        vstat = _bundel_verhalen(archief, inst, staat, vandaag, log)
+        try:
+            vstat = _bundel_verhalen(archief, inst, staat, vandaag, log)
+        except Exception as fout:  # noqa: BLE001 - de bundeling mag de run nooit doen mislukken
+            vstat = VerhaalStatistiek(melding=f"bundeling mislukt: {type(fout).__name__}: {str(fout)[:200]}")
         rapport.verhalen = asdict(vstat)
         log(f"Verhalen: {vstat.groepen} kandidaatgroepen, {vstat.nieuwe_verhalen} nieuwe verhalen, "
             f"{vstat.verzoeken} verzoeken. {vstat.melding}")
