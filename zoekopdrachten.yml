@@ -242,3 +242,15 @@ zoekopdrachten:
   - zoekterm: веган OR веганський OR веганство
     land: UA
     taal: uk
+  - zoekterm: vegan Latvia OR Riga
+    naam: "Google Nieuws: vegan Letland (Engelstalig)"
+    land: LV
+    taal: en
+    editie: GB:en
+    recentheid: "when:30d"
+  - zoekterm: vegan Romania OR Bucharest
+    naam: "Google Nieuws: vegan Roemenië (Engelstalig)"
+    land: RO
+    taal: en
+    editie: GB:en
+    recentheid: "when:30d"
