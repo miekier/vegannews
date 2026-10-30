@@ -20,14 +20,13 @@ from vegannieuws.ophalen import Ophaler  # noqa: E402
 from vegannieuws.staat import Staat  # noqa: E402
 
 KANDIDATEN = [
-    ("vegout-us", "VegOut Magazine", "https://vegoutmag.com", "medium", False),
-    ("pcrm-us", "Physicians Committee for Responsible Medicine", "https://www.pcrm.org", "organisatie", True),
-    ("aldf-us", "Animal Legal Defense Fund", "https://aldf.org", "organisatie", False),
-    ("pbfa-us", "Plant Based Foods Association", "https://www.plantbasedfoods.org", "organisatie", False),
-    ("eater-us", "Eater", "https://www.eater.com", "medium", True),
-    ("foodnavigator-usa", "FoodNavigator-USA", "https://www.foodnavigator-usa.com", "medium", True),
-    ("thebeet-us", "The Beet", "https://thebeet.com", "medium", False),
-    ("civileats-us", "Civil Eats", "https://civileats.com", "medium", True),
+    ("vegout-us", "VegOut Magazine", "https://vegoutmag.com/feed/", "medium", False),
+    ("onegreenplanet-us", "One Green Planet", "https://www.onegreenplanet.org", "medium", False),
+    ("worldanimalnews-us", "World Animal News", "https://worldanimalnews.com", "medium", False),
+    ("farmsanctuary-us", "Farm Sanctuary", "https://www.farmsanctuary.org", "organisatie", False),
+    ("thehumaneleague-us", "The Humane League", "https://thehumaneleague.org", "organisatie", False),
+    ("happycow", "HappyCow", "https://www.happycow.net/blog/", "medium", False),
+    ("foodnavigator-usa", "FoodNavigator-USA", "https://www.foodnavigator-usa.com/", "medium", True),
 ]
 UA = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126 Safari/537.36"}
 
@@ -85,23 +84,87 @@ def huisstijl(url: str) -> None:
         print("logo:", m.group(0)[:250])
 
 
-def instagram_in_google_nieuws() -> None:
-    print("\n== Instagram in Google Nieuws ==")
-    for q, editie in (("site:instagram.com vegan", "BE:nl"), ("site:instagram.com vegan restaurant", "US:en"),
-                      ("instagram.com vegan Gent", "BE:nl")):
+def sociale_media_in_google_nieuws() -> None:
+    print("\n== Sociale media in Google Nieuws ==")
+    vragen = [
+        ("site:instagram.com vegan when:7d", "BE:nl"),
+        ("site:instagram.com vegan Gent when:30d", "BE:nl"),
+        ("site:instagram.com vegan Antwerpen when:30d", "BE:nl"),
+        ("site:instagram.com vegan Brussel OR Bruxelles when:30d", "BE:nl"),
+        ("site:instagram.com veganistisch OR plantaardig when:30d", "BE:nl"),
+        ("site:instagram.com vegan when:7d", "BE:fr"),
+        ("site:instagram.com/bevegan.be", "BE:nl"),
+        ("site:instagram.com bevegan", "BE:nl"),
+        ("site:facebook.com vegan Gent when:30d", "BE:nl"),
+        ("site:tiktok.com vegan België when:30d", "BE:nl"),
+        ("site:threads.net vegan when:30d", "BE:nl"),
+    ]
+    for q, editie in vragen:
         land, taal = editie.split(":")
         url = f"https://news.google.com/rss/search?q={requests.utils.quote(q)}&hl={taal}&gl={land}&ceid={editie}"
         r = requests.get(url, headers=UA, timeout=30)
-        titels = re.findall(r"<item>.*?<title>(.*?)</title>.*?<source url=\"([^\"]*)\"", r.text, re.S)
-        print(f"- {q} ({editie}): HTTP {r.status_code}, {len(titels)} resultaten; bronnen: "
-              f"{collections.Counter(s for _, s in titels).most_common(5)}")
+        items = re.findall(r"<item>(.*?)</item>", r.text, re.S)
+        print(f"\n- {q} ({editie}): HTTP {r.status_code}, {len(items)} resultaten")
+        for item in items[:12]:
+            titel = re.search(r"<title>(.*?)</title>", item, re.S)
+            datum = re.search(r"<pubDate>(.*?)</pubDate>", item)
+            link = re.search(r"<link>(.*?)</link>", item)
+            bron = re.search(r'<source url="([^"]*)"[^>]*>(.*?)</source>', item)
+            beschrijving = re.search(r"<description>(.*?)</description>", item, re.S)
+            print(f"    {datum.group(1) if datum else '-'} | {(titel.group(1) if titel else '')[:110]}")
+            print(f"        bron={bron.groups() if bron else '-'} link={(link.group(1) if link else '')[:90]}")
+            if beschrijving:
+                print(f"        beschrijving={re.sub(r'<[^>]+>|&lt;[^&]*&gt;', ' ', beschrijving.group(1))[:160]}")
+
+
+def logo_kleuren(url: str) -> None:
+    print(f"\n== Logo {url} ==")
+    try:
+        from io import BytesIO
+
+        from PIL import Image
+    except ImportError:
+        print("Pillow ontbreekt")
+        return
+    r = requests.get(url, headers=UA, timeout=30)
+    beeld = Image.open(BytesIO(r.content)).convert("RGB").resize((150, 150))
+    tellers = collections.Counter()
+    for kleur in beeld.getdata():
+        tellers[tuple(c // 8 * 8 for c in kleur)] += 1
+    print("dominante kleuren:", [("#%02x%02x%02x" % k, n) for k, n in tellers.most_common(14)])
+
+
+def enfold_variabelen(url: str) -> None:
+    print(f"\n== Enfold-kleurvariabelen {url} ==")
+    r = requests.get(url, headers=UA, timeout=60)
+    gezien = set()
+    for naam, waarde in re.findall(r"(--enfold-[\w-]+)\s*:\s*([^;}{]+)", r.text):
+        if naam not in gezien:
+            gezien.add(naam)
+            if any(d in naam for d in ("header", "main", "alternate", "socket-color-primary", "footer-color-primary")):
+                print(f"{naam}: {waarde.strip()}")
+    for selector in (".main_color", "#header", ".header_color", "#top .av-main-nav", ".av-special-heading-tag",
+                     "h1", "h2", "h3", "body", "a"):
+        for m in re.finditer(r"(?:^|})\s*([^{}]*" + re.escape(selector) + r"[^{}]*){([^}]*)}", r.text):
+            if "color" in m.group(2) or "font" in m.group(2):
+                print(f"{m.group(1).strip()[:120]} {{{m.group(2).strip()[:200]}}}")
+                break
+
 
 
 if __name__ == "__main__":
     test_bronnen()
-    instagram_in_google_nieuws()
-    for adres in sys.argv[1:] or ["https://www.bevegan.be/"]:
+    sociale_media_in_google_nieuws()
+    for adres in ("https://bevegan.be/wp-content/uploads/2017/04/bevegan-450x450.png",
+                  "https://bevegan.be/wp-content/uploads/2024/11/BE-Vegan-logo-300x300.jpeg"):
         try:
-            huisstijl(adres)
+            logo_kleuren(adres)
+        except Exception as fout:  # noqa: BLE001
+            print(adres, "->", type(fout).__name__, fout)
+    for adres in ("https://bevegan.be/wp-content/uploads/dynamic_avia/enfold_child.css",
+                  "https://bevegan.be/wp-content/themes/enfold-child/style.css",
+                  "https://bevegan.be/wp-content/plugins/bevegan_zonapro/bevegan_zonapro.css"):
+        try:
+            enfold_variabelen(adres)
         except requests.RequestException as fout:
             print(adres, "->", type(fout).__name__, fout)
