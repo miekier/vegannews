@@ -492,6 +492,55 @@ bronnen:
     taal: nl
     alleen_vegan: nee
     notitie: "Aanvulling op de website van BE Vegan, die apart gevolgd wordt."
+  - naam: ProVeg België (Instagram)
+    url: https://www.instagram.com/proveg.belgie/
+    type: organisatie
+    land: BE
+    taal: nl
+    alleen_vegan: nee
+    notitie: "Aanvulling op de website van ProVeg België, die apart gevolgd wordt."
+  - naam: Animal Rights (Instagram)
+    url: https://www.instagram.com/animalrights.be/
+    type: organisatie
+    land: BE
+    taal: nl
+    alleen_vegan: nee
+    notitie: "Aanvulling op de website van Animal Rights, die apart gevolgd wordt."
+  - naam: "Vegan A'fairs"
+    url: https://www.instagram.com/vegan.afairs/
+    type: organisatie
+    land: BE
+    taal: nl
+    alleen_vegan: nee
+    notitie: "Jaarlijkse vegan beurs in Brugge, georganiseerd door New Ethics vzw."
+  - naam: "O'YO"
+    url: https://www.instagram.com/oyohealthy/
+    type: horeca
+    land: BE
+    taal: en
+    alleen_vegan: nee
+    notitie: "Vegan en glutenvrije brunch en lunch in Gent (Brabantdam en Sint-Baafsplein)."
+  - naam: "Knol & Kool"
+    url: https://www.instagram.com/knolkool.gent/
+    type: horeca
+    land: BE
+    taal: nl
+    alleen_vegan: nee
+    notitie: "Vegan bistro en buurtwinkel in Gent."
+  - naam: Lekker GEC
+    url: https://www.instagram.com/lekkergec/
+    type: horeca
+    land: BE
+    taal: nl
+    alleen_vegan: nee
+    notitie: "Biologisch vegan restaurant met seizoenskeuken in Gent."
+  - naam: Lazlo
+    url: https://www.instagram.com/lazlo.brussels/
+    type: horeca
+    land: BE
+    taal: en
+    alleen_vegan: nee
+    notitie: "Brunch- en koffiezaak in Brussel (voorheen The Wild Lab), overwegend vegan of vegetarisch."
   # Een account toevoegen: kopieer een blok en pas naam en adres aan, of gebruik op de website
   # Bronnen -> Inloggen als beheerder -> Bron toevoegen (het account wordt dan meteen getest).
 
