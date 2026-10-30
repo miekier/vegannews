@@ -47,7 +47,11 @@ jobs:
       PYTHONPATH: src
       PYTHONUNBUFFERED: "1"
     steps:
+      # Altijd de laatste stand van main: een run die in de wachtrij stond, start zo vanaf de
+      # gegevens van de vorige run en niet vanaf de stand op het moment dat hij werd gestart.
       - uses: actions/checkout@v5
+        with:
+          ref: main
 
       - uses: actions/setup-python@v6
         with:
@@ -90,7 +94,14 @@ jobs:
           fi
           git commit -q -m "Nieuws bijgewerkt $(date -u +'%Y-%m-%d %H:%M') UTC"
           for poging in 1 2 3 4; do
-            if git pull --rebase -q origin main && git push -q origin HEAD:main; then exit 0; fi
+            if git pull --rebase -q origin main; then
+              if git push -q origin HEAD:main; then exit 0; fi
+            else
+              git rebase --abort || true
+              git reset -q --hard origin/main
+              echo "::warning::De gegevens werden intussen door een andere run gewijzigd. De resultaten van deze run worden niet bewaard; de volgende run haalt hetzelfde nieuws opnieuw op."
+              exit 0
+            fi
             sleep $((poging * 5))
           done
           exit 1
