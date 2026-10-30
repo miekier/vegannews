@@ -13,7 +13,8 @@ import requests
 from .model import Bericht
 
 URL = "https://api.mymemory.translated.net/get"
-ONDERSTEUNDE_TALEN = {"nl", "fr", "en", "de", "es", "it", "pt"}
+ONDERSTEUNDE_TALEN = {"nl", "fr", "en", "de", "es", "it", "pt", "pl", "cs", "sk", "sl", "hr", "sr", "hu", "ro", "bg",
+                      "el", "sv", "da", "no", "fi", "is", "et", "lv", "lt", "uk", "ru", "tr", "mt"}
 
 
 class QuotumOp(Exception):

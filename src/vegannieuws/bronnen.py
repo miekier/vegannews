@@ -122,22 +122,42 @@ def vaste_feed(bron: Bron) -> str:
     return ""
 
 
+# Google Nieuws-edities per land (land:taal). Portugal gebruikt de taalcode "pt-150".
+EDITIES = {
+    "NL": "NL:nl", "FR": "FR:fr", "DE": "DE:de", "GB": "GB:en", "US": "US:en", "AT": "AT:de", "CH": "CH:de",
+    "IE": "IE:en", "CA": "CA:en", "AU": "AU:en", "ES": "ES:es", "IT": "IT:it", "PT": "PT:pt-150", "PL": "PL:pl",
+    "CZ": "CZ:cs", "SK": "SK:sk", "SI": "SI:sl", "HR": "HR:hr", "RS": "RS:sr", "HU": "HU:hu", "RO": "RO:ro",
+    "BG": "BG:bg", "GR": "GR:el", "CY": "CY:el", "SE": "SE:sv", "DK": "DK:da", "NO": "NO:no", "FI": "FI:fi",
+    "IS": "IS:is", "EE": "EE:et", "LV": "LV:lv", "LT": "LT:lt", "UA": "UA:uk", "LU": "LU:fr", "MT": "MT:en",
+}
+_EDITIE_PER_TAAL = {"nl": "NL:nl", "fr": "FR:fr", "de": "DE:de", "es": "ES:es", "it": "IT:it", "pt": "PT:pt-150",
+                    "pl": "PL:pl", "cs": "CZ:cs", "sv": "SE:sv"}
+
+
 def standaard_editie(taal: str, land: str) -> str:
     if land == "BE":
         return f"BE:{taal if taal in ('nl', 'fr') else 'nl'}"
-    per_land = {"NL": "NL:nl", "FR": "FR:fr", "DE": "DE:de", "GB": "GB:en", "US": "US:en", "AT": "AT:de",
-                "CH": "CH:de", "IE": "IE:en", "CA": "CA:en", "AU": "AU:en", "ES": "ES:es", "IT": "IT:it"}
-    if land in per_land:
-        return per_land[land]
-    return {"nl": "NL:nl", "fr": "FR:fr", "de": "DE:de", "es": "ES:es", "it": "IT:it"}.get(taal, "US:en")
+    if land == "CH" and taal in ("fr", "it"):
+        return f"CH:{taal}"
+    if land in EDITIES:
+        return EDITIES[land]
+    return _EDITIE_PER_TAAL.get(taal, "US:en")
+
+
+def taal_van_editie(editie: str) -> str:
+    return editie.partition(":")[2].split("-")[0]
 
 
 def google_url(zoekterm: str, editie: str, extra: str = "") -> str:
-    gl, _, taal = editie.partition(":")
-    taal = taal or "en"
-    hl = f"en-{gl}" if taal == "en" else taal
+    gl, _, ceid_taal = editie.partition(":")
+    ceid_taal = ceid_taal or "en"
+    taal = ceid_taal.split("-")[0]
+    if taal == "en" or "-" in ceid_taal:
+        hl = f"{taal}-{gl}"   # bv. en-GB, pt-PT
+    else:
+        hl = taal
     q = f"{zoekterm} {extra}".strip()
-    return "https://news.google.com/rss/search?" + urlencode({"q": q, "hl": hl, "gl": gl, "ceid": f"{gl}:{taal}"})
+    return "https://news.google.com/rss/search?" + urlencode({"q": q, "hl": hl, "gl": gl, "ceid": f"{gl}:{ceid_taal}"})
 
 
 def bing_url(zoekterm: str, taal: str, land: str) -> str:
@@ -234,7 +254,7 @@ def laad_register(pad_bronnen: Path, pad_zoek: Path) -> tuple[list[Bron], list[s
         land = _landcode(item.get("land")) or "INT"
         editie = str(item.get("editie") or "").strip() or standaard_editie(taal, land)
         if not taal and ":" in editie:
-            taal = editie.split(":", 1)[1]
+            taal = taal_van_editie(editie)
         naam = str(item.get("naam") or "").strip() or f"{SOORT_NAMEN[dienst]}: {zoekterm}"
         id_ = str(item.get("id") or "").strip() or id_voor_zoekopdracht(dienst, editie, zoekterm)
         bronnen.append(Bron(

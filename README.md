@@ -28,6 +28,13 @@ Het bronnenregister bestaat uit twee bestanden:
 - [`bronnen.yml`](bronnen.yml): websites, RSS-feeds, Bluesky-, Mastodon- en YouTube-accounts.
 - [`zoekopdrachten.yml`](zoekopdrachten.yml): zoekopdrachten in Google Nieuws en Bing Nieuws, en een PubMed-zoekopdracht voor nieuwe studies.
 
+Voor elk van 33 Europese landen volgt het register minstens één bron:
+
+- een vegan organisatie of een vegan medium uit dat land, en/of
+- een zoekopdracht in de nationale editie van Google Nieuws, in de landstaal.
+
+Landen zonder bruikbare eigen website, zoals Bulgarije, Roemenië, Griekenland en Malta, worden enkel via Google Nieuws gevolgd.
+
 Zo voeg je een bron toe, ook op een gsm:
 
 1. Op de website: tabblad **Bronnen** → **＋ Bron toevoegen**. Dat opent een formulier op GitHub.

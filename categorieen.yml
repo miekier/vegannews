@@ -336,6 +336,58 @@ relevantie:
   - crueltyfree
   - onverdoofd slachten
   - sans etourdissement
+  # Andere Europese talen (veganistisch, vegetarisch, plantaardig, dierenwelzijn/-rechten)
+  - "*wegan*"            # Pools: wegański, weganizm
+  - "*wegetari*"         # Pools
+  - "*vegaan*"           # Fins: vegaani, vegaaninen
+  - kasvis*              # Fins: vegetarisch
+  - kasvipohjai*         # Fins: plantaardig
+  - vaxtbaserad*         # Zweeds
+  - plantebas*           # Deens, Noors
+  - roslinn*             # Pools
+  - rostlinn*            # Tsjechisch
+  - rastlinn*            # Slowaaks
+  - rastlinsk*           # Sloveens
+  - biljn*               # Kroatisch, Servisch
+  - novenyi*             # Hongaars
+  - pe baza de plante    # Roemeens
+  - augalin*             # Litouws
+  - augu valsts          # Lets
+  - taimn*               # Estisch
+  - grænker*             # IJslands
+  - bitkisel             # Turks
+  - a base de plantas    # Spaans, Portugees
+  - a base vegetale      # Italiaans
+  - vegetais             # Portugees
+  - βιγκαν*              # Grieks
+  - χορτοφαγ*            # Grieks
+  - φυτικ*               # Grieks
+  - веган*               # Bulgaars, Oekraïens, Servisch, Russisch
+  - вегетариан*
+  - растителн*           # Bulgaars
+  - рослинн*             # Oekraïens
+  - bienestar animal
+  - derechos de los animales
+  - benessere animale
+  - diritti degli animali
+  - bem estar animal
+  - direitos dos animais
+  - dobrostan zwierzat
+  - prawa zwierzat
+  - prava zvirat
+  - prava zivotinja
+  - dobrobit zivotinja
+  - djurratt*
+  - djurens ratt
+  - dyrevelf*
+  - dyrs rettigheter
+  - dyrerettigheder
+  - elainten oikeudet
+  - elainsuojelu
+  - allatjolet
+  - allatvedelem
+  - bunastarea animalelor
+  - drepturile animalelor
 
 # Soort gebeurtenis, getoond als label bij restaurants, winkels, bedrijven en producten.
 gebeurtenissen:

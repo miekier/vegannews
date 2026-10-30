@@ -87,6 +87,10 @@ def detecteer_taal(tekst: str, standaard: str = "") -> str:
     if len(woorden) < 3:
         return standaard
     scores = {taal: sum(1 for w in woorden if w in lijst) for taal, lijst in STOPWOORDEN.items()}
+    if standaard and standaard not in STOPWOORDEN:
+        # Taal die deze herkenning niet kent (bv. Pools, Fins): de taal van de bron geldt,
+        # tenzij de tekst duidelijk Engels is.
+        return "en" if scores["en"] >= 3 and scores["en"] == max(scores.values()) else standaard
     beste = max(scores, key=lambda t: scores[t])
     if scores[beste] == 0:
         return standaard

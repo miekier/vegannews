@@ -48,6 +48,16 @@ def test_lees_formulier():
     assert velden["naam"] == "EVA" and velden["opmerking"] == ""
 
 
+def test_formulier_europees_land_en_taal(wortel, monkeypatch):
+    paden = _register(wortel)
+    monkeypatch.setattr(Ophaler, "haal", lambda self, bron, extra="": Resultaat(bron, [RuwBericht("Wiadomość", "https://p.pl/1")], feed="https://p.pl/feed/"))
+    tekst = FORMULIER.format(naam="Polskie Weganie", adres="https://weganie.pl", soort="Organisatie")
+    tekst = tekst.replace("België", "Polen").replace("Nederlands", "Pools")
+    assert verwerk_aanvraag(paden, Instellingen(), tekst).gewijzigd
+    bron = next(b for b in laad_register(paden.bronnen, paden.zoekopdrachten)[0] if b.naam == "Polskie Weganie")
+    assert (bron.land, bron.taal) == ("PL", "pl")
+
+
 def _register(wortel):
     shutil.copy(WORTEL / "bronnen.yml", wortel / "bronnen.yml")
     shutil.copy(WORTEL / "zoekopdrachten.yml", wortel / "zoekopdrachten.yml")

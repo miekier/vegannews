@@ -218,3 +218,18 @@ def test_ontdekking_na_403_op_startpagina():
     dicht = Ophaler(Staat(), Instellingen(), FakeSessie({"dicht.be": (403, b"", {})}))
     res = dicht.haal(Bron("d", "d", "website", "medium", url="https://www.dicht.be/"))
     assert res.status == "fout" and res.melding.startswith("HTTP 403")
+
+
+def test_europese_edities():
+    from vegannieuws.bronnen import standaard_editie, taal_van_editie
+    assert standaard_editie("pt", "PT") == "PT:pt-150" and taal_van_editie("PT:pt-150") == "pt"
+    assert "hl=pt-PT" in google_url("vegano", "PT:pt-150") and "ceid=PT%3Apt-150" in google_url("vegano", "PT:pt-150")
+    assert standaard_editie("fr", "CH") == "CH:fr" and standaard_editie("de", "CH") == "CH:de"
+    assert standaard_editie("pl", "PL") == "PL:pl" and "hl=pl" in google_url("wegański", "PL:pl")
+    assert standaard_editie("en", "IE") == "IE:en" and "hl=en-IE" in google_url("vegan", "IE:en")
+
+
+def test_taal_van_bron_bij_onbekende_taal():
+    from vegannieuws.tekst import detecteer_taal
+    assert detecteer_taal("Wegańska restauracja otwiera się w Krakowie i serwuje roślinne jedzenie", "pl") == "pl"
+    assert detecteer_taal("The new vegan restaurant in Krakow is a success for the city", "pl") == "en"

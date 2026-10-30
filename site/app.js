@@ -2,7 +2,14 @@
 
 (() => {
   const TIJDZONE = "Europe/Brussels";
-  const TAALNAMEN = { fr: "het Frans", de: "het Duits", es: "het Spaans", it: "het Italiaans", pt: "het Portugees", en: "het Engels", nl: "het Nederlands" };
+  const TAALNAMEN = {
+    fr: "het Frans", de: "het Duits", es: "het Spaans", it: "het Italiaans", pt: "het Portugees", en: "het Engels",
+    nl: "het Nederlands", pl: "het Pools", cs: "het Tsjechisch", sk: "het Slowaaks", sl: "het Sloveens",
+    hr: "het Kroatisch", sr: "het Servisch", hu: "het Hongaars", ro: "het Roemeens", bg: "het Bulgaars",
+    el: "het Grieks", sv: "het Zweeds", da: "het Deens", no: "het Noors", fi: "het Fins", is: "het IJslands",
+    et: "het Estisch", lv: "het Lets", lt: "het Litouws", uk: "het Oekraïens", ru: "het Russisch", tr: "het Turks",
+    mt: "het Maltees",
+  };
   const PER_KEER = 300;
   const toestand = { index: null, maanden: new Map(), bronnen: null, resultaat: [], filters: null, limiet: PER_KEER, gezocht: false };
 

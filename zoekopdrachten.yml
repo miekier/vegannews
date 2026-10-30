@@ -118,3 +118,92 @@ zoekopdrachten:
     land: INT
     taal: en
     alleen_vegan: nee
+
+  # --- Europa: Google Nieuws per land, in de landstaal -------------------------------------
+  - zoekterm: vegan
+    land: AT
+    taal: de
+  - zoekterm: vegan
+    land: CH
+    taal: de
+  - zoekterm: végane OR vegan
+    land: CH
+    taal: fr
+  - zoekterm: veganský OR veganská OR veganské OR veganství
+    land: CZ
+    taal: cs
+  - zoekterm: vegansk OR veganer OR plantebaseret
+    land: DK
+    taal: da
+  - zoekterm: vegan OR vegantoit OR taimne
+    land: EE
+    taal: et
+  - zoekterm: vegano OR vegana OR veganismo
+    land: ES
+    taal: es
+  - zoekterm: vegaani OR vegaaninen OR kasvipohjainen
+    land: FI
+    taal: fi
+  - zoekterm: βίγκαν OR vegan
+    land: GR
+    taal: el
+  - zoekterm: 'vegan Κύπρος OR "vegan Cyprus"'
+    land: CY
+    taal: el
+  - zoekterm: veganski OR veganska OR vegan
+    land: HR
+    taal: hr
+  - zoekterm: vegán
+    land: HU
+    taal: hu
+  - zoekterm: vegan
+    land: IE
+    taal: en
+  - zoekterm: vegan OR grænkera
+    land: IS
+    taal: is
+  - zoekterm: vegano OR vegana OR veganismo
+    land: IT
+    taal: it
+  - zoekterm: veganai OR veganiškas OR veganiški OR vegan
+    land: LT
+    taal: lt
+  - zoekterm: vegan Luxembourg OR Luxemburg
+    land: LU
+    taal: fr
+  - zoekterm: vegāns OR vegānu OR vegāniski
+    land: LV
+    taal: lv
+  - zoekterm: vegan Malta
+    land: MT
+    taal: en
+  - zoekterm: vegansk OR veganer
+    land: "NO"
+    taal: "no"
+  - zoekterm: wegański OR wegańska OR wegańskie OR weganizm
+    land: PL
+    taal: pl
+  - zoekterm: vegano OR vegana OR vegan
+    land: PT
+    taal: pt
+  - zoekterm: vegan OR vegană OR vegani
+    land: RO
+    taal: ro
+  - zoekterm: veganski OR veganska OR вегански
+    land: RS
+    taal: sr
+  - zoekterm: vegansk OR vegan
+    land: SE
+    taal: sv
+  - zoekterm: veganski OR veganska OR vegan
+    land: SI
+    taal: sl
+  - zoekterm: vegánsky OR vegánska OR vegán
+    land: SK
+    taal: sk
+  - zoekterm: веган OR вегански OR веганство
+    land: BG
+    taal: bg
+  - zoekterm: веган OR веганський OR веганство
+    land: UA
+    taal: uk

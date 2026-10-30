@@ -462,3 +462,168 @@ bronnen:
     land: US
     taal: en
     alleen_vegan: nee
+
+  # --- Europa: per land minstens één bron (organisatie of vegan medium) --------------
+  # Landen zonder bruikbare website worden gevolgd via Google Nieuws (zie zoekopdrachten.yml).
+  - naam: European Vegetarian Union
+    url: https://www.euroveg.eu
+    type: organisatie
+    land: INT
+    taal: en
+    alleen_vegan: nee
+  - naam: Vegane Gesellschaft Österreich
+    url: https://www.vegan.at
+    type: organisatie
+    land: AT
+    taal: de
+    alleen_vegan: nee
+  - naam: Swissveg
+    url: https://www.swissveg.ch
+    type: organisatie
+    land: CH
+    taal: de
+    alleen_vegan: nee
+  - naam: ProVeg Česko
+    url: https://proveg.org/cz/
+    type: organisatie
+    land: CZ
+    taal: cs
+    alleen_vegan: nee
+  - naam: ProVeg Deutschland
+    url: https://proveg.org/de/
+    type: organisatie
+    land: DE
+    taal: de
+    alleen_vegan: nee
+  - naam: Dansk Vegetarisk Forening
+    url: https://vegetarisk.dk
+    type: organisatie
+    land: DK
+    taal: da
+    alleen_vegan: nee
+  - naam: Loomus
+    url: https://www.loomus.ee
+    type: organisatie
+    land: EE
+    taal: et
+    alleen_vegan: nee
+  - naam: El Caballo de Nietzsche (eldiario.es)
+    url: https://www.eldiario.es/caballodenietzsche/
+    type: medium
+    land: ES
+    taal: es
+    alleen_vegan: nee
+  - naam: Igualdad Animal
+    url: https://igualdadanimal.org
+    type: organisatie
+    land: ES
+    taal: es
+    alleen_vegan: nee
+  - naam: Vegaaniliitto
+    url: https://vegaaniliitto.fi
+    type: organisatie
+    land: FI
+    taal: fi
+    alleen_vegan: nee
+  - naam: Prijatelji životinja
+    url: https://www.prijatelji-zivotinja.hr
+    type: organisatie
+    land: HR
+    taal: hr
+    alleen_vegan: nee
+  - naam: Prove.hu
+    url: https://prove.hu
+    type: medium
+    land: HU
+    taal: hu
+    alleen_vegan: nee
+  - naam: Go Vegan World
+    url: https://www.goveganworld.com
+    type: organisatie
+    land: IE
+    taal: en
+    alleen_vegan: nee
+  - naam: Samtök grænkera á Íslandi
+    url: https://graenkerar.is
+    type: organisatie
+    land: IS
+    taal: is
+    alleen_vegan: nee
+  - naam: Vegolosi
+    url: https://www.vegolosi.it
+    type: medium
+    land: IT
+    taal: it
+    alleen_vegan: nee
+  - naam: Veganzetta
+    url: https://www.veganzetta.org
+    type: medium
+    land: IT
+    taal: it
+    alleen_vegan: nee
+  - naam: Tušti narvai
+    url: https://www.tustinarvai.lt
+    type: organisatie
+    land: LT
+    taal: lt
+    alleen_vegan: nee
+  - naam: Dzīvnieku brīvība
+    url: https://www.dzivniekubriviba.lv
+    type: organisatie
+    land: LV
+    taal: lv
+    alleen_vegan: nee
+  - naam: ProVeg Nederland
+    url: https://proveg.org/nl/
+    type: organisatie
+    land: NL
+    taal: nl
+    alleen_vegan: nee
+  - naam: NOAH – for dyrs rettigheter
+    url: https://www.dyrsrettigheter.no
+    type: organisatie
+    land: "NO"
+    taal: "no"
+    alleen_vegan: nee
+  - naam: ProVeg Polska
+    url: https://proveg.org/pl/
+    type: organisatie
+    land: PL
+    taal: pl
+    alleen_vegan: nee
+  - naam: Otwarte Klatki
+    url: https://www.otwarteklatki.pl
+    type: organisatie
+    land: PL
+    taal: pl
+    alleen_vegan: nee
+  - naam: Associação Vegetariana Portuguesa
+    url: https://www.avp.org.pt
+    type: organisatie
+    land: PT
+    taal: pt
+    alleen_vegan: nee
+  - naam: Djurens Rätt
+    url: https://www.djurensratt.se
+    type: organisatie
+    land: SE
+    taal: sv
+    alleen_vegan: nee
+  - naam: Društvo za osvoboditev živali
+    url: https://www.osvoboditev-zivali.org
+    type: organisatie
+    land: SI
+    taal: sl
+    alleen_vegan: nee
+  - naam: Humánny pokrok
+    url: https://www.humannypokrok.sk
+    type: organisatie
+    land: SK
+    taal: sk
+    alleen_vegan: nee
+  - naam: UAnimals
+    url: https://uanimals.org
+    type: organisatie
+    land: UA
+    taal: uk
+    alleen_vegan: nee

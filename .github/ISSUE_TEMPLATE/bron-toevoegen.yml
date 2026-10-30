@@ -52,7 +52,35 @@ body:
         - Nederland
         - Frankrijk
         - Duitsland
+        - Luxemburg
         - Verenigd Koninkrijk
+        - Ierland
+        - Oostenrijk
+        - Zwitserland
+        - Spanje
+        - Portugal
+        - Italië
+        - Malta
+        - Griekenland
+        - Cyprus
+        - Polen
+        - Tsjechië
+        - Slowakije
+        - Hongarije
+        - Slovenië
+        - Kroatië
+        - Servië
+        - Roemenië
+        - Bulgarije
+        - Denemarken
+        - Zweden
+        - Noorwegen
+        - Finland
+        - IJsland
+        - Estland
+        - Letland
+        - Litouwen
+        - Oekraïne
         - Verenigde Staten
         - Ander land
       default: 0
@@ -69,6 +97,26 @@ body:
         - Duits
         - Spaans
         - Italiaans
+        - Portugees
+        - Pools
+        - Tsjechisch
+        - Slowaaks
+        - Hongaars
+        - Sloveens
+        - Kroatisch
+        - Servisch
+        - Roemeens
+        - Bulgaars
+        - Grieks
+        - Deens
+        - Zweeds
+        - Noors
+        - Fins
+        - IJslands
+        - Estisch
+        - Lets
+        - Litouws
+        - Oekraïens
         - Andere
       default: 0
     validations:
