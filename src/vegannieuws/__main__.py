@@ -13,7 +13,7 @@ from .bronnen import laad_register
 from .config import laad_instellingen, standaard_paden
 from .ophalen import Ophaler
 from .staat import Staat
-from .verrijking import GitHubModels, diagnose_taalmodel
+from .verrijking import diagnose_taalmodel, maak_taalmodellen
 from .verzamelen import herindeel, rapport_markdown, verzamel
 
 
@@ -68,12 +68,16 @@ def main(argv: list[str] | None = None) -> int:
             regels.append(f"| {b.naam} (`{b.id}`) | {b.soort} | {res.status} | {len(res.berichten)} | "
                           f"{res.melding or res.feed} | {titel} |")
         tekst = "## Controle van bronnen\n\n" + "\n".join(regels) + f"\n\n{len(gekozen) - fouten} van {len(gekozen)} bronnen werken.\n"
-        token = os.environ.get("GITHUB_MODELS_TOKEN") or os.environ.get("GITHUB_TOKEN")
-        if token and inst.llm_aan:
-            resultaat = GitHubModels(token, inst.llm_modellen, inst.llm_pauze_s).test()
-            tekst += f"\n## Taalmodel\n\n{resultaat}\n"
-            if not resultaat.startswith("werkt:"):
-                tekst += "\n" + "\n".join(f"- {r}" for r in diagnose_taalmodel(token, inst.llm_modellen)) + "\n"
+        if inst.llm_aan:
+            tekst += "\n## Taalmodel\n\n"
+            clients = maak_taalmodellen(inst.llm_aanbieders, inst.modellen_per_aanbieder, inst.llm_pauze_s)
+            if not clients:
+                tekst += "Geen sleutel ingesteld (GEMINI_API_KEY of GROQ_API_KEY); indeling via trefwoorden.\n"
+            for client in clients:
+                resultaat = client.test()
+                tekst += f"- {client.naam}: {resultaat}\n"
+                if client.naam == "GitHub Models" and not resultaat.startswith("werkt:"):
+                    tekst += "\n".join(f"  - {r}" for r in diagnose_taalmodel(client.token, inst.llm_modellen)) + "\n"
         print(tekst)
         _schrijf_samenvatting(tekst)
         return 0

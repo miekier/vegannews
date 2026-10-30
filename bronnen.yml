@@ -151,8 +151,9 @@ bronnen:
     land: BE
     taal: nl
   - naam: ATV
-    url: https://atv.be
+    url: https://www.gva.be/atv/rss/
     type: medium
+    notitie: "atv.be is opgenomen in de website van Gazet van Antwerpen (vastgesteld op 30-10-2026)."
     land: BE
     taal: nl
   - naam: AVS
@@ -202,6 +203,8 @@ bronnen:
     type: medium
     land: BE
     taal: nl
+    actief: nee
+    notitie: "Website gaf een SSL-fout en geen berichten via Google Nieuws (controle 30-10-2026)."
   - naam: Le Sillon Belge
     url: https://www.sillonbelge.be
     type: medium
@@ -267,6 +270,8 @@ bronnen:
     land: INT
     taal: en
     alleen_vegan: nee
+    actief: nee
+    notitie: "Geen feed en geen recente berichten in Google Nieuws (controle 30-10-2026)."
   - naam: The Vegan Review
     url: https://theveganreview.com/feed/
     type: medium

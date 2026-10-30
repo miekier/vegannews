@@ -60,6 +60,9 @@ jobs:
 
       - name: Bronnen controleren
         if: ${{ inputs.controleren }}
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: python -m vegannieuws controleer
 
       - name: Onderwerpen opnieuw bepalen
@@ -69,6 +72,8 @@ jobs:
       - name: Nieuws verzamelen
         if: ${{ !inputs.controleren }}
         env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TERUGVULLEN: ${{ inputs.terugvullen || '0' }}
         run: python -m vegannieuws verzamel --terugvullen "$TERUGVULLEN"

@@ -115,7 +115,7 @@
         <ol>
           <li><strong>Selectie.</strong> Bij algemene bronnen blijven enkel berichten over veganisme, plantaardige voeding of dierenrechten over (op basis van trefwoorden).</li>
           <li><strong>Ontdubbeling.</strong> Hetzelfde nieuws uit meerdere media wordt één bericht met meerdere bronnen. Is de organisatie of het bedrijf zelf ook een bron, dan wordt die de hoofdbron.</li>
-          <li><strong>Vertaling en indeling.</strong> Een gratis taalmodel (GitHub Models) schrijft een kernzin in het Nederlands, vertaalt titels die niet in het Nederlands of Engels zijn, en bepaalt onderwerp, land en plaats. Lukt dat (nog) niet, dan gebeurt de indeling met trefwoorden en plaatsnamenlijsten; zo'n bericht krijgt het label <em>ingedeeld via trefwoorden</em>.</li>
+          <li><strong>Vertaling en indeling.</strong> Een gratis taalmodel (Google Gemini of Groq, met een eigen gratis sleutel) schrijft een kernzin in het Nederlands, vertaalt titels die niet in het Nederlands of Engels zijn, en bepaalt onderwerp, land en plaats. Zonder taalmodel gebeurt de indeling met trefwoorden en plaatsnamenlijsten en worden titels vertaald via MyMemory (beperkt aantal per dag); zo'n bericht krijgt het label <em>ingedeeld via trefwoorden</em>.</li>
         </ol>
         <h3>Betrouwbaarheid</h3>
         <ul>
@@ -123,6 +123,7 @@
           <li><strong>Primaire bron</strong> = de organisatie, het bedrijf, de persoon of de onderzoekers zelf. <strong>Secundaire bron</strong> = een medium dat erover bericht.</li>
           <li>De datum is de publicatiedatum volgens de bron (Belgische tijd). Ontbreekt die, dan geldt de datum van ophalen.</li>
           <li>Nationaal = het bericht gaat over België (plaats, gewest of Belgische instelling vermeld, of een Belgische bron zonder buitenlandse plaats).</li>
+          <li>Websites zonder eigen RSS-feed worden gevolgd via Google Nieuws (zoekopdracht <em>site:domein</em>); de bronnenpagina vermeldt dat.</li>
           <li>Instagram, Facebook, X en TikTok kunnen niet gratis gevolgd worden.</li>
         </ul>
         <h3>Laatste verzamelrun</h3>

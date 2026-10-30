@@ -1,13 +1,16 @@
-"""Vertalen, samenvatten en indelen met een gratis taalmodel (GitHub Models).
+"""Vertalen, samenvatten en indelen met een gratis taalmodel.
 
-GitHub Models is gratis met daglimieten en werkt in GitHub Actions met het ingebouwde
-GITHUB_TOKEN (permissie "models: read"). Lukt het niet, dan blijft de indeling op basis
-van trefwoorden staan en probeert een volgende run het opnieuw.
+Ondersteund zijn aanbieders met een OpenAI-compatibele API en een gratis gebruiksniveau:
+Google Gemini (sleutel GEMINI_API_KEY) en Groq (GROQ_API_KEY), en GitHub Models
+(GITHUB_TOKEN; in oktober 2026 niet meer beschikbaar). De eerste aanbieder met een sleutel
+wordt gebruikt. Lukt het niet, dan blijft de indeling op basis van trefwoorden staan en
+probeert een volgende run het opnieuw.
 """
 
 from __future__ import annotations
 
 import json
+import os
 import re
 import time
 from dataclasses import dataclass, field
@@ -19,7 +22,7 @@ from .classificatie import Lexicon
 from .locatie import Geo
 from .model import Bericht
 
-# Eindpunten in volgorde van voorkeur; het tweede is het oudere Azure-eindpunt van GitHub Models.
+# Eindpunten van GitHub Models; het tweede is het oudere Azure-eindpunt.
 EINDPUNTEN = (
     "https://models.github.ai/inference/chat/completions",
     "https://models.inference.ai.azure.com/chat/completions",
@@ -35,6 +38,7 @@ class StopVerrijking(Exception):
 
 @dataclass
 class LlmStatistiek:
+    aanbieder: str = ""
     verzoeken: int = 0
     verrijkt: int = 0
     mislukt: int = 0
@@ -44,9 +48,29 @@ class LlmStatistiek:
     fouten: list[str] = field(default_factory=list)
 
 
-class GitHubModels:
+AANBIEDERS = {
+    "gemini": {
+        "naam": "Google Gemini",
+        "sleutels": ("GEMINI_API_KEY",),
+        "eindpunten": ("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",),
+    },
+    "groq": {
+        "naam": "Groq",
+        "sleutels": ("GROQ_API_KEY",),
+        "eindpunten": ("https://api.groq.com/openai/v1/chat/completions",),
+    },
+    "github": {
+        "naam": "GitHub Models",
+        "sleutels": ("GITHUB_MODELS_TOKEN", "GITHUB_TOKEN"),
+        "eindpunten": EINDPUNTEN,
+    },
+}
+
+
+class Taalmodel:
     def __init__(self, token: str, modellen: list[str], pauze_s: float, sessie: requests.Session | None = None,
-                 eindpunten: tuple[str, ...] = EINDPUNTEN):
+                 eindpunten: tuple[str, ...] = EINDPUNTEN, naam: str = "GitHub Models"):
+        self.naam = naam
         self.token = token
         self.modellen = list(modellen)
         self.eindpunten = list(eindpunten)
@@ -55,6 +79,7 @@ class GitHubModels:
         self.diagnoses: list[str] = []
         self._laatste = 0.0
         self._json_modus = True
+        self._te_veel = 0
 
     @property
     def model(self) -> str:
@@ -66,18 +91,19 @@ class GitHubModels:
 
     def _modelnaam(self) -> str:
         # Het Azure-eindpunt kent modellen zonder uitgever ("gpt-4o-mini" i.p.v. "openai/gpt-4o-mini").
-        return self.model if "models.github.ai" in self.eindpunt else self.model.split("/", 1)[-1]
+        if "models.inference.ai.azure.com" in self.eindpunt:
+            return self.model.split("/", 1)[-1]
+        return self.model
 
     def _post(self, url: str, body: dict) -> tuple[requests.Response, str, list[str]]:
         """POST zonder automatische omleiding: requests zou een POST na 301/302 als GET herhalen."""
         omleidingen: list[str] = []
         for _ in range(4):
-            antwoord = self.sessie.post(url, json=body, timeout=(10, 120), allow_redirects=False, headers={
-                "Authorization": f"Bearer {self.token}",
-                "Accept": "application/vnd.github+json",
-                "Content-Type": "application/json",
-                "X-GitHub-Api-Version": "2022-11-28",
-            })
+            koppen = {"Authorization": f"Bearer {self.token}", "Accept": "application/json",
+                      "Content-Type": "application/json"}
+            if "github.ai" in url:
+                koppen.update({"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"})
+            antwoord = self.sessie.post(url, json=body, timeout=(10, 120), allow_redirects=False, headers=koppen)
             locatie = antwoord.headers.get("Location")
             if antwoord.status_code in (301, 302, 303, 307, 308) and locatie:
                 url = urljoin(url, locatie)
@@ -122,6 +148,7 @@ class GitHubModels:
             self._laatste = time.monotonic()
             tekst = antwoord.text[:500]
             if antwoord.status_code == 200:
+                self._te_veel = 0
                 try:
                     return antwoord.json()["choices"][0]["message"]["content"] or ""
                 except (KeyError, IndexError, TypeError, ValueError):
@@ -131,9 +158,13 @@ class GitHubModels:
                 self._volgend_eindpunt(self.diagnose(antwoord, url, omleidingen))
                 continue
             if antwoord.status_code == 429:
-                na = int(float(antwoord.headers.get("Retry-After", "60") or 60))
-                if na > 90:
-                    raise StopVerrijking(f"daglimiet van GitHub Models bereikt (opnieuw over {na // 60} min)")
+                self._te_veel += 1
+                try:
+                    na = int(float(antwoord.headers.get("Retry-After", "60") or 60))
+                except ValueError:
+                    na = 60
+                if na > 90 or self._te_veel >= 3:
+                    raise StopVerrijking(f"limiet van {self.naam} bereikt (HTTP 429); de volgende run gaat verder")
                 time.sleep(na + 1)
                 continue
             if antwoord.status_code in (400, 404, 422):
@@ -141,18 +172,22 @@ class GitHubModels:
                 if self._json_modus and "response_format" in laag:
                     self._json_modus = False
                     continue
-                if "model" in laag and any(w in laag for w in ("unknown", "not found", "unavailable", "not supported", "deprecated", "invalid")):
+                if "model" in laag and any(w in laag for w in ("unknown", "not found", "not_found", "does not exist", "unavailable",
+                                                               "not supported", "deprecated", "decommissioned", "invalid")):
                     self.diagnoses.append(f"model {self.model} niet beschikbaar: {tekst[:150]}")
                     self.modellen.pop(0)
                     continue
                 if antwoord.status_code == 404:
                     self._volgend_eindpunt(self.diagnose(antwoord, url, omleidingen))
                     continue
+                if self._json_modus:
+                    self._json_modus = False  # sommige modellen kennen de JSON-modus niet; het antwoord wordt toch als JSON gelezen
+                    continue
                 raise ValueError(f"HTTP {antwoord.status_code}: {tekst}")
             if antwoord.status_code >= 500:
                 raise ValueError(f"serverfout HTTP {antwoord.status_code}")
             raise ValueError(self.diagnose(antwoord, url, omleidingen))
-        raise StopVerrijking("geen werkend eindpunt of model. " + " | ".join(self.diagnoses[-4:]))
+        raise StopVerrijking(f"geen werkend eindpunt of model bij {self.naam}. " + " | ".join(self.diagnoses[-4:]))
 
     def test(self) -> str:
         """Eén klein verzoek om te controleren of het taalmodel bereikbaar is."""
@@ -163,6 +198,23 @@ class GitHubModels:
         except ValueError as fout:
             return f"fout: {fout}"
         return f"werkt: model {self.model} via {self.eindpunt} (antwoord {antwoord.strip()[:60]!r})"
+
+
+GitHubModels = Taalmodel
+
+
+def maak_taalmodellen(aanbieders: list[str], modellen: dict[str, list[str]], pauze_s: float,
+                      omgeving=os.environ) -> list[Taalmodel]:
+    """Een client per aanbieder waarvoor een sleutel is ingesteld, in de gevraagde volgorde."""
+    clients = []
+    for code in aanbieders:
+        info = AANBIEDERS.get(code)
+        if not info:
+            continue
+        sleutel = next((omgeving.get(s) for s in info["sleutels"] if omgeving.get(s)), "")
+        if sleutel and modellen.get(code):
+            clients.append(Taalmodel(sleutel, modellen[code], pauze_s, eindpunten=info["eindpunten"], naam=info["naam"]))
+    return clients
 
 
 def diagnose_taalmodel(token: str, modellen: list[str], sessie: requests.Session | None = None) -> list[str]:
@@ -297,7 +349,7 @@ def pas_toe(b: Bericht, uit: dict, lexicon: Lexicon, geo: Geo, talen_zonder_vert
 def verrijk(berichten: list[Bericht], client: GitHubModels, lexicon: Lexicon, geo: Geo, doeltaal: str,
             talen_zonder_vertaling: list[str], batch: int, max_verzoeken: int, max_pogingen: int,
             log=print) -> LlmStatistiek:
-    stat = LlmStatistiek(model=client.model, achterstand=len(berichten))
+    stat = LlmStatistiek(aanbieder=getattr(client, "naam", ""), model=client.model, achterstand=len(berichten))
     systeem = systeemprompt(lexicon, doeltaal)
     for start in range(0, len(berichten), batch):
         if stat.verzoeken >= max_verzoeken:

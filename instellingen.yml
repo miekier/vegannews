@@ -15,12 +15,20 @@ google_pauze_s: 1.5
 # Aantal bronnen dat tegelijk wordt opgehaald.
 gelijktijdig: 12
 
-# Gratis taalmodel via GitHub Models (vertalen, kernzin, onderwerp, land en plaats).
-# Werkt automatisch in GitHub Actions; zonder taalmodel gebeurt de indeling met trefwoorden.
+# Gratis taalmodel voor vertaling, kernzin, onderwerp, land en plaats.
+# Het programma gebruikt de eerste aanbieder in llm_aanbieders waarvoor een sleutel is ingesteld
+# (GitHub: Settings -> Secrets and variables -> Actions -> New repository secret):
+#   gemini : secret GEMINI_API_KEY, gratis sleutel via https://aistudio.google.com/apikey (aanbevolen)
+#   groq   : secret GROQ_API_KEY, gratis sleutel via https://console.groq.com/keys
+#   github : GitHub Models via het ingebouwde GITHUB_TOKEN (sinds oktober 2026 niet meer beschikbaar)
+# Zonder sleutel gebeurt de indeling met trefwoorden.
 llm_aan: ja
-# Modellen in volgorde van voorkeur; het volgende wordt gebruikt als een model niet beschikbaar is.
+llm_aanbieders: [gemini, groq]
+# Modellen per aanbieder, in volgorde van voorkeur; het volgende wordt gebruikt als een model niet bestaat.
+llm_modellen_gemini: [gemini-flash-lite-latest, gemini-2.5-flash-lite, gemini-flash-latest, gemini-2.5-flash]
+llm_modellen_groq: [llama-3.3-70b-versatile, openai/gpt-oss-120b, llama-3.1-8b-instant]
 llm_modellen: [openai/gpt-4.1-mini, openai/gpt-4o-mini]
-# Gratis limiet: ca. 150 verzoeken per dag. Eén verzoek verwerkt llm_batch berichten.
+# Eén verzoek verwerkt llm_batch berichten. De gratis limieten liggen ruim boven deze waarden.
 llm_max_verzoeken_per_run: 40
 llm_max_verzoeken_per_dag: 140
 llm_batch: 12

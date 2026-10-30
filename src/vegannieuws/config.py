@@ -53,6 +53,11 @@ class Instellingen:
     google_pauze_s: float = 1.5
     gelijktijdig: int = 12
     llm_aan: bool = True
+    llm_aanbieders: list[str] = field(default_factory=lambda: ["gemini", "groq"])
+    llm_modellen_gemini: list[str] = field(default_factory=lambda: [
+        "gemini-flash-lite-latest", "gemini-2.5-flash-lite", "gemini-flash-latest", "gemini-2.5-flash"])
+    llm_modellen_groq: list[str] = field(default_factory=lambda: [
+        "llama-3.3-70b-versatile", "openai/gpt-oss-120b", "llama-3.1-8b-instant"])
     llm_modellen: list[str] = field(default_factory=lambda: ["openai/gpt-4.1-mini", "openai/gpt-4o-mini"])
     llm_max_verzoeken_per_run: int = 40
     llm_max_verzoeken_per_dag: int = 140
@@ -64,6 +69,10 @@ class Instellingen:
     reserve_max_tekens_per_dag: int = 4500
     mymemory_email: str = ""
     repo: str = ""
+
+    @property
+    def modellen_per_aanbieder(self) -> dict[str, list[str]]:
+        return {"gemini": self.llm_modellen_gemini, "groq": self.llm_modellen_groq, "github": self.llm_modellen}
 
     @property
     def repository(self) -> str:

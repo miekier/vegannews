@@ -169,3 +169,35 @@ def test_taalmodel_geeft_diagnose_als_niets_werkt(monkeypatch):
     client = GitHubModels("token", ["openai/gpt-4o-mini"], 0, sessie=sessie)
     assert client.test().startswith("werkt niet: geen werkend eindpunt")
     assert "HTTP 401" in client.diagnoses[1]
+
+
+def test_aanbieders_volgens_sleutels():
+    from vegannieuws.config import Instellingen
+    from vegannieuws.verrijking import maak_taalmodellen
+    inst = Instellingen()
+    clients = maak_taalmodellen(inst.llm_aanbieders, inst.modellen_per_aanbieder, 0, {"GROQ_API_KEY": "g"})
+    assert [c.naam for c in clients] == ["Groq"]
+    clients = maak_taalmodellen(inst.llm_aanbieders, inst.modellen_per_aanbieder, 0,
+                                {"GROQ_API_KEY": "g", "GEMINI_API_KEY": "k", "GITHUB_TOKEN": "t"})
+    assert [c.naam for c in clients] == ["Google Gemini", "Groq"]
+    assert clients[0].eindpunt.startswith("https://generativelanguage.googleapis.com/")
+    assert maak_taalmodellen(inst.llm_aanbieders, inst.modellen_per_aanbieder, 0, {"GITHUB_TOKEN": "t"}) == []
+
+
+def test_gemini_model_terugval_en_limiet(monkeypatch):
+    from vegannieuws import verrijking
+    from vegannieuws.verrijking import Taalmodel
+    monkeypatch.setattr(verrijking.time, "sleep", lambda s: None)
+    goed = '{"choices": [{"message": {"content": "{}"}}]}'
+    sessie = PostSessie([
+        (404, '{"error": {"message": "models/gemini-flash-lite-latest is not found for API version v1beta"}}', {}),
+        (200, goed, {}),
+    ])
+    client = Taalmodel("k", ["gemini-flash-lite-latest", "gemini-2.5-flash-lite"], 0, sessie=sessie,
+                       eindpunten=("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",),
+                       naam="Google Gemini")
+    assert client.vraag("s", "g") == "{}"
+    assert [m for _, m in sessie.verzoeken] == ["gemini-flash-lite-latest", "gemini-2.5-flash-lite"]
+    vol = Taalmodel("k", ["m"], 0, sessie=PostSessie([(429, "", {"Retry-After": "1"})] * 3), naam="Groq")
+    with pytest.raises(StopVerrijking, match="limiet van Groq"):
+        vol.vraag("s", "g")

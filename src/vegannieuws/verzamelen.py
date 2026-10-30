@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import json
-import os
 import time
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import asdict, dataclass, field
@@ -22,7 +21,7 @@ from .ontdubbelen import bericht_id
 from .ophalen import Ophaler, Resultaat, RuwBericht
 from .staat import Staat
 from .tekst import detecteer_taal
-from .verrijking import GitHubModels, LlmStatistiek, achterstand, diagnose_taalmodel, verrijk
+from .verrijking import LlmStatistiek, achterstand, diagnose_taalmodel, maak_taalmodellen, verrijk
 from .vertaling import vertaal_titels
 
 
@@ -175,26 +174,33 @@ def schrijf_index(paden: Paden, archief: Archief, lexicon: Lexicon, geo: Geo, in
 
 def _verrijk_achterstand(archief: Archief, inst: Instellingen, lexicon: Lexicon, geo: Geo, staat: Staat,
                          vandaag: str, log) -> LlmStatistiek:
-    token = os.environ.get("GITHUB_MODELS_TOKEN") or os.environ.get("GITHUB_TOKEN")
-    if not token:
-        return LlmStatistiek(melding="geen GITHUB_TOKEN: indeling op basis van trefwoorden")
+    clients = maak_taalmodellen(inst.llm_aanbieders, inst.modellen_per_aanbieder, inst.llm_pauze_s)
+    if not clients:
+        return LlmStatistiek(melding="geen sleutel voor een taalmodel ingesteld (GEMINI_API_KEY of GROQ_API_KEY): "
+                                     "indeling op basis van trefwoorden")
     resterend = min(inst.llm_max_verzoeken_per_run, staat.resterend("llm", vandaag, inst.llm_max_verzoeken_per_dag))
     sinds = (date.fromisoformat(vandaag) - timedelta(days=inst.llm_max_leeftijd_dagen)).isoformat()
     lijst = achterstand(archief.geladen(), sinds, inst.llm_max_pogingen)
     if not lijst:
-        return LlmStatistiek(melding="niets te verwerken")
+        return LlmStatistiek(aanbieder=clients[0].naam, melding="niets te verwerken")
     if resterend <= 0:
-        return LlmStatistiek(melding="dagbudget voor het taalmodel is op", achterstand=len(lijst))
-    client = GitHubModels(token, inst.llm_modellen, inst.llm_pauze_s)
-    stat = verrijk(lijst, client, lexicon, geo, inst.doeltaal, inst.talen_zonder_vertaling, inst.llm_batch,
-                   resterend, inst.llm_max_pogingen, log=log)
-    if stat.melding.startswith("geen werkend eindpunt"):
-        log("Diagnose taalmodel:")
-        for regel in diagnose_taalmodel(token, inst.llm_modellen):
-            log(f"  {regel}")
-    staat.verbruik("llm", vandaag, stat.verzoeken)
-    for b in lijst:
-        archief.markeer_gewijzigd(b)
+        return LlmStatistiek(aanbieder=clients[0].naam, melding="dagbudget voor het taalmodel is op",
+                             achterstand=len(lijst))
+    stat = LlmStatistiek()
+    for client in clients:
+        stat = verrijk(lijst, client, lexicon, geo, inst.doeltaal, inst.talen_zonder_vertaling, inst.llm_batch,
+                       resterend, inst.llm_max_pogingen, log=log)
+        staat.verbruik("llm", vandaag, stat.verzoeken)
+        if stat.verrijkt or not stat.melding.startswith("geen werkend eindpunt"):
+            break
+        if client.naam == "GitHub Models":
+            log("Diagnose taalmodel:")
+            for regel in diagnose_taalmodel(client.token, inst.llm_modellen):
+                log(f"  {regel}")
+        lijst = achterstand(archief.geladen(), sinds, inst.llm_max_pogingen)
+    for b in archief.geladen():
+        if b.methode == "llm" or b.pogingen:
+            archief.markeer_gewijzigd(b)
     return stat
 
 
@@ -315,7 +321,7 @@ def rapport_markdown(rapport: Rapport) -> str:
     ]
     if rapport.llm:
         llm = rapport.llm
-        regels.append(f"- Taalmodel ({llm.get('model') or '-'}): {llm.get('verrijkt', 0)} verwerkt in "
+        regels.append(f"- Taalmodel ({llm.get('aanbieder') or '-'}, {llm.get('model') or '-'}): {llm.get('verrijkt', 0)} verwerkt in "
                       f"{llm.get('verzoeken', 0)} verzoeken, achterstand {llm.get('achterstand', 0)}. {llm.get('melding', '')}")
     if rapport.reservevertaling:
         rv = rapport.reservevertaling

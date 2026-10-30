@@ -56,10 +56,12 @@ bronnenregister ──► ophalen (RSS, feed-ontdekking, Google/Bing Nieuws, Blu
 
 - **Planning.** De workflow *Nieuws verzamelen* draait om 05:23, 11:23 en 17:23 Belgische wintertijd (zomertijd: een uur later). Je kunt hem ook zelf starten via Actions → *Nieuws verzamelen* → *Run workflow*.
 - **Archief.** Elk bericht wordt bewaard, dus elke periode blijft opvraagbaar. Ouder nieuws (van vóór de start) haal je op via *Run workflow* met een getal bij *Ouder nieuws opzoeken*. Dat gebruikt Google Nieuws en is onvolledig.
-- **Taalmodel.** GitHub Models is gratis met daglimieten (ongeveer 150 verzoeken van 12 berichten per dag) en gebruikt het ingebouwde `GITHUB_TOKEN`; je hebt geen sleutel nodig.
+- **Taalmodel.** Google Gemini of Groq, elk gratis met een eigen sleutel (zie *Eenmalige installatie*). Per run gaan maximaal 40 verzoeken van 12 berichten naar het model; dat valt ruim binnen de gratis limieten.
   - Bij te veel berichten verwerkt een volgende run de rest.
-  - Lukt het taalmodel niet, dan blijft de indeling op basis van trefwoorden en plaatsnamen staan. Zo'n bericht krijgt het label *ingedeeld via trefwoorden*.
-  - Titels in andere talen dan Nederlands en Engels worden dan vertaald via MyMemory (gratis, beperkt aantal tekens per dag).
+  - Zonder sleutel, of als het taalmodel faalt, blijft de indeling op basis van trefwoorden en plaatsnamen staan. Zo'n bericht krijgt het label *ingedeeld via trefwoorden*.
+  - Titels in andere talen dan Nederlands en Engels worden dan vertaald via MyMemory (gratis, ongeveer 60 titels per dag).
+  - GitHub Models, het oorspronkelijke gratis taalmodel zonder sleutel, antwoordt sinds oktober 2026 niet meer.
+- **Websites zonder feed.** Een website zonder bruikbare RSS-feed wordt automatisch gevolgd via Google Nieuws (`site:domein`). De pagina *Bronnen* vermeldt dat bij de bron.
 - **Nationaal of internationaal.** De regio volgt uit de vermelde plaatsen en de vermelde instellingen en gewesten, en uit het land van de bron.
   - Plaatsen: 2 276 Belgische plaatsen in het Nederlands, Frans en Duits.
   - Plaatsnamen die ook gewone woorden zijn (Boom, Geel, Spa, Soy) tellen enkel na een voorzetsel ("in Geel").
@@ -91,7 +93,14 @@ bronnenregister ──► ophalen (RSS, feed-ontdekking, Google/Bing Nieuws, Blu
 ## Eenmalige installatie
 
 1. **Settings → Pages → Build and deployment → Source:** kies **GitHub Actions**.
-2. **Actions:** start *Nieuws verzamelen* met *Run workflow*. Vul bij *Ouder nieuws opzoeken* bijvoorbeeld `30` in om meteen een archief van een maand te hebben.
+2. **Gratis sleutel voor het taalmodel** (aanbevolen, ongeveer 2 minuten):
+   1. Ga naar <https://aistudio.google.com/apikey>, meld je aan met een Google-account en klik op **Create API key**. Kopieer de sleutel.
+   2. In deze repository: **Settings → Secrets and variables → Actions → New repository secret**.
+   3. Vul bij *Name* `GEMINI_API_KEY` in, plak de sleutel bij *Secret* en klik op **Add secret**.
+
+   Alternatief: een gratis sleutel van Groq (<https://console.groq.com/keys>) als secret `GROQ_API_KEY`. Zijn beide ingesteld, dan is Groq de reserve.
+3. **Actions:** start *Nieuws verzamelen* met *Run workflow*. Vul bij *Ouder nieuws opzoeken* bijvoorbeeld `30` in om meteen een archief van een maand te hebben.
+4. Controle: *Run workflow* met *Enkel alle bronnen testen* toont per bron het resultaat en of het taalmodel werkt.
 
 GitHub schakelt geplande workflows uit na 60 dagen zonder activiteit in de repository. De verzamelruns zelf zijn activiteit. Mocht GitHub de planning toch uitschakelen, dan krijg je een e-mail; *Enable workflow* in Actions zet ze weer aan.
 
@@ -106,7 +115,7 @@ python -m vegannieuws verzamel
 python -m http.server -d site 8000   # open http://localhost:8000
 ```
 
-Het taalmodel werkt lokaal enkel met een eigen GitHub-token met de permissie *Models* in de variabele `GITHUB_TOKEN`. `python -m vegannieuws controleer` test alle bronnen zonder iets op te slaan.
+Voor het taalmodel zet je de sleutel in de omgevingsvariabele `GEMINI_API_KEY` of `GROQ_API_KEY`. `python -m vegannieuws controleer` test alle bronnen en het taalmodel zonder iets op te slaan.
 
 ## Beperkingen
 
