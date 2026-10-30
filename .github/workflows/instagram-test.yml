@@ -1,0 +1,47 @@
+name: Instagram testen (tijdelijk)
+
+on:
+  push:
+    branches: [main]
+    paths: [".github/workflows/instagram-test.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONPATH: src
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - run: pip install -r requirements.txt
+      - name: Instagram-accounts testen
+        env:
+          INSTAGRAM_TOKEN: ${{ secrets.INSTAGRAM_TOKEN }}
+          INSTAGRAM_USER_ID: ${{ secrets.INSTAGRAM_USER_ID }}
+        run: |
+          python - <<'EOF'
+          import os
+          from vegannieuws.bronnen import Bron
+          from vegannieuws.config import Instellingen
+          from vegannieuws.ophalen import Ophaler
+          from vegannieuws.staat import Staat
+          print("sleutel ingesteld:", bool(os.environ.get("INSTAGRAM_TOKEN")))
+          ophaler = Ophaler(Staat(), Instellingen())
+          for naam in ["lilbao.be", "greenway_foods", "catberry.pastries", "dirt.restaurant", "kookplant", "bevegan.be"]:
+              bron = Bron(id=naam, naam=naam, soort="instagram", type="horeca", url=f"https://www.instagram.com/{naam}/")
+              res = ophaler.haal(bron)
+              print(f"- {naam}: {res.status} | {len(res.berichten)} posts | {res.melding}")
+              for post in res.berichten[:3]:
+                  print(f"    {post.gepubliceerd} | {post.uitgever} | {post.titel[:90]}")
+          print("eigen account gevonden:", bool(ophaler._instagram_id))
+          print("waarschuwingen:", ophaler.waarschuwingen)
+          EOF
