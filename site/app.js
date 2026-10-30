@@ -313,9 +313,11 @@
     } else if (groep === "regio") uit.sort((a, b) => a[0].localeCompare(b[0]));
     return uit.map(([, g]) => {
       g.eenheden.sort((a, b) => momentVan(b).localeCompare(momentVan(a)));
-      // Opening: het verhaal met de meeste bronnen, anders het recentste bericht.
-      const opening = g.eenheden.reduce((best, e) => (e.bronnen > best.bronnen ? e : best), g.eenheden[0]);
-      g.eenheden = [opening, ...g.eenheden.filter((e) => e !== opening)];
+      if (groep !== "geen") {
+        // Opening: het verhaal met de meeste bronnen, anders het recentste bericht.
+        const opening = g.eenheden.reduce((best, e) => (e.bronnen > best.bronnen ? e : best), g.eenheden[0]);
+        g.eenheden = [opening, ...g.eenheden.filter((e) => e !== opening)];
+      }
       return g;
     });
   }
