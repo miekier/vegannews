@@ -212,14 +212,15 @@ def _verrijk_achterstand(archief: Archief, inst: Instellingen, lexicon: Lexicon,
 
 
 def _ruim_kandidaten_op(archief: Archief, staat: Staat, vandaag: date, max_leeftijd: int,
-                        enkel_land: dict[str, str] | None = None) -> int:
+                        enkel_land: dict[str, str] | None = None, sociaal_land: str = "") -> int:
     """Verwijdert kandidaten die het taalmodel afwees of die te oud werden om nog beoordeeld te worden,
-    en berichten van zoekopdrachten met 'enkel_land' die volgens het taalmodel over een ander land gaan."""
+    en berichten die volgens het taalmodel over een ander land gaan dan gevraagd: bij zoekopdrachten
+    met 'enkel_land', en bij posts op sociale media (instelling sociaal_enkel_land)."""
     grens = (vandaag - timedelta(days=max_leeftijd)).isoformat()
     enkel_land = enkel_land or {}
     afgewezen = 0
     for b in list(archief.geladen()):
-        land = enkel_land.get(b.bron)
+        land = enkel_land.get(b.bron) or (sociaal_land if b.sociaal else "")
         if land and b.methode == "llm" and b.land != land and not b.extra:
             staat.geweigerd[b.id] = vandaag.isoformat()
             archief.verwijder(b.id)
@@ -317,7 +318,8 @@ def verzamel(paden: Paden, inst: Instellingen, terugvullen_dagen: int = 0, gebru
         rapport.llm = asdict(stat)
         log(f"Taalmodel: {stat.verrijkt} berichten verwerkt in {stat.verzoeken} verzoeken. {stat.melding}")
     rapport.kandidaten_afgewezen = _ruim_kandidaten_op(archief, staat, vandaag, inst.llm_max_leeftijd_dagen,
-                                                       {b.id: b.enkel_land for b in bronnen if b.enkel_land})
+                                                       {b.id: b.enkel_land for b in bronnen if b.enkel_land},
+                                                       inst.sociaal_enkel_land)
     if gebruik_llm and inst.llm_aan and inst.verhalen_aan:
         try:
             vstat = _bundel_verhalen(archief, inst, staat, vandaag, log)

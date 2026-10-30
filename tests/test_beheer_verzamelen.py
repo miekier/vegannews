@@ -335,3 +335,18 @@ def test_zonder_taalmodel_geen_sociale_media(wortel, monkeypatch):
     inst = Instellingen(reserve_vertaling=False, max_leeftijd_dagen=36500, llm_pauze_s=0)
     rapport = verzamel(Paden(wortel), inst, log=lambda *_: None)
     assert rapport.nieuw == 0 and rapport.kandidaten == 0
+
+
+def test_sociale_post_uit_gewone_zoekopdracht_enkel_belgie(wortel, monkeypatch):
+    from vegannieuws import verzamelen
+    (wortel / "bronnen.yml").write_text("bronnen: []\n", encoding="utf-8")
+    (wortel / "zoekopdrachten.yml").write_text("zoekopdrachten:\n  - zoekterm: vegan\n    land: BE\n    taal: nl\n",
+                                              encoding="utf-8")
+    sessie = FakeSessie({"news.google.com": (200, INSTAGRAM_FEED, {})})
+    monkeypatch.setattr(Ophaler, "_maak_sessie", staticmethod(lambda repo: sessie))
+    monkeypatch.setattr(ophalen.time, "sleep", lambda s: None)
+    monkeypatch.setattr(verzamelen, "maak_taalmodellen", lambda *a, **k: [NepSociaalModel()])
+    inst = Instellingen(reserve_vertaling=False, max_leeftijd_dagen=36500, llm_max_leeftijd_dagen=36500, llm_pauze_s=0)
+    verzamel(Paden(wortel), inst, log=lambda *_: None)
+    over = json.loads((wortel / "site/data/berichten/2026-10.json").read_text(encoding="utf-8"))["berichten"]
+    assert [b["land"] for b in over] == ["BE"]          # de Parijse post valt weg (sociaal_enkel_land: BE)

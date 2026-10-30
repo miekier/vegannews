@@ -38,6 +38,10 @@ llm_max_pogingen: 3
 # Enkel berichten van de afgelopen ... dagen gaan nog naar het taalmodel.
 llm_max_leeftijd_dagen: 21
 
+# Posts op Instagram en Facebook (via Google Nieuws) blijven enkel als ze volgens het taalmodel
+# over dit land gaan. Leeg ("") = posts over alle landen behouden.
+sociaal_enkel_land: BE
+
 # Verhalen: berichten van verschillende bronnen over hetzelfde nieuws worden gebundeld onder één
 # Nederlandse kop. Berichten met gelijkaardige woorden in kernzin en titel vormen kandidaatgroepen;
 # het taalmodel beslist welke samenhoren en schrijft de kop. Telt mee voor het dagbudget hierboven.
