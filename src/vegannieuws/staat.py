@@ -14,6 +14,7 @@ class Staat:
     bronnen: dict[str, dict] = field(default_factory=dict)     # bron-id -> status
     budget: dict[str, dict] = field(default_factory=dict)      # naam -> {datum, gebruikt}
     geweigerd: dict[str, str] = field(default_factory=dict)    # bericht-id -> datum (kandidaat afgewezen)
+    gebundeld: dict[str, str] = field(default_factory=dict)    # bericht-id -> datum (gecontroleerd op verhalen)
 
     @classmethod
     def laad(cls, pad: Path) -> "Staat":
@@ -26,12 +27,13 @@ class Staat:
             bronnen=gegevens.get("bronnen", {}),
             budget=gegevens.get("budget", {}),
             geweigerd=gegevens.get("geweigerd", {}),
+            gebundeld=gegevens.get("gebundeld", {}),
         )
 
     def bewaar(self, pad: Path) -> None:
         pad.parent.mkdir(parents=True, exist_ok=True)
         gegevens = {"http": self.http, "feeds": self.feeds, "bronnen": self.bronnen, "budget": self.budget,
-                    "geweigerd": self.geweigerd}
+                    "geweigerd": self.geweigerd, "gebundeld": self.gebundeld}
         pad.write_text(json.dumps(gegevens, ensure_ascii=False, indent=1, sort_keys=True) + "\n", encoding="utf-8")
 
     def resterend(self, naam: str, datum: str, limiet: int) -> int:

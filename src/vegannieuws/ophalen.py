@@ -15,7 +15,7 @@ import feedparser
 import requests
 import urllib3
 
-from .bronnen import Bron, bing_url, google_url, standaard_editie, vaste_feed
+from .bronnen import Bron, bing_url, google_url, sociaal_platform, standaard_editie, vaste_feed
 from .config import Instellingen
 from .staat import Staat
 from .tekst import kort_in, zuiver_html
@@ -174,7 +174,13 @@ def lees_feed(inhoud: bytes, bron: Bron) -> list[RuwBericht]:
             uitgever_url = (bron_info.get("href") or "").strip()
             if uitgever and titel.endswith(f" - {uitgever}"):
                 titel = titel[: -len(uitgever) - 3].strip()
-            samenvatting = ""  # Google geeft enkel de titel en een lijst links
+            if sociaal_platform(uitgever_url) and uitgever and samenvatting.endswith(uitgever):
+                # Bij een post op sociale media bevat de beschrijving het (volledigere) bijschrift.
+                samenvatting = samenvatting[: -len(uitgever)].strip()
+                if len(samenvatting) <= len(titel) + 10:
+                    samenvatting = ""
+            else:
+                samenvatting = ""  # Google geeft enkel de titel en een lijst links
         elif bron.soort == "bing":
             link = _bing_doel(link)
             uitgever = (e.get("news_source") or "").strip()

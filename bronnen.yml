@@ -21,7 +21,8 @@
 #   actief:       nee = tijdelijk niet ophalen (standaard: ja)
 #   notitie:      vrije tekst
 #
-# Instagram, Facebook, X en TikTok bieden geen gratis toegang en kunnen niet gevolgd worden.
+# Instagram en Facebook kunnen niet rechtstreeks gevolgd worden; openbare posts worden gevonden via
+# zoekopdrachten in Google Nieuws (site:instagram.com ..., zie zoekopdrachten.yml).
 
 bronnen:
   # --- België: organisaties ---------------------------------------------------
@@ -442,6 +443,41 @@ bronnen:
     land: INT
     taal: en
     alleen_vegan: ja
+
+  # --- Verenigde Staten -------------------------------------------------------------
+  # Naast VegNews, Sentient Media, The Good Food Institute, Faunalytics, Mercy For Animals,
+  # Humane World for Animals, PETA, Food Dive en NutritionFacts.org (hierboven en hieronder).
+  - naam: Physicians Committee for Responsible Medicine
+    id: pcrm-us
+    url: https://www.pcrm.org
+    type: organisatie
+    land: US
+    taal: en
+    alleen_vegan: nee
+    notitie: "Artsenorganisatie: plantaardige voeding, gezondheid en alternatieven voor dierproeven."
+  - naam: Animal Legal Defense Fund
+    id: aldf-us
+    url: https://aldf.org
+    type: organisatie
+    land: US
+    taal: en
+    alleen_vegan: nee
+    notitie: "Dierenrecht en rechtszaken in de VS; geen eigen feed, gevolgd via Google Nieuws (getest 30-10-2026)."
+  - naam: Farm Sanctuary
+    id: farmsanctuary-us
+    url: https://www.farmsanctuary.org
+    type: organisatie
+    land: US
+    taal: en
+    alleen_vegan: nee
+  - naam: Eater
+    id: eater-us
+    url: https://www.eater.com
+    type: medium
+    land: US
+    taal: en
+    alleen_vegan: ja
+    notitie: "Restaurantnieuws uit de VS; enkel berichten over vegan of plantaardig eten."
 
   # --- Personen ---------------------------------------------------------------------
   - naam: NutritionFacts.org (Michael Greger)

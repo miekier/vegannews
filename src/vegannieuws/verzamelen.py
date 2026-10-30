@@ -12,7 +12,7 @@ from zoneinfo import ZoneInfo
 
 from . import __version__
 from .archief import Archief
-from .bronnen import SOORT_NAMEN, TYPES, Bron, laad_register
+from .bronnen import SOORT_NAMEN, TYPES, Bron, laad_register, sociaal_platform
 from .classificatie import Lexicon, deel_in, laad_lexicon
 from .config import Instellingen, Paden
 from .locatie import Geo
@@ -21,6 +21,7 @@ from .ontdubbelen import bericht_id
 from .ophalen import Ophaler, Resultaat, RuwBericht
 from .staat import Staat
 from .tekst import detecteer_taal
+from .verhalen import VerhaalStatistiek, bundel
 from .verrijking import LlmStatistiek, achterstand, diagnose_taalmodel, maak_taalmodellen, verrijk
 from .vertaling import vertaal_titels
 
@@ -44,6 +45,7 @@ class Rapport:
     nieuw: int = 0
     terugvullen_dagen: int = 0
     llm: dict = field(default_factory=dict)
+    verhalen: dict = field(default_factory=dict)
     reservevertaling: dict = field(default_factory=dict)
     waarschuwingen: list[str] = field(default_factory=list)
     fouten: list[dict] = field(default_factory=list)
@@ -86,6 +88,7 @@ def maak_bericht(ruw: RuwBericht, bron: Bron, nu: datetime, tz: ZoneInfo, grens:
         plaats=regio.plaats,
         gewest=regio.gewest,
         relevantie=indeling.relevantie,
+        sociaal=sociaal_platform(ruw.uitgever_url) if bron.is_zoekopdracht else "",
         uitgever_url=ruw.uitgever_url,
     )
 
@@ -208,11 +211,20 @@ def _verrijk_achterstand(archief: Archief, inst: Instellingen, lexicon: Lexicon,
     return stat
 
 
-def _ruim_kandidaten_op(archief: Archief, staat: Staat, vandaag: date, max_leeftijd: int) -> int:
-    """Verwijdert kandidaten die het taalmodel afwees of die te oud werden om nog beoordeeld te worden."""
+def _ruim_kandidaten_op(archief: Archief, staat: Staat, vandaag: date, max_leeftijd: int,
+                        enkel_land: dict[str, str] | None = None) -> int:
+    """Verwijdert kandidaten die het taalmodel afwees of die te oud werden om nog beoordeeld te worden,
+    en berichten van zoekopdrachten met 'enkel_land' die volgens het taalmodel over een ander land gaan."""
     grens = (vandaag - timedelta(days=max_leeftijd)).isoformat()
+    enkel_land = enkel_land or {}
     afgewezen = 0
     for b in list(archief.geladen()):
+        land = enkel_land.get(b.bron)
+        if land and b.methode == "llm" and b.land != land and not b.extra:
+            staat.geweigerd[b.id] = vandaag.isoformat()
+            archief.verwijder(b.id)
+            afgewezen += 1
+            continue
         if not b.kandidaat:
             continue
         if b.methode == "llm" and not b.relevant:
@@ -224,6 +236,22 @@ def _ruim_kandidaten_op(archief: Archief, staat: Staat, vandaag: date, max_leeft
     oud = (vandaag - timedelta(days=30)).isoformat()
     staat.geweigerd = {k: v for k, v in staat.geweigerd.items() if v >= oud}
     return afgewezen
+
+
+def _bundel_verhalen(archief: Archief, inst: Instellingen, staat: Staat, vandaag: date, log) -> VerhaalStatistiek:
+    """Bundelt berichten van verschillende bronnen over hetzelfde nieuws onder een Nederlandse kop."""
+    clients = maak_taalmodellen(inst.llm_aanbieders, inst.modellen_per_aanbieder, inst.llm_pauze_s)
+    resterend = min(inst.verhalen_max_verzoeken_per_run,
+                    staat.resterend("llm", vandaag.isoformat(), inst.llm_max_verzoeken_per_dag))
+    berichten = archief.geladen()
+    voor = {b.id: (b.verhaal, b.verhaal_kop) for b in berichten}
+    stat = bundel(berichten, clients[0] if clients and resterend > 0 else None, vandaag, inst.verhalen_venster_dagen,
+                  resterend, staat.gebundeld, log=log)
+    staat.verbruik("llm", vandaag.isoformat(), stat.verzoeken)
+    for b in berichten:
+        if voor.get(b.id) != (b.verhaal, b.verhaal_kop):
+            archief.markeer_gewijzigd(b)
+    return stat
 
 
 def verzamel(paden: Paden, inst: Instellingen, terugvullen_dagen: int = 0, gebruik_llm: bool = True,
@@ -265,7 +293,12 @@ def verzamel(paden: Paden, inst: Instellingen, terugvullen_dagen: int = 0, gebru
             b = maak_bericht(ruw, res.bron, nu, tz, grens, lexicon, geo)
             if b is None or b.id in staat.geweigerd:
                 continue
-            if res.bron.alleen_vegan and b.relevantie < 1:
+            if b.sociaal:
+                # Posts op sociale media zijn zelden nieuws: het taalmodel beslist altijd.
+                if not met_taalmodel:
+                    continue
+                b.kandidaat, b.relevant = True, False
+            elif res.bron.alleen_vegan and b.relevantie < 1:
                 if not (met_taalmodel and res.bron.soort == "google"):
                     continue
                 b.kandidaat, b.relevant, b.zoekterm = True, False, res.bron.zoekterm
@@ -283,7 +316,13 @@ def verzamel(paden: Paden, inst: Instellingen, terugvullen_dagen: int = 0, gebru
         stat = _verrijk_achterstand(archief, inst, lexicon, geo, staat, vandaag.isoformat(), log)
         rapport.llm = asdict(stat)
         log(f"Taalmodel: {stat.verrijkt} berichten verwerkt in {stat.verzoeken} verzoeken. {stat.melding}")
-    rapport.kandidaten_afgewezen = _ruim_kandidaten_op(archief, staat, vandaag, inst.llm_max_leeftijd_dagen)
+    rapport.kandidaten_afgewezen = _ruim_kandidaten_op(archief, staat, vandaag, inst.llm_max_leeftijd_dagen,
+                                                       {b.id: b.enkel_land for b in bronnen if b.enkel_land})
+    if gebruik_llm and inst.llm_aan and inst.verhalen_aan:
+        vstat = _bundel_verhalen(archief, inst, staat, vandaag, log)
+        rapport.verhalen = asdict(vstat)
+        log(f"Verhalen: {vstat.groepen} kandidaatgroepen, {vstat.nieuwe_verhalen} nieuwe verhalen, "
+            f"{vstat.verzoeken} verzoeken. {vstat.melding}")
     if inst.reserve_vertaling:
         budget = staat.resterend("mymemory", vandaag.isoformat(), inst.reserve_max_tekens_per_dag)
         sinds = (vandaag - timedelta(days=7)).isoformat()
@@ -356,7 +395,13 @@ def rapport_markdown(rapport: Rapport) -> str:
     if rapport.llm:
         llm = rapport.llm
         regels.append(f"- Taalmodel ({llm.get('aanbieder') or '-'}, {llm.get('model') or '-'}): {llm.get('verrijkt', 0)} verwerkt in "
-                      f"{llm.get('verzoeken', 0)} verzoeken, achterstand {llm.get('achterstand', 0)}. {llm.get('melding', '')}")
+                      f"{llm.get('verzoeken', 0)} verzoeken, achterstand {llm.get('achterstand', 0)}, "
+                      f"tokens {llm.get('invoer_tokens', 0)} in / {llm.get('uitvoer_tokens', 0)} uit. {llm.get('melding', '')}")
+    if rapport.verhalen:
+        vh = rapport.verhalen
+        regels.append(f"- Verhalen (zelfde nieuws, verschillende bronnen): {vh.get('groepen', 0)} kandidaatgroepen, "
+                      f"{vh.get('nieuwe_verhalen', 0)} nieuwe verhalen, {vh.get('verzoeken', 0)} verzoeken, "
+                      f"tokens {vh.get('invoer_tokens', 0)} in / {vh.get('uitvoer_tokens', 0)} uit. {vh.get('melding', '')}")
     if rapport.reservevertaling:
         rv = rapport.reservevertaling
         regels.append(f"- Reservevertaling: {rv.get('vertaald', 0)} titels ({rv.get('tekens', 0)} tekens). {rv.get('melding', '')}")

@@ -50,6 +50,7 @@ class Bron:
     actief: bool = True
     notitie: str = ""
     recentheid: str = ""        # bv. "when:30d" voor landen met weinig nieuws
+    enkel_land: str = ""        # enkel berichten over dit land behouden (land volgens het taalmodel)
 
     @property
     def relatie(self) -> str:
@@ -271,5 +272,22 @@ def laad_register(pad_bronnen: Path, pad_zoek: Path) -> tuple[list[Bron], list[s
             actief=als_bool(item.get("actief"), standaard=True),
             notitie=str(item.get("notitie") or "").strip(),
             recentheid=str(item.get("recentheid") or "").strip(),
+            enkel_land=_landcode(item.get("enkel_land")) if item.get("enkel_land") not in (None, "") else "",
         ))
     return bronnen, waarschuwingen
+
+
+# Sociale media die via zoekopdrachten in Google Nieuws gevonden worden (site:instagram.com ...).
+SOCIALE_MEDIA = {
+    "instagram.com": "Instagram", "facebook.com": "Facebook", "tiktok.com": "TikTok", "threads.net": "Threads",
+    "threads.com": "Threads", "x.com": "X", "twitter.com": "X", "linkedin.com": "LinkedIn",
+}
+
+
+def sociaal_platform(url: str) -> str:
+    """Naam van het sociale netwerk waarop een adres ligt, anders ""."""
+    host = urlparse(url).netloc.lower().split(":")[0]
+    for domein, naam in SOCIALE_MEDIA.items():
+        if host == domein or host.endswith("." + domein):
+            return naam
+    return ""

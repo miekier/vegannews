@@ -65,6 +65,9 @@ class Instellingen:
     llm_pauze_s: float = 4.5
     llm_max_pogingen: int = 3
     llm_max_leeftijd_dagen: int = 21
+    verhalen_aan: bool = True
+    verhalen_venster_dagen: int = 4
+    verhalen_max_verzoeken_per_run: int = 4
     reserve_vertaling: bool = True
     reserve_max_tekens_per_dag: int = 4500
     mymemory_email: str = ""

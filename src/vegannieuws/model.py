@@ -34,8 +34,11 @@ class Bericht:
     relevant: bool = True           # False als het taalmodel het bericht niet relevant vond
     kandidaat: bool = False         # zoekresultaat zonder vegan-woord in de titel: taalmodel beslist
     zoekterm: str = ""              # bij kandidaten: de zoekterm waarmee het artikel gevonden werd
+    sociaal: str = ""               # post op een sociaal netwerk (Instagram, Facebook, ...), gevonden via Google Nieuws
     methode: str = "regels"         # regels of llm
-    extra: list[dict] = field(default_factory=list)   # andere bronnen met hetzelfde nieuws
+    extra: list[dict] = field(default_factory=list)   # andere bronnen met (bijna) hetzelfde artikel
+    verhaal: str = ""               # id van het verhaal: berichten van verschillende bronnen over hetzelfde nieuws
+    verhaal_kop: str = ""           # Nederlandse kop van dat verhaal
     pogingen: int = 0               # mislukte pogingen tot verrijking door het taalmodel
     uitgever_url: str = field(default="", metadata={"tijdelijk": True})
 

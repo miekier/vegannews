@@ -38,6 +38,14 @@ llm_max_pogingen: 3
 # Enkel berichten van de afgelopen ... dagen gaan nog naar het taalmodel.
 llm_max_leeftijd_dagen: 21
 
+# Verhalen: berichten van verschillende bronnen over hetzelfde nieuws worden gebundeld onder één
+# Nederlandse kop. Berichten met gelijkaardige woorden in kernzin en titel vormen kandidaatgroepen;
+# het taalmodel beslist welke samenhoren en schrijft de kop. Telt mee voor het dagbudget hierboven.
+verhalen_aan: ja
+# Berichten van de afgelopen ... dagen worden met elkaar vergeleken.
+verhalen_venster_dagen: 4
+verhalen_max_verzoeken_per_run: 4
+
 # Reservevertaling van titels via MyMemory (gratis, ca. 5 000 tekens per dag)
 # voor berichten die het taalmodel (nog) niet verwerkte.
 reserve_vertaling: ja

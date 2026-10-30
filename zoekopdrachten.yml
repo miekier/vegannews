@@ -9,6 +9,7 @@
 #   naam:      optionele weergavenaam
 #   editie:    optioneel: Google Nieuws-editie als land:taal (bv. GB:en, PT:pt-150); standaard volgt ze uit land en taal
 #   recentheid: optioneel: zoekvenster, bv. "when:30d" voor landen met weinig nieuws (standaard "when:7d")
+#   enkel_land: optioneel: enkel berichten over dit land behouden, bv. BE (het taalmodel bepaalt het land)
 #   alleen_vegan: ja (standaard) = resultaten zonder vegan-gerelateerd woord worden weggelaten
 #   actief:    nee = tijdelijk niet uitvoeren
 #
@@ -66,6 +67,53 @@ zoekopdrachten:
   - zoekterm: '"alternatives végétales" OR "viande végétale"'
     land: BE
     taal: fr
+
+  # --- België: posts op Instagram en Facebook ---------------------------------------------
+  # Google Nieuws vindt ook openbare posts van zaken en organisaties. De link loopt via
+  # news.google.com en stuurt door naar de post. Elke post gaat langs het taalmodel: enkel posts
+  # met nieuws (opening, sluiting, nieuw product, evenement, actie ...) over België blijven.
+  # Een zaak of organisatie volgen: voeg een zoekopdracht toe zoals
+  #   - zoekterm: site:instagram.com "naam van de zaak"
+  - zoekterm: site:instagram.com vegan
+    naam: "Instagram via Google Nieuws: vegan"
+    land: BE
+    taal: nl
+    recentheid: "when:2d"
+    enkel_land: BE
+  - zoekterm: site:instagram.com veganistisch OR plantaardig OR veggie
+    naam: "Instagram via Google Nieuws: veganistisch, plantaardig, veggie"
+    land: BE
+    taal: nl
+    recentheid: "when:3d"
+    enkel_land: BE
+  - zoekterm: site:instagram.com vegan Gent OR Antwerpen OR Brussel OR Leuven OR Brugge OR Mechelen OR Hasselt OR Kortrijk
+    naam: "Instagram via Google Nieuws: vegan in Vlaamse steden en Brussel"
+    land: BE
+    taal: nl
+    enkel_land: BE
+  - zoekterm: site:instagram.com vegan OR végane OR végétal
+    naam: "Instagram via Google Nieuws: vegan (Franstalig)"
+    land: BE
+    taal: fr
+    recentheid: "when:2d"
+    enkel_land: BE
+  - zoekterm: site:instagram.com vegan Bruxelles OR Liège OR Namur OR Charleroi OR Mons OR Louvain-la-Neuve
+    naam: "Instagram via Google Nieuws: vegan in Wallonië en Brussel"
+    land: BE
+    taal: fr
+    enkel_land: BE
+  - zoekterm: site:facebook.com vegan OR veganistisch OR plantaardig
+    naam: "Facebook via Google Nieuws: vegan"
+    land: BE
+    taal: nl
+    recentheid: "when:3d"
+    enkel_land: BE
+  - zoekterm: site:facebook.com vegan OR végane OR végétal
+    naam: "Facebook via Google Nieuws: vegan (Franstalig)"
+    land: BE
+    taal: fr
+    recentheid: "when:3d"
+    enkel_land: BE
 
   # --- Internationaal ---------------------------------------------------------------------
   - zoekterm: vegan restaurant opens
