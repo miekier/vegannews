@@ -10,8 +10,8 @@
     et: "het Estisch", lv: "het Lets", lt: "het Litouws", uk: "het Oekraïens", ru: "het Russisch", tr: "het Turks",
     mt: "het Maltees",
   };
-  const PER_KEER = 300;
-  const toestand = { index: null, maanden: new Map(), bronnen: null, resultaat: [], filters: null, limiet: PER_KEER, gezocht: false };
+  const PER_KEER = 150;
+  const toestand = { index: null, maanden: new Map(), bronnen: null, resultaat: [], eenheden: [], filters: null, limiet: PER_KEER, gezocht: false };
 
   const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => Array.from(document.querySelectorAll(sel));
@@ -105,11 +105,26 @@
   const landNaam = (code) => (code === "EU" ? "Europese Unie" : toestand.index?.landen?.[code] || code);
 
   function bronTekst(b) {
+    if (b.sociaal) return `${b.sociaal} (via Google Nieuws)`;
     const zoek = b.brontype === "zoekopdracht";
     const dienst = zoek ? (b.bron_naam || "").split(":")[0] : "";
     if (b.uitgever) return zoek ? `${b.uitgever} (via ${dienst})` : `${b.uitgever} (${b.bron_naam})`;
     return b.bron_naam || "onbekende bron";
   }
+
+  const bronNaam = (b) => b.sociaal ? `${b.sociaal}-post` : (b.uitgever || b.bron_naam || "onbekende bron");
+  // Een kop eindigt niet op een punt.
+  const alsKop = (s) => (s || "").trim().replace(/([^.!?…])\.$/, "$1");
+  const woorden = (s) => new Set(normaliseer(s).split(/[^a-z0-9]+/).filter((w) => w.length > 2));
+  function lijktOp(a, b) {
+    const x = woorden(a), y = woorden(b);
+    if (!x.size || !y.size) return false;
+    let gedeeld = 0;
+    for (const w of x) if (y.has(w)) gedeeld += 1;
+    return gedeeld / Math.min(x.size, y.size) >= 0.6;
+  }
+  const hoofdletter = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
+  const moment = (b) => b.datum + (b.gepubliceerd || b.opgehaald || "");
 
   function plaatsTekst(b) {
     if (b.regio === "BE") return [b.plaats, b.plaats ? null : "België"].filter(Boolean).join(", ");
@@ -192,10 +207,11 @@
     if (f.regio === "INT" && b.regio === "BE") return false;
     if (!f.irrelevant && b.relevant === false) return false;
     if (f.gebeurtenis && b.gebeurtenis !== f.gebeurtenis) return false;
-    if (f.relatie && (b.relatie || "secundair") !== f.relatie) return false;
+    if (f.relatie === "sociaal" && !b.sociaal) return false;
+    if (f.relatie && f.relatie !== "sociaal" && (b.relatie || "secundair") !== f.relatie) return false;
     if (f.q) {
-      const hooiberg = normaliseer([b.kernzin, b.titel, b.titel_orig, b.samenvatting, b.samenvatting_orig, b.plaats,
-        b.uitgever, b.bron_naam, ...(b.extra || []).map((e) => e.naam)].join(" "));
+      const hooiberg = normaliseer([b.verhaal_kop, b.kernzin, b.titel, b.titel_orig, b.samenvatting, b.samenvatting_orig,
+        b.plaats, b.uitgever, b.bron_naam, b.sociaal, ...(b.extra || []).map((e) => e.naam)].join(" "));
       if (!normaliseer(f.q).split(/\s+/).every((w) => hooiberg.includes(w))) return false;
     }
     return true;
@@ -219,7 +235,8 @@
     werkTellersBij(basis);
     toestand.resultaat = basis
       .filter((b) => !f.cat.length || (b.categorieen || []).some((c) => f.cat.includes(c)))
-      .sort((a, b) => (b.datum + (b.gepubliceerd || b.opgehaald || "")).localeCompare(a.datum + (a.gepubliceerd || a.opgehaald || "")));
+      .sort((a, b) => moment(b).localeCompare(moment(a)));
+    toestand.eenheden = eenheden(toestand.resultaat);
     toestand.gezocht = true;
     toon();
   }
@@ -236,26 +253,71 @@
     }
   }
 
-  function groepeer(berichten, groep) {
-    const groepen = new Map();
-    const voegToe = (sleutel, titel, b) => {
-      if (!groepen.has(sleutel)) groepen.set(sleutel, { titel, berichten: [] });
-      groepen.get(sleutel).berichten.push(b);
-    };
+  // Een eenheid is een los bericht of een verhaal: berichten van verschillende bronnen over hetzelfde nieuws.
+  function eenheden(berichten) {
+    const verhalen = new Map();
     for (const b of berichten) {
-      if (groep === "dag") voegToe(b.datum, dagTekst(b.datum), b);
-      else if (groep === "onderwerp") {
-        const code = (b.categorieen || [])[0] || "overig";
-        voegToe(code, categorieNaam(code), b);
-      } else if (groep === "regio") voegToe(b.regio === "BE" ? "1" : "2", b.regio === "BE" ? "Nationaal (België)" : "Internationaal", b);
-      else voegToe("alles", "", b);
+      if (!b.verhaal) continue;
+      if (!verhalen.has(b.verhaal)) verhalen.set(b.verhaal, []);
+      verhalen.get(b.verhaal).push(b);
     }
-    let lijst = Array.from(groepen.entries());
-    if (groep === "onderwerp") {
+    const uit = [];
+    const gezien = new Set();
+    for (const b of berichten) {
+      const leden = b.verhaal ? verhalen.get(b.verhaal) : null;
+      if (!leden || leden.length < 2) { uit.push({ soort: "bericht", b, leden: [b], bronnen: 1 + (b.extra || []).length }); continue; }
+      if (gezien.has(b.verhaal)) continue;
+      gezien.add(b.verhaal);
+      const geordend = [...leden].sort((x, y) => (x.relatie === "primair" ? 0 : 1) - (y.relatie === "primair" ? 0 : 1)
+        || moment(x).localeCompare(moment(y)));
+      // De kop van het recentste bericht is de meest recente versie van de kop.
+      const recentste = [...leden].sort((x, y) => moment(y).localeCompare(moment(x)))[0];
+      uit.push({
+        soort: "verhaal", b: geordend[0], leden: geordend, kop: recentste.verhaal_kop || geordend[0].kernzin || geordend[0].titel,
+        bronnen: leden.reduce((n, x) => n + 1 + (x.extra || []).length, 0),
+      });
+    }
+    return uit;
+  }
+
+  const datumVan = (e) => e.leden.reduce((m, b) => (b.datum > m ? b.datum : m), "");
+  const momentVan = (e) => e.leden.reduce((m, b) => (moment(b) > m ? moment(b) : m), "");
+
+  function hoofdcategorie(e) {
+    const tellers = {};
+    for (const b of e.leden) { const c = (b.categorieen || [])[0] || "overig"; tellers[c] = (tellers[c] || 0) + 1; }
+    return Object.entries(tellers).sort((a, b) => b[1] - a[1])[0][0];
+  }
+
+  function groepeer(lijst, groep) {
+    const groepen = new Map();
+    const voegToe = (sleutel, titel, e) => {
+      if (!groepen.has(sleutel)) groepen.set(sleutel, { titel, eenheden: [] });
+      groepen.get(sleutel).eenheden.push(e);
+    };
+    for (const e of lijst) {
+      if (groep === "dag") voegToe(datumVan(e), dagTekst(datumVan(e)), e);
+      else if (groep === "onderwerp") {
+        const code = hoofdcategorie(e);
+        voegToe(code, categorieNaam(code), e);
+      } else if (groep === "regio") {
+        const be = e.b.regio === "BE";
+        voegToe(be ? "1" : "2", be ? "België" : "Internationaal", e);
+      } else voegToe("alles", "", e);
+    }
+    let uit = Array.from(groepen.entries());
+    if (groep === "dag") uit.sort((a, b) => b[0].localeCompare(a[0]));
+    else if (groep === "onderwerp") {
       const volgorde = (toestand.index.categorieen || []).map((c) => c.code);
-      lijst.sort((a, b) => volgorde.indexOf(a[0]) - volgorde.indexOf(b[0]));
-    } else if (groep === "regio") lijst.sort((a, b) => a[0].localeCompare(b[0]));
-    return lijst.map(([, g]) => g);
+      uit.sort((a, b) => volgorde.indexOf(a[0]) - volgorde.indexOf(b[0]));
+    } else if (groep === "regio") uit.sort((a, b) => a[0].localeCompare(b[0]));
+    return uit.map(([, g]) => {
+      g.eenheden.sort((a, b) => momentVan(b).localeCompare(momentVan(a)));
+      // Opening: het verhaal met de meeste bronnen, anders het recentste bericht.
+      const opening = g.eenheden.reduce((best, e) => (e.bronnen > best.bronnen ? e : best), g.eenheden[0]);
+      g.eenheden = [opening, ...g.eenheden.filter((e) => e !== opening)];
+      return g;
+    });
   }
 
   function periodeTekst(f) {
@@ -264,9 +326,10 @@
 
   function filterTekst(f) {
     const delen = [periodeTekst(f)];
-    delen.push(f.regio === "BE" ? "nationaal (België)" : f.regio === "INT" ? "internationaal" : "nationaal en internationaal");
+    delen.push(f.regio === "BE" ? "België" : f.regio === "INT" ? "internationaal" : "België en internationaal");
     if (f.cat.length) delen.push(f.cat.map(categorieNaam).join(", "));
     if (f.gebeurtenis) delen.push(gebeurtenisNaam(f.gebeurtenis));
+    if (f.relatie === "sociaal") delen.push("posts op sociale media");
     if (f.q) delen.push(`“${f.q}”`);
     return delen.join(" · ");
   }
@@ -282,65 +345,90 @@
         : `Geen berichten gevonden voor ${filterTekst(f)}. Kies een langere periode of minder filters.` }));
       return;
     }
+    const lijst = toestand.eenheden;
+    const verhalen = lijst.filter((e) => e.soort === "verhaal").length;
     const balk = el("div", { class: "samenvatting-balk" },
-      el("p", {}, `${res.length} ${res.length === 1 ? "bericht" : "berichten"} · ${filterTekst(f)}`),
-      el("div", { class: "knoppen" },
+      el("p", {}, el("strong", {}, `${res.length} ${res.length === 1 ? "bericht" : "berichten"}`),
+        verhalen ? ` · ${verhalen} ${verhalen === 1 ? "verhaal" : "verhalen"} met meerdere bronnen` : "", ` · ${filterTekst(f)}`),
+      el("div", { class: "acties" },
         el("button", { type: "button", onclick: kopieer }, "Kopieer"),
         el("button", { type: "button", onclick: download }, "Download (.md)"),
         el("button", { type: "button", onclick: () => window.print() }, "Afdrukken / PDF")));
     const fragment = document.createDocumentFragment();
     fragment.append(balk);
     let getoond = 0;
-    for (const groep of groepeer(res, f.groep)) {
+    for (const groep of groepeer(lijst, f.groep)) {
       if (getoond >= toestand.limiet) break;
       const sectie = el("section", { class: "groep" });
-      if (groep.titel) sectie.append(el("h2", {}, el("span", {}, groep.titel), el("span", { class: "aantal" }, String(groep.berichten.length))));
-      for (const b of groep.berichten) {
-        if (getoond >= toestand.limiet) break;
-        sectie.append(kaart(b));
+      const aantal = groep.eenheden.reduce((n, e) => n + e.leden.length, 0);
+      if (groep.titel) sectie.append(el("h2", {}, el("span", {}, groep.titel), el("span", { class: "aantal" }, `${aantal} ${aantal === 1 ? "bericht" : "berichten"}`)));
+      const artikelen = el("div", { class: "artikelen" });
+      groep.eenheden.forEach((e, i) => {
+        if (getoond >= toestand.limiet) return;
+        const node = e.soort === "verhaal" ? verhaalKaart(e) : kaart(e.b);
+        if (i === 0 && groep.eenheden.length > 1) node.classList.add("opening");
+        artikelen.append(node);
         getoond += 1;
-      }
+      });
+      sectie.append(artikelen);
       fragment.append(sectie);
     }
-    if (getoond < res.length) {
+    if (getoond < lijst.length) {
       fragment.append(el("button", { type: "button", class: "link meer-tonen", onclick: () => { toestand.limiet += PER_KEER; toon(); } },
-        `Toon meer (${res.length - getoond} resterend)`));
+        `Toon meer (${lijst.length - getoond} resterend)`));
     }
     doel.replaceChildren(fragment);
+  }
+
+  function extLink(url, tekst, cls) {
+    const veilig = veiligeUrl(url);
+    return veilig ? el("a", { href: veilig, target: "_blank", rel: "noopener noreferrer", class: cls || null }, tekst) : null;
+  }
+
+  function kickerVan(leden, extra) {
+    const k = [];
+    const gebeurtenis = leden.map((b) => b.gebeurtenis).find(Boolean);
+    if (gebeurtenis) k.push(el("span", { class: `gebeurtenis ${gebeurtenis}` }, gebeurtenisNaam(gebeurtenis)));
+    const tellers = {};
+    for (const b of leden) for (const c of b.categorieen || []) tellers[c] = (tellers[c] || 0) + 1;
+    for (const [c] of Object.entries(tellers).sort((a, b) => b[1] - a[1]).slice(0, 2)) k.push(el("span", {}, categorieNaam(c)));
+    k.push(el("span", { class: "plaats" }, plaatsTekst(leden[0])));
+    return [...k, ...extra];
   }
 
   function kaart(b) {
     const node = $("#tpl-bericht").content.firstElementChild.cloneNode(true);
     if (b.relevant === false) node.classList.add("irrelevant");
-    const labels = node.querySelector(".labels");
-    if (b.gebeurtenis) labels.append(el("span", { class: `label ${b.gebeurtenis}` }, gebeurtenisNaam(b.gebeurtenis)));
-    labels.append(el("span", { class: "label plaats" }, `📍 ${plaatsTekst(b)}`));
-    for (const c of b.categorieen || []) labels.append(el("span", { class: "label" }, categorieNaam(c)));
-    if (b.kandidaat) labels.append(el("span", { class: "label" }, "nog niet beoordeeld"));
-    else if (b.relevant === false) labels.append(el("span", { class: "label" }, "mogelijk niet relevant"));
+    const extra = [];
+    if (b.sociaal) extra.push(el("span", { class: "sociaal" }, `${b.sociaal}-post`));
+    if (b.kandidaat) extra.push(el("span", { class: "twijfel" }, "nog niet beoordeeld"));
+    else if (b.relevant === false) extra.push(el("span", { class: "twijfel" }, "mogelijk niet relevant"));
+    node.querySelector(".kicker").append(...kickerVan([b], extra));
 
-    node.querySelector(".kern").textContent = b.kernzin || b.titel;
-    const titel = node.querySelector(".titel-orig");
-    if (b.kernzin && b.titel && b.kernzin !== b.titel) titel.textContent = b.titel;
-    else titel.remove();
-    const samenvatting = node.querySelector(".samenvatting");
-    if (b.samenvatting) samenvatting.textContent = b.samenvatting;
-    else samenvatting.remove();
+    const kop = node.querySelector(".kop-artikel");
+    const kopTekst = alsKop(b.kernzin || b.titel);
+    kop.append(extLink(b.url, kopTekst) || kopTekst);
 
-    const meta = [kortTekst(b.datum), bronTekst(b)];
-    if (b.relatie === "primair") meta.push("primaire bron");
-    if (b.vertaald && b.taal) meta.push(`vertaald uit ${TAALNAMEN[b.taal] || b.taal}`);
-    if (b.methode !== "llm") meta.push("ingedeeld via trefwoorden");
-    node.querySelector(".meta").textContent = meta.join(" · ");
+    const inleiding = node.querySelector(".inleiding");
+    if (b.samenvatting && !lijktOp(b.samenvatting, kopTekst)) inleiding.append(b.samenvatting);
+    if (b.kernzin && b.titel && !lijktOp(b.titel, b.kernzin) && !(b.samenvatting && lijktOp(b.titel, b.samenvatting))) {
+      inleiding.append(el("span", { class: "orig" }, b.titel));
+    }
+    if (!inleiding.childNodes.length) inleiding.remove();
+
+    const meta = [el("strong", {}, bronNaam(b)), ` · ${kortTekst(b.datum)}`];
+    if (b.relatie === "primair") meta.push(" · primaire bron");
+    if (b.vertaald && b.taal) meta.push(` · vertaald uit ${TAALNAMEN[b.taal] || b.taal}`);
+    if (b.methode !== "llm") meta.push(" · ingedeeld via trefwoorden");
+    node.querySelector(".bronregel").append(...meta);
 
     const links = node.querySelector(".links");
-    const url = veiligeUrl(b.url);
-    if (url) links.append(el("a", { href: url, target: "_blank", rel: "noopener noreferrer" }, `Lees bij de bron ↗`));
-    const extra = (b.extra || []).filter((e) => veiligeUrl(e.url));
-    if (extra.length) {
+    links.append(extLink(b.url, b.sociaal ? `Bekijk de post op ${b.sociaal} ↗` : `Lees bij ${bronNaam(b)} ↗`));
+    const andere = (b.extra || []).filter((e) => veiligeUrl(e.url));
+    if (andere.length) {
       links.append(el("details", {},
-        el("summary", {}, `+${extra.length} ${extra.length === 1 ? "andere bron" : "andere bronnen"}`),
-        el("ul", {}, extra.map((e) => el("li", {}, el("a", { href: e.url, target: "_blank", rel: "noopener noreferrer" }, e.naam || e.url))))));
+        el("summary", {}, `+${andere.length} ${andere.length === 1 ? "andere bron" : "andere bronnen"}`),
+        el("ul", { class: "bronnenlijst" }, andere.map((e) => el("li", {}, extLink(e.url, e.naam || e.url))))));
     }
     if (b.titel_orig || b.samenvatting_orig) {
       links.append(el("details", {},
@@ -351,18 +439,63 @@
     return node;
   }
 
+  function verhaalKaart(e) {
+    const node = $("#tpl-bericht").content.firstElementChild.cloneNode(true);
+    node.classList.add("verhaal");
+    const talen = new Set(e.leden.map((b) => b.taal).filter(Boolean));
+    node.querySelector(".kicker").append(...kickerVan(e.leden, [el("span", { class: "sociaal" }, `${e.bronnen} bronnen`)]));
+    node.querySelector(".kop-artikel").textContent = alsKop(e.kop);
+    const inleiding = node.querySelector(".inleiding");
+    if (e.b.kernzin && !lijktOp(e.b.kernzin, e.kop)) inleiding.textContent = e.b.kernzin;
+    else if (e.b.samenvatting) inleiding.textContent = e.b.samenvatting;
+    else inleiding.remove();
+
+    const lijst = el("ul", { class: "bronnenlijst" });
+    const ZICHTBAAR = 5;
+    let rest = null;
+    e.leden.forEach((b, i) => {
+      if (i === ZICHTBAAR && e.leden.length > ZICHTBAAR + 1) {
+        rest = el("ul", { class: "bronnenlijst rest" });
+        lijst.after(rest);
+      }
+      const meta = [kortTekst(b.datum), b.taal ? hoofdletter((TAALNAMEN[b.taal] || b.taal).replace(/^het /, "")) : null,
+        b.relatie === "primair" ? "primaire bron" : null].filter(Boolean).join(" · ");
+      (rest || lijst).append(el("li", {},
+        el("span", { class: "naam" }, bronNaam(b)), el("span", { class: "meta" }, ` · ${meta}`),
+        extLink(b.url, b.titel || b.kernzin),
+        (b.extra || []).length ? el("span", { class: "meer-bronnen" }, "ook bij: ",
+          ...(b.extra || []).filter((x) => veiligeUrl(x.url)).flatMap((x, j) => [j ? ", " : "", extLink(x.url, x.naam || "bron")])) : null));
+    });
+    const bronregel = node.querySelector(".bronregel");
+    bronregel.replaceWith(lijst);
+    if (rest) {
+      const uitklap = el("details", { class: "alle-bronnen" }, el("summary", {}, `Alle ${e.leden.length} bronnen tonen`));
+      lijst.after(uitklap);
+      uitklap.append(rest);
+    }
+    node.querySelector(".links").append(el("span", { class: "gedempt" },
+      `${e.leden.length} berichten${talen.size > 1 ? ` in ${talen.size} talen` : ""} · kop en indeling automatisch gemaakt`));
+    return node;
+  }
+
   // --- export ----------------------------------------------------------------------------------
   function alsTekst() {
     const f = toestand.filters;
     const regels = [`# Vegannieuws: ${filterTekst(f)}`, "", `${toestand.resultaat.length} berichten. Bron: ${location.href}`, ""];
-    for (const groep of groepeer(toestand.resultaat, f.groep)) {
+    for (const groep of groepeer(toestand.eenheden, f.groep)) {
       if (groep.titel) regels.push(`## ${groep.titel}`, "");
-      for (const b of groep.berichten) {
-        const delen = [`- **${b.kernzin || b.titel}**`];
-        delen.push(` (${plaatsTekst(b)}, ${kortTekst(b.datum)})`);
-        delen.push(` — ${bronTekst(b)}: ${b.url}`);
-        regels.push(delen.join(""));
-        for (const e of b.extra || []) regels.push(`  - ook: ${e.naam}: ${e.url}`);
+      for (const e of groep.eenheden) {
+        if (e.soort === "verhaal") {
+          regels.push(`- **${e.kop}** (${plaatsTekst(e.b)})`);
+          for (const b of e.leden) {
+            regels.push(`  - ${bronNaam(b)}, ${kortTekst(b.datum)}: ${b.titel || b.kernzin} — ${b.url}`);
+            for (const x of b.extra || []) regels.push(`    - ook: ${x.naam}: ${x.url}`);
+          }
+          continue;
+        }
+        const b = e.b;
+        regels.push(`- **${b.kernzin || b.titel}** (${plaatsTekst(b)}, ${kortTekst(b.datum)}) — ${bronTekst(b)}: ${b.url}`);
+        for (const x of b.extra || []) regels.push(`  - ook: ${x.naam}: ${x.url}`);
       }
       regels.push("");
     }
@@ -490,6 +623,10 @@
       if (llm.verzoeken !== undefined) {
         regels.push(`Taalmodel${llm.model ? ` (${llm.model})` : ""}: ${llm.verrijkt || 0} berichten verwerkt, nog ${llm.achterstand || 0} in de wachtrij${llm.melding ? `. ${llm.melding}` : ""}`);
       }
+      const vh = run.verhalen || {};
+      if (vh.groepen !== undefined) {
+        regels.push(`Verhalen: ${vh.groepen || 0} kandidaatgroepen gecontroleerd, ${vh.nieuwe_verhalen || 0} nieuwe verhalen${vh.melding ? `. ${vh.melding}` : ""}`);
+      }
       if (run.reservevertaling?.vertaald !== undefined) regels.push(`Reservevertaling: ${run.reservevertaling.vertaald} titels`);
       const totaal = Object.values(toestand.index.maanden || {}).reduce((a, b) => a + b, 0);
       regels.push(`Archief: ${totaal} berichten sinds ${Object.keys(toestand.index.maanden || {})[0] || "–"}`);
@@ -531,7 +668,7 @@
     $("#filters").addEventListener("submit", async (ev) => {
       ev.preventDefault();
       await zoek();
-      if (window.matchMedia("(max-width: 700px)").matches) $("#resultaat").scrollIntoView({ behavior: "smooth", block: "start" });
+      if (window.matchMedia("(max-width: 999px)").matches) $("#resultaat").scrollIntoView({ behavior: "smooth", block: "start" });
     });
     $("#snelkeuze").addEventListener("click", (ev) => {
       const knopje = ev.target.closest("button[data-snel]");
@@ -561,6 +698,7 @@
   }
 
   async function start() {
+    $("#datumregel").textContent = hoofdletter(dagTekst(vandaag()));
     koppelGebeurtenissen();
     try {
       toestand.index = await haalJSON("data/index.json");
@@ -569,9 +707,9 @@
       $("#resultaat").replaceChildren(el("p", { class: "leeg", text: "Er zijn nog geen berichten verzameld. Na de eerste verzamelrun verschijnt hier het nieuws." }));
       return;
     }
-    $("#bijgewerkt").textContent = `Bijgewerkt: ${momentTekst(toestand.index.bijgewerkt)}`;
+    $("#bijgewerkt").textContent = `Bijgewerkt ${momentTekst(toestand.index.bijgewerkt)}`;
     bouwFilters();
-    if (window.matchMedia("(min-width: 701px)").matches) $("#onderwerpen-blok").open = true;
+    if (window.matchMedia("(min-width: 1000px)").matches) $("#onderwerpen-blok").open = true;
     const uitHash = vanHash();
     const bewaard = lees("vegannieuws-filters") || {};
     if (uitHash) zetFilters(uitHash);

@@ -11,13 +11,20 @@ Een webpagina die nationaal (Belgisch) en internationaal nieuws over veganisme v
 3. Kies onderwerpen, of laat ze leeg voor alle onderwerpen.
 4. Druk op **Geef mij het nieuws**.
 
-Onder *Meer filters* staan een zoekwoord, het soort gebeurtenis (opening, sluiting, nieuw product), het soort bron (primair of secundair) en de groepering (per dag, onderwerp of regio).
+Onder *Meer filters* staan:
+
+- een zoekwoord;
+- het soort gebeurtenis (opening, sluiting, nieuw product);
+- het soort bron: primair, secundair of posts op Instagram en Facebook;
+- de ordening: per dag, onderwerp of regio.
 
 Elk bericht toont:
 
-- een kernzin (bv. "Vegan restaurant X opent een tweede zaak in Gent.");
+- een kernzin als kop (bv. "Vegan restaurant X opent een tweede zaak in Gent");
 - de plaats, de datum, de onderwerpen en de bron;
-- een link naar het oorspronkelijke bericht, plus de andere media die hetzelfde nieuws brachten.
+- een link naar het oorspronkelijke bericht, plus de andere media die hetzelfde artikel brachten.
+
+Brengen verschillende media, ook in verschillende talen, hetzelfde nieuws, dan staan hun berichten samen als één **verhaal**: een Nederlandse kop met alle bronnen eronder. Per dag opent de pagina met het verhaal dat de meeste bronnen heeft.
 
 Een overzicht kun je kopiëren, downloaden als Markdown, of afdrukken en als PDF bewaren. De adresbalk bevat de gekozen filters; die link kun je als bladwijzer bewaren of delen.
 
@@ -26,7 +33,7 @@ Een overzicht kun je kopiëren, downloaden als Markdown, of afdrukken en als PDF
 Het bronnenregister bestaat uit twee bestanden:
 
 - [`bronnen.yml`](bronnen.yml): websites, RSS-feeds, Bluesky-, Mastodon- en YouTube-accounts.
-- [`zoekopdrachten.yml`](zoekopdrachten.yml): zoekopdrachten in Google Nieuws en Bing Nieuws, en een PubMed-zoekopdracht voor nieuwe studies.
+- [`zoekopdrachten.yml`](zoekopdrachten.yml): zoekopdrachten in Google Nieuws en Bing Nieuws, een PubMed-zoekopdracht voor nieuwe studies, en zoekopdrachten naar openbare Instagram- en Facebookposts.
 
 Voor elk van 33 Europese landen volgt het register minstens één bron:
 
@@ -34,6 +41,20 @@ Voor elk van 33 Europese landen volgt het register minstens één bron:
 - een zoekopdracht in de nationale editie van Google Nieuws, in de landstaal.
 
 Landen zonder bruikbare eigen website, zoals Bulgarije, Roemenië, Griekenland en Malta, worden enkel via Google Nieuws gevolgd.
+
+Voor de Verenigde Staten volgt het register onder meer VegNews, Sentient Media, The Good Food Institute, Faunalytics, Mercy For Animals, PETA, Physicians Committee for Responsible Medicine, Animal Legal Defense Fund, Farm Sanctuary en Eater (enkel vegan restaurantnieuws).
+
+### Instagram en Facebook
+
+Instagram en Facebook bieden geen gratis toegang voor zo'n overzicht. Google Nieuws vindt wel openbare posts van zaken en organisaties. Zo werkt het:
+
+- De zoekopdrachten `site:instagram.com vegan …` en `site:facebook.com vegan …` (Belgische edities) vinden posts.
+- Elke post gaat langs het taalmodel. Enkel posts met nieuws over België blijven, zoals een opening, sluiting, nieuw product, evenement of actie. Recepten, maaltijdfoto's, wedstrijden en reclame vallen weg.
+- De link loopt via news.google.com en stuurt door naar de post.
+
+Een specifieke zaak of organisatie volgen kan met een eigen zoekopdracht, bijvoorbeeld `site:instagram.com "naam van de zaak"`.
+
+Google vindt niet elke post. Posts van privé-accounts, stories en een deel van de reels ontbreken.
 
 Zo voeg je een bron toe, ook op een gsm:
 
@@ -58,16 +79,22 @@ bronnenregister ──► ophalen (RSS, feed-ontdekking, Google/Bing Nieuws, Blu
                 ──► ontdubbelen (zelfde URL of bijna dezelfde titel binnen 3 dagen)
                 ──► archief (site/data/berichten/JJJJ-MM.json)
                 ──► taalmodel: kernzin, vertaling, onderwerp, land, plaats, relevantie
+                ──► verhalen: zelfde nieuws uit verschillende bronnen onder één Nederlandse kop
                 ──► website (GitHub Pages)
 ```
 
 - **Planning.** De workflow *Nieuws verzamelen* draait om 05:23, 11:23 en 17:23 Belgische wintertijd (zomertijd: een uur later). Je kunt hem ook zelf starten via Actions → *Nieuws verzamelen* → *Run workflow*.
 - **Archief.** Elk bericht wordt bewaard, dus elke periode blijft opvraagbaar. Ouder nieuws (van vóór de start) haal je op via *Run workflow* met een getal bij *Ouder nieuws opzoeken*. Dat gebruikt Google Nieuws en is onvolledig.
-- **Taalmodel.** Google Gemini of Groq, elk gratis met een eigen sleutel (zie *Eenmalige installatie*). Per run gaan maximaal 40 verzoeken van 12 berichten naar het model; dat valt ruim binnen de gratis limieten.
+- **Taalmodel.** Google Gemini of Groq, elk gratis met een eigen sleutel (zie *Eenmalige installatie*). Per run gaan maximaal 80 verzoeken van 12 berichten naar het model, en maximaal 240 per dag. Het verslag van elke run vermeldt het tokenverbruik.
   - Bij te veel berichten verwerkt een volgende run de rest.
   - Zonder sleutel, of als het taalmodel faalt, blijft de indeling op basis van trefwoorden en plaatsnamen staan. Zo'n bericht krijgt het label *ingedeeld via trefwoorden*.
   - Titels in andere talen dan Nederlands en Engels worden dan vertaald via MyMemory (gratis, ongeveer 60 titels per dag).
   - GitHub Models, het oorspronkelijke gratis taalmodel zonder sleutel, antwoordt sinds oktober 2026 niet meer.
+- **Verhalen.** Berichten van de afgelopen 4 dagen worden vergeleken op gedeelde woorden in hun Nederlandse kernzin en titel (tf-idf, cosinusgelijkenis ≥ 0,2, hoogstens 3 dagen uit elkaar).
+  - Gelijkaardige berichten vormen kandidaatgroepen.
+  - Het taalmodel beslist welke berichten over hetzelfde nieuwsfeit gaan en schrijft een Nederlandse kop.
+  - Een bericht blijft bij zijn verhaal; latere berichten kunnen aansluiten.
+  - Hoogstens 4 verzoeken per run; instellingen onder `verhalen_` in [`instellingen.yml`](instellingen.yml).
 - **Websites zonder feed.** Een website zonder bruikbare RSS-feed wordt automatisch gevolgd via Google Nieuws (`site:domein`). De pagina *Bronnen* vermeldt dat bij de bron.
 - **Nationaal of internationaal.** De regio volgt uit de vermelde plaatsen en de vermelde instellingen en gewesten, en uit het land van de bron.
   - Plaatsen: 2 276 Belgische plaatsen in het Nederlands, Frans en Duits.
@@ -126,7 +153,7 @@ Voor het taalmodel zet je de sleutel in de omgevingsvariabele `GEMINI_API_KEY` o
 
 ## Beperkingen
 
-- Instagram, Facebook, X en TikTok bieden geen gratis toegang en worden niet gevolgd.
+- Instagram en Facebook worden enkel gevolgd via de posts die Google Nieuws vindt (zie hoger). X en TikTok worden niet gevolgd.
   - Restaurants die enkel daar posten, verschijnen enkel als media erover schrijven (via de zoekopdrachten).
   - Volg ze ook via Bluesky, Mastodon, YouTube of hun website als ze daar actief zijn.
 - Websites zonder RSS-feed kunnen niet rechtstreeks gevolgd worden.
