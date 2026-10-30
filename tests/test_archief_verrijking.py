@@ -91,6 +91,29 @@ def test_pas_toe_laat_engelse_titel(lexicon):
     assert b.kernzin == "Oatly lanceert een nieuw gamma." and b.relevant is False
 
 
+@pytest.mark.parametrize("post, getoond", [("opening", True), ("evenement", True), ("praktisch", False),
+                                          ("deelname", False), ("dierlijk", False), (None, True)])
+def test_pas_toe_toont_enkel_posts_met_nieuws(lexicon, post, getoond):
+    b = maak("https://www.instagram.com/p/1", "Come and visit us", taal="en", sociaal="Instagram", kandidaat=True)
+    uit = {"relevant": True, "kernzin": "Zaak X in Gent ...", "categorieen": ["horeca"], "land": "BE", "plaats": "Gent"}
+    if post is not None:                              # None: aanbieder zonder schema liet het veld weg
+        uit["post"] = post
+    pas_toe(b, uit, lexicon, Geo(), ["nl", "en"])
+    assert (b.relevant is not False) == getoond
+    assert b.kandidaat is not getoond                 # afgewezen posts blijven kandidaat en worden opgeruimd
+
+
+def test_post_in_schema_en_niet_voor_gewone_berichten(lexicon):
+    from vegannieuws.verrijking import POSTS_GEEN_NIEUWS, POSTS_NIEUWS, antwoord_schema
+    schema = antwoord_schema(lexicon)["properties"]["berichten"]["items"]
+    assert "post" in schema["required"] and "" in schema["properties"]["post"]["enum"]
+    assert not POSTS_NIEUWS & POSTS_GEEN_NIEUWS
+    b = maak("https://hln.be/9", "Vegan restaurant opent in Gent")
+    pas_toe(b, {"relevant": True, "kernzin": "Een vegan restaurant opent in Gent.", "post": "overig"}, lexicon, Geo(),
+            ["nl", "en"])
+    assert b.relevant is True                         # het veld geldt enkel voor sociale posts
+
+
 class FakeClient:
     model = "test/model"
 
