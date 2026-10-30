@@ -59,8 +59,8 @@ class Instellingen:
     llm_modellen_groq: list[str] = field(default_factory=lambda: [
         "llama-3.3-70b-versatile", "openai/gpt-oss-120b", "llama-3.1-8b-instant"])
     llm_modellen: list[str] = field(default_factory=lambda: ["openai/gpt-4.1-mini", "openai/gpt-4o-mini"])
-    llm_max_verzoeken_per_run: int = 40
-    llm_max_verzoeken_per_dag: int = 140
+    llm_max_verzoeken_per_run: int = 80
+    llm_max_verzoeken_per_dag: int = 240
     llm_batch: int = 12
     llm_pauze_s: float = 4.5
     llm_max_pogingen: int = 3

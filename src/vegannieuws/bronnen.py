@@ -49,6 +49,7 @@ class Bron:
     alleen_vegan: bool = True   # enkel berichten die over veganisme gaan behouden
     actief: bool = True
     notitie: str = ""
+    recentheid: str = ""        # bv. "when:30d" voor landen met weinig nieuws
 
     @property
     def relatie(self) -> str:
@@ -269,5 +270,6 @@ def laad_register(pad_bronnen: Path, pad_zoek: Path) -> tuple[list[Bron], list[s
             alleen_vegan=als_bool(item.get("alleen_vegan"), standaard=dienst != "pubmed"),
             actief=als_bool(item.get("actief"), standaard=True),
             notitie=str(item.get("notitie") or "").strip(),
+            recentheid=str(item.get("recentheid") or "").strip(),
         ))
     return bronnen, waarschuwingen

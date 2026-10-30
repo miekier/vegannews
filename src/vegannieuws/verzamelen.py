@@ -39,6 +39,8 @@ class Rapport:
     bronnen_fout: int = 0
     opgehaald: int = 0
     behouden: int = 0
+    kandidaten: int = 0
+    kandidaten_afgewezen: int = 0
     nieuw: int = 0
     terugvullen_dagen: int = 0
     llm: dict = field(default_factory=dict)
@@ -206,6 +208,24 @@ def _verrijk_achterstand(archief: Archief, inst: Instellingen, lexicon: Lexicon,
     return stat
 
 
+def _ruim_kandidaten_op(archief: Archief, staat: Staat, vandaag: date, max_leeftijd: int) -> int:
+    """Verwijdert kandidaten die het taalmodel afwees of die te oud werden om nog beoordeeld te worden."""
+    grens = (vandaag - timedelta(days=max_leeftijd)).isoformat()
+    afgewezen = 0
+    for b in list(archief.geladen()):
+        if not b.kandidaat:
+            continue
+        if b.methode == "llm" and not b.relevant:
+            staat.geweigerd[b.id] = vandaag.isoformat()
+            archief.verwijder(b.id)
+            afgewezen += 1
+        elif b.datum < grens:
+            archief.verwijder(b.id)
+    oud = (vandaag - timedelta(days=30)).isoformat()
+    staat.geweigerd = {k: v for k, v in staat.geweigerd.items() if v >= oud}
+    return afgewezen
+
+
 def verzamel(paden: Paden, inst: Instellingen, terugvullen_dagen: int = 0, gebruik_llm: bool = True,
              alleen: set[str] | None = None, log=print) -> Rapport:
     t0 = time.monotonic()
@@ -232,6 +252,10 @@ def verzamel(paden: Paden, inst: Instellingen, terugvullen_dagen: int = 0, gebru
         log(f"Ouder nieuws opzoeken ({terugvullen_dagen} dagen) ...")
         resultaten += _terugvullen(ophaler, actief, terugvullen_dagen, vandaag, inst.gelijktijdig)
 
+    # Met een taalmodel worden zoekresultaten zonder vegan-woord in de titel niet weggegooid:
+    # de zoekterm staat dan ergens in het artikel; het taalmodel beslist (kandidaat).
+    met_taalmodel = gebruik_llm and inst.llm_aan and bool(
+        maak_taalmodellen(inst.llm_aanbieders, inst.modellen_per_aanbieder, inst.llm_pauze_s))
     kandidaten: list[Bericht] = []
     for res in resultaten:
         if res.status == "fout":
@@ -239,10 +263,15 @@ def verzamel(paden: Paden, inst: Instellingen, terugvullen_dagen: int = 0, gebru
         for ruw in res.berichten:
             rapport.opgehaald += 1
             b = maak_bericht(ruw, res.bron, nu, tz, grens, lexicon, geo)
-            if b is None or (res.bron.alleen_vegan and b.relevantie < 1):
+            if b is None or b.id in staat.geweigerd:
                 continue
+            if res.bron.alleen_vegan and b.relevantie < 1:
+                if not (met_taalmodel and res.bron.soort == "google"):
+                    continue
+                b.kandidaat, b.relevant, b.zoekterm = True, False, res.bron.zoekterm
             kandidaten.append(b)
-    rapport.behouden = len(kandidaten)
+    rapport.behouden = sum(not b.kandidaat for b in kandidaten)
+    rapport.kandidaten = len(kandidaten) - rapport.behouden
     nieuw = archief.voeg_toe(kandidaten)
     rapport.nieuw = len(nieuw)
     nieuw_per_bron: dict[str, int] = {}
@@ -254,6 +283,7 @@ def verzamel(paden: Paden, inst: Instellingen, terugvullen_dagen: int = 0, gebru
         stat = _verrijk_achterstand(archief, inst, lexicon, geo, staat, vandaag.isoformat(), log)
         rapport.llm = asdict(stat)
         log(f"Taalmodel: {stat.verrijkt} berichten verwerkt in {stat.verzoeken} verzoeken. {stat.melding}")
+    rapport.kandidaten_afgewezen = _ruim_kandidaten_op(archief, staat, vandaag, inst.llm_max_leeftijd_dagen)
     if inst.reserve_vertaling:
         budget = staat.resterend("mymemory", vandaag.isoformat(), inst.reserve_max_tekens_per_dag)
         sinds = (vandaag - timedelta(days=7)).isoformat()
@@ -320,6 +350,8 @@ def rapport_markdown(rapport: Rapport) -> str:
         f"- Start: {rapport.start} (duur {rapport.duur_s:.0f} s)",
         f"- Bronnen: {rapport.bronnen_actief} actief, {rapport.bronnen_ok} gelukt, {rapport.bronnen_fout} met fout",
         f"- Berichten: {rapport.opgehaald} opgehaald, {rapport.behouden} relevant, **{rapport.nieuw} nieuw**",
+        f"- Kandidaten (zoekresultaten zonder vegan-woord in de titel): {rapport.kandidaten} voor het taalmodel, "
+        f"{rapport.kandidaten_afgewezen} afgewezen",
     ]
     if rapport.llm:
         llm = rapport.llm

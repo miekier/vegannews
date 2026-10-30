@@ -7,6 +7,8 @@
 #   land:      BE = Belgische editie van Google Nieuws; NL, FR, DE, GB, US, ... ; INT
 #   taal:      nl | fr | en | de | ...  (bepaalt samen met land de editie, bv. BE + fr = Belgisch-Frans)
 #   naam:      optionele weergavenaam
+#   editie:    optioneel: Google Nieuws-editie als land:taal (bv. GB:en, PT:pt-150); standaard volgt ze uit land en taal
+#   recentheid: optioneel: zoekvenster, bv. "when:30d" voor landen met weinig nieuws (standaard "when:7d")
 #   alleen_vegan: ja (standaard) = resultaten zonder vegan-gerelateerd woord worden weggelaten
 #   actief:    nee = tijdelijk niet uitvoeren
 #
@@ -138,6 +140,13 @@ zoekopdrachten:
   - zoekterm: vegan OR vegantoit OR taimne
     land: EE
     taal: et
+    recentheid: "when:30d"
+  - zoekterm: vegan Estonia OR Tallinn
+    naam: "Google Nieuws: vegan Estland (Engelstalig)"
+    land: EE
+    taal: en
+    editie: GB:en
+    recentheid: "when:30d"
   - zoekterm: vegano OR vegana OR veganismo
     land: ES
     taal: es
@@ -147,9 +156,18 @@ zoekopdrachten:
   - zoekterm: βίγκαν OR vegan
     land: GR
     taal: el
-  - zoekterm: 'vegan Κύπρος OR "vegan Cyprus"'
+  - zoekterm: vegan Κύπρος OR βίγκαν Κύπρος
+    naam: "Google Nieuws: vegan Cyprus (Grieks)"
     land: CY
     taal: el
+    editie: GR:el
+    recentheid: "when:30d"
+  - zoekterm: vegan Cyprus
+    naam: "Google Nieuws: vegan Cyprus (Engelstalig)"
+    land: CY
+    taal: en
+    editie: GB:en
+    recentheid: "when:30d"
   - zoekterm: veganski OR veganska OR vegan
     land: HR
     taal: hr
@@ -159,24 +177,40 @@ zoekopdrachten:
   - zoekterm: vegan
     land: IE
     taal: en
-  - zoekterm: vegan OR grænkera
+  - zoekterm: vegan Iceland OR Reykjavik
+    naam: "Google Nieuws: vegan IJsland (Engelstalig)"
     land: IS
-    taal: is
+    taal: en
+    editie: GB:en
+    recentheid: "when:30d"
   - zoekterm: vegano OR vegana OR veganismo
     land: IT
     taal: it
-  - zoekterm: veganai OR veganiškas OR veganiški OR vegan
+  - zoekterm: veganai OR veganiškas OR veganiški OR veganiška OR vegan
     land: LT
     taal: lt
-  - zoekterm: vegan Luxembourg OR Luxemburg
+    recentheid: "when:30d"
+  - zoekterm: vegan Luxembourg
+    naam: "Google Nieuws: vegan Luxemburg (Frans)"
     land: LU
     taal: fr
-  - zoekterm: vegāns OR vegānu OR vegāniski
+    editie: FR:fr
+    recentheid: "when:30d"
+  - zoekterm: vegan Luxemburg
+    naam: "Google Nieuws: vegan Luxemburg (Duits)"
+    land: LU
+    taal: de
+    editie: DE:de
+    recentheid: "when:30d"
+  - zoekterm: vegāns OR vegānu OR vegāniski OR vegānisks OR vegan
     land: LV
     taal: lv
+    recentheid: "when:30d"
   - zoekterm: vegan Malta
     land: MT
     taal: en
+    editie: GB:en
+    recentheid: "when:30d"
   - zoekterm: vegansk OR veganer
     land: "NO"
     taal: "no"
@@ -201,9 +235,10 @@ zoekopdrachten:
   - zoekterm: vegánsky OR vegánska OR vegán
     land: SK
     taal: sk
-  - zoekterm: веган OR вегански OR веганство
+  - zoekterm: веган
     land: BG
     taal: bg
+    recentheid: "when:30d"
   - zoekterm: веган OR веганський OR веганство
     land: UA
     taal: uk

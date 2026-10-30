@@ -143,6 +143,11 @@ class Archief:
         if dubbel.url in urls or len(bestaand.extra) >= MAX_EXTRA:
             self._id_naar_maand.setdefault(dubbel.id, maand)
             return
+        if bestaand.kandidaat and not dubbel.kandidaat:
+            # Een gewoon (relevant) bericht bevestigt een nog niet beoordeelde kandidaat.
+            bestaand.kandidaat, bestaand.relevant, bestaand.zoekterm = False, True, ""
+            bestaand.relevantie = max(bestaand.relevantie, dubbel.relevantie)
+            bestaand.categorieen, bestaand.gebeurtenis = dubbel.categorieen, dubbel.gebeurtenis
         if dubbel.relatie == "primair" and bestaand.relatie != "primair":
             # De organisatie of het bedrijf zelf wordt de hoofdbron; het medium wordt extra bron.
             bestaand.extra.insert(0, {"naam": bestaand.uitgever or bestaand.bron_naam, "url": bestaand.url,
@@ -152,6 +157,19 @@ class Archief:
         else:
             bestaand.extra.append({"naam": dubbel.uitgever or dubbel.bron_naam, "url": dubbel.url, "id": dubbel.id})
         self._id_naar_maand.setdefault(dubbel.id, maand)
+        self._gewijzigd.add(maand)
+
+    def verwijder(self, id_: str) -> None:
+        maand = self._id_naar_maand.get(id_)
+        berichten = self._maanden.get(maand or "", {})
+        b = berichten.pop(id_, None)
+        if b is None:
+            return
+        for sleutel in [k for k, m in self._id_naar_maand.items() if m == maand and (k == id_ or any(
+                e.get("id") == k for e in b.extra))]:
+            del self._id_naar_maand[sleutel]
+        for woord in self._sleutels.pop(id_, frozenset()):
+            self._tokens.get(woord, set()).discard(id_)
         self._gewijzigd.add(maand)
 
     # -- bewaren -----------------------------------------------------------------

@@ -32,6 +32,8 @@ class Bericht:
     gewest: str = ""
     relevantie: int = 0             # aantal treffers op vegan-gerelateerde trefwoorden
     relevant: bool = True           # False als het taalmodel het bericht niet relevant vond
+    kandidaat: bool = False         # zoekresultaat zonder vegan-woord in de titel: taalmodel beslist
+    zoekterm: str = ""              # bij kandidaten: de zoekterm waarmee het artikel gevonden werd
     methode: str = "regels"         # regels of llm
     extra: list[dict] = field(default_factory=list)   # andere bronnen met hetzelfde nieuws
     pogingen: int = 0               # mislukte pogingen tot verrijking door het taalmodel
@@ -42,7 +44,8 @@ class Bericht:
         for k, v in asdict(self).items():
             if k == "uitgever_url":
                 continue
-            if v in ("", [], None) or (k == "pogingen" and v == 0) or (k == "relevant" and v is True):
+            if v in ("", [], None) or (k == "pogingen" and v == 0) or (k == "relevant" and v is True) \
+                    or (k == "kandidaat" and v is False):
                 continue
             uit[k] = v
         return uit

@@ -207,3 +207,55 @@ def test_opnieuw_gezien_bericht_krijgt_nieuwe_indeling(tmp_path):
     a1, a2 = archief.bericht("a1"), archief.bericht("a2")
     assert (a1.regio, a1.land, a1.categorieen, a1.gebeurtenis) == ("INT", "FR", ["horeca"], "opening")
     assert (a2.regio, a2.categorieen) == ("BE", ["horeca"])  # door het taalmodel ingedeeld: ongewijzigd
+
+
+class NepTaalmodel:
+    naam, model, token = "Nep", "nep-model", "x"
+
+    def vraag(self, systeem, gebruiker):
+        uit = []
+        for item in json.loads(gebruiker):
+            relevant = "Voetbal" not in item["titel"]
+            uit.append({"id": item["id"], "relevant": relevant, "kernzin": f"Kern: {item['titel'][:40]}",
+                        "categorieen": ["horeca"], "land": "", "plaats": "", "zoekterm_gezien": "zoekterm" in item})
+        return json.dumps({"berichten": uit})
+
+
+def test_kandidaten_met_taalmodel(wortel, monkeypatch):
+    from vegannieuws import verzamelen
+    (wortel / "bronnen.yml").write_text("bronnen: []\n", encoding="utf-8")
+    (wortel / "zoekopdrachten.yml").write_text("zoekopdrachten:\n  - zoekterm: vegan\n    land: BE\n    taal: nl\n",
+                                              encoding="utf-8")
+    sessie = FakeSessie({"news.google.com": (200, fixture("google_nieuws.xml"), {})})
+    monkeypatch.setattr(Ophaler, "_maak_sessie", staticmethod(lambda repo: sessie))
+    monkeypatch.setattr(ophalen.time, "sleep", lambda s: None)
+    monkeypatch.setattr(verzamelen, "maak_taalmodellen", lambda *a, **k: [NepTaalmodel()])
+    inst = Instellingen(reserve_vertaling=False, max_leeftijd_dagen=36500, llm_max_leeftijd_dagen=36500, llm_pauze_s=0)
+    paden = Paden(wortel)
+
+    rapport = verzamel(paden, inst, log=lambda *_: None)
+    assert rapport.kandidaten == 1 and rapport.kandidaten_afgewezen == 1   # "Voetbal: Club Brugge wint"
+    maand = json.loads((wortel / "site/data/berichten/2026-10.json").read_text(encoding="utf-8"))
+    assert not any("Voetbal" in b["titel"] for b in maand["berichten"])
+    assert all(b.get("methode") == "llm" and b["kernzin"].startswith("Kern:") for b in maand["berichten"])
+    staat = Staat.laad(paden.staat)
+    assert len(staat.geweigerd) == 1
+
+    tweede = verzamel(paden, inst, log=lambda *_: None)
+    assert tweede.kandidaten == 0 and tweede.nieuw == 0  # afgewezen kandidaat komt niet terug
+
+
+def test_kandidaat_bevestigd_door_gewoon_bericht(tmp_path):
+    from vegannieuws.archief import Archief
+    from vegannieuws.model import Bericht
+    archief = Archief(tmp_path)
+    kandidaat = Bericht(id="k1", titel="Komkommertijd opent tweede zaak in Gent", url="https://news.google.com/a",
+                        bron="g", bron_naam="Google", datum="2026-10-29", kandidaat=True, relevant=False,
+                        zoekterm="vegan", categorieen=["overig"])
+    archief.voeg_toe([kandidaat])
+    bevestiging = Bericht(id="k2", titel="Komkommertijd opent tweede zaak in Gent", url="https://hln.be/b",
+                          bron="h", bron_naam="HLN", datum="2026-10-29", relevantie=2, categorieen=["horeca"],
+                          gebeurtenis="opening")
+    assert archief.voeg_toe([bevestiging]) == []
+    b = archief.bericht("k1")
+    assert (b.kandidaat, b.relevant, b.categorieen, b.gebeurtenis) == (False, True, ["horeca"], "opening")

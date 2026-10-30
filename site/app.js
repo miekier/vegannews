@@ -316,7 +316,8 @@
     if (b.gebeurtenis) labels.append(el("span", { class: `label ${b.gebeurtenis}` }, gebeurtenisNaam(b.gebeurtenis)));
     labels.append(el("span", { class: "label plaats" }, `📍 ${plaatsTekst(b)}`));
     for (const c of b.categorieen || []) labels.append(el("span", { class: "label" }, categorieNaam(c)));
-    if (b.relevant === false) labels.append(el("span", { class: "label" }, "mogelijk niet relevant"));
+    if (b.kandidaat) labels.append(el("span", { class: "label" }, "nog niet beoordeeld"));
+    else if (b.relevant === false) labels.append(el("span", { class: "label" }, "mogelijk niet relevant"));
 
     node.querySelector(".kern").textContent = b.kernzin || b.titel;
     const titel = node.querySelector(".titel-orig");

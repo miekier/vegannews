@@ -229,7 +229,9 @@ class Ophaler:
                 time.sleep(wachten)
             self._laatste_google = time.monotonic()
 
-    def get(self, url: str, conditioneel: bool = False, extra_headers: dict | None = None) -> requests.Response:
+    def get(self, url: str, conditioneel: bool = False, extra_headers: dict | None = None,
+            snel: bool = False) -> requests.Response:
+        """HTTP GET. Met snel=True (feed-ontdekking): korte time-outs en geen tweede poging."""
         headers = dict(extra_headers or {})
         if conditioneel:
             validators = self.staat.http.get(url) or {}
@@ -239,11 +241,12 @@ class Ophaler:
                 headers["If-Modified-Since"] = validators["gewijzigd"]
         is_google = urlparse(url).netloc.endswith("news.google.com")
         laatste_fout: Exception | None = None
-        for poging in range(2):
+        for poging in range(1 if snel else 2):
             if is_google:
                 self._wacht_op_google()
             try:
-                antwoord = self.sessie.get(url, headers=headers, timeout=(10, 25), allow_redirects=True, stream=True)
+                antwoord = self.sessie.get(url, headers=headers, timeout=(5, 10) if snel else (10, 25),
+                                           allow_redirects=True, stream=True)
                 try:
                     inhoud = antwoord.raw.read(MAX_GROOTTE + 1, decode_content=True)
                 finally:
@@ -254,9 +257,10 @@ class Ophaler:
                 antwoord._content_consumed = True
             except (requests.ConnectionError, requests.Timeout, urllib3.exceptions.HTTPError) as fout:
                 laatste_fout = fout
-                time.sleep(3)
+                if not snel:
+                    time.sleep(3)
                 continue
-            if antwoord.status_code in (429, 503) and poging == 0:
+            if antwoord.status_code in (429, 503) and poging == 0 and not snel:
                 time.sleep(20 if is_google else 5)
                 continue
             if conditioneel and antwoord.status_code == 200:
@@ -287,7 +291,7 @@ class Ophaler:
             if bron.soort == "pubmed":
                 return Resultaat(bron, self._pubmed(bron), feed="PubMed E-utilities")
             if bron.soort == "google":
-                extra = extra_zoekterm or self.inst.google_recentheid
+                extra = extra_zoekterm or bron.recentheid or self.inst.google_recentheid
                 return self._haal_feed(bron, google_url(bron.zoekterm, bron.editie, extra), conditioneel=False)
             if bron.soort == "bing":
                 return self._haal_feed(bron, bing_url(bron.zoekterm, bron.taal, bron.land), conditioneel=False)
@@ -383,7 +387,7 @@ class Ophaler:
             i += 1
             pogingen += 1
             try:
-                poging = self.get(kandidaat)
+                poging = self.get(kandidaat, snel=True)
             except OphaalFout:
                 continue
             if poging.status_code != 200:
