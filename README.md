@@ -133,7 +133,7 @@ bronnenregister ──► ophalen (RSS, feed-ontdekking, Google/Bing Nieuws, Blu
                 ──► website (GitHub Pages)
 ```
 
-- **Planning.** De workflow *Nieuws verzamelen* draait één keer per dag, om 05:23 Belgische wintertijd (zomertijd: 06:23). Je kunt hem ook zelf starten via Actions → *Nieuws verzamelen* → *Run workflow*. Na elke wijziging van het register of de instellingen start hij ook vanzelf.
+- **Planning.** De workflow *Nieuws verzamelen* draait één keer per dag, om 05:23 Belgische wintertijd (zomertijd: 06:23). GitHub start geplande runs soms te laat of helemaal niet; daarom staan er reservetijden om 07:53 en 10:23. Een reserverun stopt na enkele seconden als er die dag (na 05:00 Belgische wintertijd) al verzameld is, zodat er hoogstens één geplande verzamelrun per dag is. Je kunt hem ook zelf starten via Actions → *Nieuws verzamelen* → *Run workflow*. Na elke wijziging van het register of de instellingen start hij ook vanzelf.
 - **Archief.** Elk bericht wordt bewaard, dus elke periode blijft opvraagbaar. Ouder nieuws (van vóór de start) haal je op via *Run workflow* met een getal bij *Ouder nieuws opzoeken*. Dat gebruikt Google Nieuws en is onvolledig.
 - **Taalmodel.** De aanbieders in [`instellingen.yml`](instellingen.yml) (`llm_aanbieders`) worden in volgorde geprobeerd:
   - **Claude Haiku 5.5** (Anthropic; secret `ANTHROPIC_API_KEY`). Betalend, met vooraf gekocht tegoed: ongeveer $1,3 per maand (excl. btw) bij 350 berichten per dag. Het programma gebruikt de officiële Anthropic-SDK, zonder denkstappen, met een JSON-schema (structured outputs) en een gecachete systeemprompt.

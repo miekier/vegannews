@@ -2,8 +2,12 @@ name: Nieuws verzamelen
 
 on:
   schedule:
-    # Eén keer per dag: 04:23 UTC = 05:23 Belgische wintertijd (zomertijd: 06:23)
+    # Eén verzamelrun per dag: 04:23 UTC = 05:23 Belgische wintertijd (zomertijd: 06:23).
+    # GitHub start geplande runs soms te laat of niet. Daarom twee reservetijden (07:53 en 10:23
+    # Belgische wintertijd): een reserverun stopt meteen als de run van vandaag al gebeurd is (job planning).
     - cron: "23 4 * * *"
+    - cron: "53 6 * * *"
+    - cron: "23 9 * * *"
   workflow_dispatch:
     inputs:
       terugvullen:
@@ -40,7 +44,33 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  planning:
+    # Enkel bij geplande runs: is er vandaag (na 04:00 UTC) al verzameld, dan verzamelt deze run niet.
+    runs-on: ubuntu-latest
+    outputs:
+      doorgaan: ${{ steps.controle.outputs.doorgaan }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+          sparse-checkout: site/data/index.json
+          sparse-checkout-cone-mode: false
+      - id: controle
+        run: |
+          doorgaan=true
+          if [ "${{ github.event_name }}" = "schedule" ] && [ -f site/data/index.json ]; then
+            laatst=$(python3 -c "import json; print(json.load(open('site/data/index.json')).get('bijgewerkt', ''))")
+            grens="$(date -u +%Y-%m-%d)T04:00:00Z"
+            if [[ "$laatst" > "$grens" ]]; then
+              doorgaan=false
+              echo "Vandaag al verzameld (laatste run gestart om $laatst): deze reserverun stopt." >> "$GITHUB_STEP_SUMMARY"
+            fi
+          fi
+          echo "doorgaan=$doorgaan" >> "$GITHUB_OUTPUT"
+
   verzamel:
+    needs: planning
+    if: ${{ needs.planning.outputs.doorgaan == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
@@ -120,7 +150,7 @@ jobs:
 
   publiceer:
     needs: verzamel
-    if: ${{ !inputs.controleren }}
+    if: ${{ needs.verzamel.result == 'success' && !inputs.controleren }}
     runs-on: ubuntu-latest
     permissions:
       pages: write
