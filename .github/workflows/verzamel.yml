@@ -2,12 +2,11 @@ name: Nieuws verzamelen
 
 on:
   schedule:
-    # Eén verzamelrun per dag: 04:23 UTC = 05:23 Belgische wintertijd (zomertijd: 06:23).
-    # GitHub start geplande runs soms te laat of niet. Daarom twee reservetijden (07:53 en 10:23
-    # Belgische wintertijd): een reserverun stopt meteen als de run van vandaag al gebeurd is (job planning).
-    - cron: "23 4 * * *"
-    - cron: "53 6 * * *"
-    - cron: "23 9 * * *"
+    # Doel: elke dag één verzamelrun tussen 05:00 en 08:00 Belgische tijd (zomertijd: tussen 06:00 en 08:00).
+    # GitHub start geplande runs vaak uren te laat (31-10: ruim 6 uur) of niet. Daarom plant GitHub elk uur
+    # een poging, van 22:23 tot 06:23 UTC. De job "planning" laat enkel de eerste poging na 04:00 UTC
+    # verzamelen; de andere stoppen na enkele seconden. Zo is er hoogstens één geplande verzamelrun per dag.
+    - cron: "23 22-23,0-6 * * *"
   workflow_dispatch:
     inputs:
       terugvullen:
@@ -45,7 +44,7 @@ concurrency:
 
 jobs:
   planning:
-    # Enkel bij geplande runs: is er vandaag (na 04:00 UTC) al verzameld, dan verzamelt deze run niet.
+    # Enkel bij geplande runs: verzamelen vanaf 04:00 UTC, en enkel als er die dag nog niet verzameld is.
     runs-on: ubuntu-latest
     outputs:
       doorgaan: ${{ steps.controle.outputs.doorgaan }}
@@ -58,12 +57,16 @@ jobs:
       - id: controle
         run: |
           doorgaan=true
-          if [ "${{ github.event_name }}" = "schedule" ] && [ -f site/data/index.json ]; then
-            laatst=$(python3 -c "import json; print(json.load(open('site/data/index.json')).get('bijgewerkt', ''))")
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            nu=$(date -u +%Y-%m-%dT%H:%M:%SZ)
             grens="$(date -u +%Y-%m-%d)T04:00:00Z"
-            if [[ "$laatst" > "$grens" ]]; then
+            laatst=$(python3 -c "import json; print(json.load(open('site/data/index.json')).get('bijgewerkt', ''))" 2>/dev/null || true)
+            if [[ "$nu" < "$grens" ]]; then
               doorgaan=false
-              echo "Vandaag al verzameld (laatste run gestart om $laatst): deze reserverun stopt." >> "$GITHUB_STEP_SUMMARY"
+              echo "Te vroeg ($nu): geplande runs verzamelen vanaf 04:00 UTC. Deze poging stopt." >> "$GITHUB_STEP_SUMMARY"
+            elif [[ "$laatst" > "$grens" ]]; then
+              doorgaan=false
+              echo "Vandaag al verzameld (laatste run gestart om $laatst). Deze poging stopt." >> "$GITHUB_STEP_SUMMARY"
             fi
           fi
           echo "doorgaan=$doorgaan" >> "$GITHUB_OUTPUT"
