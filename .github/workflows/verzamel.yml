@@ -21,6 +21,10 @@ on:
         description: "Enkel alle bronnen testen en het resultaat tonen (wijzigt niets)"
         type: boolean
         default: false
+      gepland:
+        description: "Dagelijkse run via een externe timer: enkel verzamelen als er vandaag nog niet verzameld is"
+        type: boolean
+        default: false
   push:
     branches: [main]
     paths:
@@ -44,7 +48,8 @@ concurrency:
 
 jobs:
   planning:
-    # Enkel bij geplande runs: verzamelen vanaf 04:00 UTC, en enkel als er die dag nog niet verzameld is.
+    # Enkel bij geplande runs (GitHub-planning of externe timer met gepland=true): verzamelen vanaf
+    # 04:00 UTC, en enkel als er die dag nog niet verzameld is.
     runs-on: ubuntu-latest
     outputs:
       doorgaan: ${{ steps.controle.outputs.doorgaan }}
@@ -57,7 +62,7 @@ jobs:
       - id: controle
         run: |
           doorgaan=true
-          if [ "${{ github.event_name }}" = "schedule" ]; then
+          if [ "${{ github.event_name }}" = "schedule" ] || [ "${{ inputs.gepland }}" = "true" ]; then
             nu=$(date -u +%Y-%m-%dT%H:%M:%SZ)
             grens="$(date -u +%Y-%m-%d)T04:00:00Z"
             laatst=$(python3 -c "import json; print(json.load(open('site/data/index.json')).get('bijgewerkt', ''))" 2>/dev/null || true)
