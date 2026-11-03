@@ -756,3 +756,11 @@ bronnen:
     land: UA
     taal: uk
     alleen_vegan: nee
+
+  - naam: "Humus x Hortense"
+    url: "https://humushortense.be/nl/"
+    type: horeca
+    land: BE
+    taal: nl
+    alleen_vegan: nee
+    notitie: "Toegevoegd via issue #1 op 2026-11-03"
