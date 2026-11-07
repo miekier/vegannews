@@ -6,7 +6,7 @@ on:
     paths: [".github/workflows/standhouders.yml"]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   zoek:
@@ -22,94 +22,98 @@ jobs:
           cache: pip
           cache-dependency-path: requirements.txt
       - run: pip install -r requirements.txt
-      - name: Websites
-        continue-on-error: true
+      - name: Zoeken
         run: |
+          mkdir -p uit
           python - <<'EOF'
-          import re, html, requests
+          import os, re, html, json, requests
           from urllib.parse import urljoin, urlparse
-          s = requests.Session(); s.headers["User-Agent"] = "Mozilla/5.0 (vegannieuws bronnenonderzoek)"
-          paginas = ["https://bevegan.be/nl/vegan-summer-fest-gent/standhouders/",
-                     "https://bevegan.be/nl/vegan-summer-fest-gent/overzicht-standhouders-2024/",
-                     "https://veganafairs.be/programma/", "https://veganafairs.be/standhouders/",
-                     "https://veganafairs.be/"]
-          for url in paginas:
-              try:
-                  r = s.get(url, timeout=30)
-              except Exception as e:
-                  print("##", url, "FOUT", type(e).__name__); continue
-              print("##", url, r.status_code, len(r.text))
-              if r.status_code != 200: continue
-              t = r.text
-              # koppen en links in volgorde van de pagina
-              for m in re.finditer(r"<(h[1-6]|strong|b)[^>]*>(.*?)</\1>|<a [^>]*href=\"([^\"]+)\"[^>]*>(.*?)</a>", t, re.S | re.I):
-                  if m.group(1):
-                      tekst = html.unescape(re.sub(r"<[^>]+>", " ", m.group(2))).split()
-                      if tekst: print("K", " ".join(tekst)[:90])
-                  else:
-                      href = urljoin(url, html.unescape(m.group(3)))
-                      host = urlparse(href).netloc.lower()
-                      if not host or host.endswith(("bevegan.be", "veganafairs.be", "wordpress.org", "facebook.com", "youtube.com", "google.com", "linkedin.com", "tiktok.com", "x.com", "twitter.com")):
-                          if "veganafairs.be" in host and any(w in href for w in ("stand", "expo", "deeln")):
-                              print("L", href)
-                          continue
-                      tekst = " ".join(html.unescape(re.sub(r"<[^>]+>", " ", m.group(4))).split())
-                      print("A", tekst[:60], "|", href[:120])
-          EOF
-      - name: Instagram
-        run: |
-          python - <<'EOF'
-          import os, re, json
-          from collections import Counter
           from vegannieuws.config import Instellingen
           from vegannieuws.ophalen import OphaalFout, Ophaler
           from vegannieuws.staat import Staat
-          token = os.environ["INSTAGRAM_TOKEN"]
-          o = Ophaler(Staat(), Instellingen())
-          ig = o._instagram_gebruikers_id(token)
-          vermeld, via = Counter(), {}
-          for account, paginas in (("vegan.afairs", 10), ("bevegan.be", 12), ("vegansummerfest", 2)):
-              na, n, voorbeelden = "", 0, 0
-              for _ in range(paginas):
-                  extra = f".after({na})" if na else ""
-                  velden = f"business_discovery.username({account}){{media.limit(50){extra}{{caption,timestamp}}}}"
+          s = requests.Session(); s.headers["User-Agent"] = "Mozilla/5.0 (vegannieuws bronnenonderzoek)"
+          uit = open("uit/resultaten.txt", "w", encoding="utf-8")
+          def schrijf(*x): print(*x, file=uit, flush=True)
+          def tekst(x): return " ".join(html.unescape(re.sub(r"<[^>]+>", " ", x)).split())
+          # 1. Standhouders Vegan Summer Fest 2026 en 2024: naam (kop) + eerste externe link erna
+          standhouders = []
+          for jaar, url in (("vsf2026", "https://bevegan.be/nl/vegan-summer-fest-gent/standhouders/"),
+                            ("vsf2024", "https://bevegan.be/nl/vegan-summer-fest-gent/overzicht-standhouders-2024/")):
+              t = s.get(url, timeout=30).text
+              rubriek, huidig = "", None
+              for m in re.finditer(r"<(h[1-6]|strong|b)[^>]*>(.*?)</\1>|<a [^>]*href=\"([^\"]+)\"", t, re.S | re.I):
+                  if m.group(1):
+                      k = tekst(m.group(2))
+                      if not k: continue
+                      if k.isupper() and "📍" not in k and len(k) < 30: rubriek = k
+                      huidig = {"bron": jaar, "rubriek": rubriek, "naam": re.sub(r"\s*📍.*", "", k).strip(), "links": []}
+                      standhouders.append(huidig)
+                  elif huidig is not None:
+                      href = urljoin(url, html.unescape(m.group(3)))
+                      host = urlparse(href).netloc.lower()
+                      if host and not host.endswith(("bevegan.be", "cookiedatabase.org", "facebook.com", "google.com")):
+                          if href not in huidig["links"]: huidig["links"].append(href)
+          # 2. Website van elke standhouder: Instagram-links en RSS-feed
+          handles = {}
+          for st in standhouders:
+              st["instagram"], st["feed"] = [], ""
+              for link in st["links"]:
+                  m = re.match(r"https?://(www\.)?instagram\.com/([A-Za-z0-9._]+)", link)
+                  if m: st["instagram"].append(m.group(2).lower())
+              web = next((l for l in st["links"] if "instagram.com" not in l), "")
+              st["web"] = web
+              if web:
                   try:
-                      m = (o._graph(ig, {"fields": velden}, token).get("business_discovery") or {}).get("media") or {}
-                  except OphaalFout as fout:
-                      print("FOUT", account, fout); break
-                  data = m.get("data", [])
-                  for post in data:
-                      n += 1
-                      cap = post.get("caption") or ""
-                      namen = set(re.findall(r"@([A-Za-z0-9._]{2,30})", cap))
-                      if voorbeelden < 2 and ("aan" in cap or "standhouder" in cap.lower()):
-                          voorbeelden += 1
-                          print("VOORBEELD", account, post.get("timestamp", "")[:10], " ".join(cap.split())[:400])
-                      for naam in namen:
-                          naam = naam.rstrip(".").lower()
-                          vermeld[naam] += 1
-                          via.setdefault(naam, f"{account} {post.get('timestamp','')[:10]}")
-                  nieuw = ((m.get("paging") or {}).get("cursors") or {}).get("after", "")
-                  if not data or not nieuw or nieuw == na:
-                      break
-                  na = nieuw
-              print(f"# {account}: {n} posts gelezen")
-          print(f"# {len(vermeld)} verschillende vermelde accounts")
-          bekend = {"vegan.afairs", "bevegan.be", "vegansummerfest"}
-          for naam, aantal in vermeld.most_common(170):
-              if naam in bekend:
-                  continue
-              velden = (f"business_discovery.username({naam}){{username,name,biography,website,followers_count,"
-                        f"media_count,media.limit(1){{timestamp}}}}")
+                      r = s.get(web, timeout=20)
+                      t = r.text
+                      st["instagram"] += [h.lower() for h in re.findall(r"instagram\.com/([A-Za-z0-9._]{2,30})", t)
+                                          if h.lower() not in ("p", "reel", "explore", "accounts", "stories", "share")]
+                      f = re.search(r"<link[^>]+type=\"application/(rss|atom)\+xml\"[^>]*href=\"([^\"]+)\"", t, re.I) or \
+                          re.search(r"<link[^>]+href=\"([^\"]+)\"[^>]*type=\"application/(rss|atom)\+xml\"", t, re.I)
+                      if f:
+                          href = f.group(2) if f.group(1) in ("rss", "atom") else f.group(1)
+                          if "comments" not in href: st["feed"] = urljoin(web, html.unescape(href))
+                  except Exception as e:
+                      st["webfout"] = type(e).__name__
+              st["instagram"] = sorted(set(st["instagram"]))
+              for h in st["instagram"]: handles.setdefault(h, st["naam"])
+          # 3. Instagram-accounts testen
+          token = os.environ["INSTAGRAM_TOKEN"]
+          o = Ophaler(Staat(), Instellingen()); ig = o._instagram_gebruikers_id(token)
+          ig_info = {}
+          for h in list(handles)[:150]:
+              velden = f"business_discovery.username({h}){{username,name,biography,followers_count,media_count,media.limit(1){{timestamp}}}}"
               try:
                   a = o._graph(ig, {"fields": velden}, token).get("business_discovery") or {}
+                  ig_info[h] = {"naam": a.get("name"), "bio": " ".join((a.get("biography") or "").split())[:110],
+                                "volgers": a.get("followers_count"),
+                                "laatste": ((((a.get("media") or {}).get("data") or [{}])[0]).get("timestamp", "") or "")[:10]}
               except OphaalFout as fout:
-                  print("I", json.dumps({"u": naam, "n": aantal, "via": via[naam], "fout": str(fout)[:50]}, ensure_ascii=False))
-                  if "limiet" in str(fout).lower():
-                      break
-                  continue
-              laatste = (((a.get("media") or {}).get("data") or [{}])[0]).get("timestamp", "")[:10]
-              print("I", json.dumps({"u": naam, "n": aantal, "via": via[naam], "naam": a.get("name"),
-                                     "bio": " ".join((a.get("biography") or "").split())[:120], "web": a.get("website"),
-                                     "volgers": a.get("followers_count"), "laatste": laatste}, ensure_ascii=False))
+                  ig_info[h] = {"fout": str(fout)[:40]}
+                  if "limiet" in str(fout).lower(): break
+          for st in standhouders:
+              st["ig"] = {h: ig_info.get(h) for h in st["instagram"]}
+              schrijf(json.dumps(st, ensure_ascii=False))
+          # 4. Bijschriften van Vegan A'fairs (seizoen 2025 en 2026): standhouders worden er bij naam voorgesteld
+          na = ""
+          for _ in range(10):
+              extra = f".after({na})" if na else ""
+              m = (o._graph(ig, {"fields": f"business_discovery.username(vegan.afairs){{media.limit(50){extra}{{caption,timestamp}}}}"}, token)
+                   .get("business_discovery") or {}).get("media") or {}
+              for post in m.get("data", []):
+                  if post.get("timestamp", "") >= "2025-08-01":
+                      schrijf("VA", post["timestamp"][:10], " ".join((post.get("caption") or "").split())[:500])
+              nieuw = ((m.get("paging") or {}).get("cursors") or {}).get("after", "")
+              if not m.get("data") or not nieuw or nieuw == na: break
+              na = nieuw
           EOF
+          wc -l uit/resultaten.txt
+      - name: Bewaren in tijdelijke branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -q --orphan tijdelijk-standhouders
+          git rm -rq --cached .
+          git add -f uit/resultaten.txt
+          git commit -qm "Resultaten standhouders"
+          git push -qf origin HEAD:tijdelijk-standhouders
