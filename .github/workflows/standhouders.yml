@@ -35,65 +35,8 @@ jobs:
           uit = open("uit/resultaten.txt", "w", encoding="utf-8")
           def schrijf(*x): print(*x, file=uit, flush=True)
           def tekst(x): return " ".join(html.unescape(re.sub(r"<[^>]+>", " ", x)).split())
-          # 1. Standhouders Vegan Summer Fest 2026 en 2024: naam (kop) + eerste externe link erna
-          standhouders = []
-          for jaar, url in (("vsf2026", "https://bevegan.be/nl/vegan-summer-fest-gent/standhouders/"),
-                            ("vsf2024", "https://bevegan.be/nl/vegan-summer-fest-gent/overzicht-standhouders-2024/")):
-              t = s.get(url, timeout=30).text
-              rubriek, huidig = "", None
-              for m in re.finditer(r"<(h[1-6]|strong|b)[^>]*>(.*?)</\1>|<a [^>]*href=\"([^\"]+)\"", t, re.S | re.I):
-                  if m.group(1):
-                      k = tekst(m.group(2))
-                      if not k: continue
-                      if k.isupper() and "📍" not in k and len(k) < 30: rubriek = k
-                      huidig = {"bron": jaar, "rubriek": rubriek, "naam": re.sub(r"\s*📍.*", "", k).strip(), "links": []}
-                      standhouders.append(huidig)
-                  elif huidig is not None:
-                      href = urljoin(url, html.unescape(m.group(3)))
-                      host = urlparse(href).netloc.lower()
-                      if host and not host.endswith(("bevegan.be", "cookiedatabase.org", "facebook.com", "google.com")):
-                          if href not in huidig["links"]: huidig["links"].append(href)
-          # 2. Website van elke standhouder: Instagram-links en RSS-feed
-          handles = {}
-          for st in standhouders:
-              st["instagram"], st["feed"] = [], ""
-              for link in st["links"]:
-                  m = re.match(r"https?://(www\.)?instagram\.com/([A-Za-z0-9._]+)", link)
-                  if m: st["instagram"].append(m.group(2).lower())
-              web = next((l for l in st["links"] if "instagram.com" not in l), "")
-              st["web"] = web
-              if web:
-                  try:
-                      r = s.get(web, timeout=20)
-                      t = r.text
-                      st["instagram"] += [h.lower() for h in re.findall(r"instagram\.com/([A-Za-z0-9._]{2,30})", t)
-                                          if h.lower() not in ("p", "reel", "explore", "accounts", "stories", "share")]
-                      f = re.search(r"<link[^>]+type=\"application/(rss|atom)\+xml\"[^>]*href=\"([^\"]+)\"", t, re.I) or \
-                          re.search(r"<link[^>]+href=\"([^\"]+)\"[^>]*type=\"application/(rss|atom)\+xml\"", t, re.I)
-                      if f:
-                          href = f.group(2) if f.group(1) in ("rss", "atom") else f.group(1)
-                          if "comments" not in href: st["feed"] = urljoin(web, html.unescape(href))
-                  except Exception as e:
-                      st["webfout"] = type(e).__name__
-              st["instagram"] = sorted(set(st["instagram"]))
-              for h in st["instagram"]: handles.setdefault(h, st["naam"])
-          # 3. Instagram-accounts testen
           token = os.environ["INSTAGRAM_TOKEN"]
           o = Ophaler(Staat(), Instellingen()); ig = o._instagram_gebruikers_id(token)
-          ig_info = {}
-          for h in list(handles)[:150]:
-              velden = f"business_discovery.username({h}){{username,name,biography,followers_count,media_count,media.limit(1){{timestamp}}}}"
-              try:
-                  a = o._graph(ig, {"fields": velden}, token).get("business_discovery") or {}
-                  ig_info[h] = {"naam": a.get("name"), "bio": " ".join((a.get("biography") or "").split())[:110],
-                                "volgers": a.get("followers_count"),
-                                "laatste": ((((a.get("media") or {}).get("data") or [{}])[0]).get("timestamp", "") or "")[:10]}
-              except OphaalFout as fout:
-                  ig_info[h] = {"fout": str(fout)[:40]}
-                  if "limiet" in str(fout).lower(): break
-          for st in standhouders:
-              st["ig"] = {h: ig_info.get(h) for h in st["instagram"]}
-              schrijf(json.dumps(st, ensure_ascii=False))
           # 4. Bijschriften van Vegan A'fairs (seizoen 2025 en 2026): standhouders worden er bij naam voorgesteld
           na = ""
           for _ in range(10):
@@ -102,9 +45,10 @@ jobs:
                    .get("business_discovery") or {}).get("media") or {}
               for post in m.get("data", []):
                   if post.get("timestamp", "") >= "2025-08-01":
-                      schrijf("VA", post["timestamp"][:10], " ".join((post.get("caption") or "").split())[:500])
+                      schrijf("VA", post["timestamp"][:10], " ".join((post.get("caption") or "").split()))
               nieuw = ((m.get("paging") or {}).get("cursors") or {}).get("after", "")
               if not m.get("data") or not nieuw or nieuw == na: break
+              if m["data"][-1].get("timestamp", "") < "2025-08-01": break
               na = nieuw
           EOF
           wc -l uit/resultaten.txt
