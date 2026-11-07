@@ -749,12 +749,194 @@ bronnen:
     alleen_vegan: nee
     notitie: "Studentencampagne voor volledig plantaardige catering aan de UCLouvain."
   - naam: "Plant A Pizza"
-    url: https://plantapizza.com/nl/
+    url: https://www.instagram.com/plant.a.pizza/
+    type: horeca
+    land: BE
+    taal: en
+    alleen_vegan: nee
+    notitie: "Eerste volledig plantaardige pizzeria van België, Gent; standhouder Vegan Summer Fest en Vegan A'fairs."
+  - naam: "Boshi"
+    url: https://www.instagram.com/boshi_juices/
+    type: bedrijf
+    land: BE
+    taal: nl
+    alleen_vegan: nee
+    notitie: "Koudgeperste sappen en mocktails uit Gent; standhouder Vegan A'fairs 2025 en 2026."
+  - naam: "Cosy Green"
+    url: https://www.instagram.com/cosy_green/
+    type: horeca
+    land: BE
+    taal: en
+    alleen_vegan: nee
+    notitie: "Thaise en Europese vegan keuken; standhouder Vegan Summer Fest 2024 en Vegan A'fairs 2025."
+  - naam: "Gewoon.Anders"
+    url: https://www.instagram.com/gewoon.anders/
     type: horeca
     land: BE
     taal: nl
     alleen_vegan: nee
-    notitie: "Plantaardige zuurdesempizza; standhouder Vegan Summer Fest 2024 en 2026 en Vegan A'fairs 2025 en 2026."
+    notitie: "Vegan traiteur en cateraar, Vegan Award beste cateraar 2024; standhouder Vegan A'fairs 2025 en 2026."
+  - naam: "It's Jolene"
+    url: https://www.instagram.com/itsjolene.be/
+    type: horeca
+    land: BE
+    taal: en
+    alleen_vegan: nee
+    notitie: "Vegan eten en catering; standhouder Vegan Summer Fest 2024 en 2026."
+  - naam: "Junglicious"
+    url: https://www.instagram.com/junglicious_/
+    type: horeca
+    land: BE
+    taal: en
+    alleen_vegan: nee
+    notitie: "Vegan patisserie, Vegan Award beste gebak 2025; standhouder Vegan Summer Fest en Vegan A'fairs."
+  - naam: "La Cuisine de Georgette"
+    url: https://www.instagram.com/lacuisinedegeorgette_huy/
+    type: horeca
+    land: BE
+    taal: fr
+    alleen_vegan: nee
+    notitie: "Plantaardige foodtruck uit Hoei; standhouder Vegan Summer Fest en Vegan A'fairs."
+  - naam: "Luna Creations"
+    url: https://www.instagram.com/lunacreations.gent/
+    type: horeca
+    land: BE
+    taal: en
+    alleen_vegan: nee
+    notitie: "Plantaardige patisserie, Gent en Brugge; standhouder Vegan Summer Fest 2026 en Vegan A'fairs."
+  - naam: "Magpies"
+    url: https://www.instagram.com/magpies.taart/
+    type: horeca
+    land: BE
+    taal: nl
+    alleen_vegan: nee
+    notitie: "Plantaardige taartenwinkel in Brugge; standhouder Vegan A'fairs 2025 en 2026."
+  - naam: "Quechew"
+    url: https://www.instagram.com/quechew/
+    type: horeca
+    land: BE
+    taal: nl
+    alleen_vegan: nee
+    notitie: "Volledig vegan afhaalgerechten en gebak, Destelbergen; standhouder Vegan Summer Fest 2024 en Vegan A'fairs 2025."
+  - naam: "Zonder Ei Bakkerij"
+    url: https://www.instagram.com/zondereibakkerij/
+    type: horeca
+    land: BE
+    taal: en
+    alleen_vegan: nee
+    notitie: "Vegan bakkerij in Gent die winst schenkt aan dierenorganisaties; standhouder Vegan Summer Fest 2024 en Vegan A'fairs 2026."
+  - naam: "The Green Table"
+    url: https://www.instagram.com/thegreentablefood/
+    type: bedrijf
+    land: BE
+    taal: nl
+    alleen_vegan: nee
+    notitie: "Volledig plantaardige kant-en-klaarmaaltijden; standhouder Vegan A'fairs 2025 en 2026."
+  - naam: "Sweety Vegan For All"
+    url: https://www.instagram.com/sweetyveganforall/
+    type: bedrijf
+    land: BE
+    taal: fr
+    alleen_vegan: nee
+    notitie: "Eerste vegan snoepwinkel van België; standhouder Vegan Summer Fest en Vegan A'fairs."
+  - naam: "tAK"
+    url: https://www.instagram.com/tak_aplantbasedlifestyle/
+    type: bedrijf
+    land: BE
+    taal: nl
+    alleen_vegan: nee
+    notitie: "Belgische vegan webshop en conceptstore; standhouder Vegan Summer Fest 2024 en Vegan A'fairs 2025."
+  - naam: "Nammm"
+    url: https://www.instagram.com/nutsaboutnammm/
+    type: bedrijf
+    land: BE
+    taal: nl
+    alleen_vegan: nee
+    notitie: "Plantaardige instantdranken op basis van tijgernoot; standhouder Vegan A'fairs 2025."
+  - naam: "Oh!Oats"
+    url: https://www.instagram.com/oh.oats/
+    type: bedrijf
+    land: BE
+    taal: en
+    alleen_vegan: nee
+    notitie: "Handgebakken vegan granola; standhouder Vegan A'fairs 2026."
+  - naam: "O'Seap"
+    url: https://www.instagram.com/oseap_co/
+    type: bedrijf
+    land: BE
+    taal: nl
+    alleen_vegan: nee
+    notitie: "Handgemaakte vegan verzorgingsproducten; standhouder Vegan A'fairs 2025 en 2026."
+  - naam: "Y-bae"
+    url: https://www.instagram.com/y.bae_you.before.anything.else/
+    type: bedrijf
+    land: BE
+    taal: en
+    alleen_vegan: nee
+    notitie: "Vegan en glutenvrije buns; standhouder Vegan Summer Fest 2024 en Vegan A'fairs 2025."
+  - naam: "Muppet Meals"
+    url: https://www.instagram.com/muppetmeals/
+    type: bedrijf
+    land: BE
+    taal: en
+    alleen_vegan: nee
+    notitie: "Volledig plantaardige hondenvoeding; standhouder Vegan A'fairs 2026."
+  - naam: "LEAF"
+    url: https://www.instagram.com/leafskincare.be/
+    type: bedrijf
+    land: BE
+    taal: nl
+    alleen_vegan: nee
+    notitie: "Vegan en dierproefvrije cosmetica; standhouder Vegan A'fairs 2025 en 2026."
+  - naam: "Karma Markt"
+    url: https://www.instagram.com/karmamarkt/
+    type: bedrijf
+    land: BE
+    taal: en
+    alleen_vegan: nee
+    notitie: "Eerste zero-wastewinkel van Brugge; standhouder Vegan A'fairs 2025."
+  - naam: "Pure Living"
+    url: https://www.instagram.com/my_pureliving/
+    type: persoon
+    land: BE
+    taal: nl
+    alleen_vegan: nee
+    notitie: "Vegan diëtiste Stephanie Van Damme; standhouder Vegan Summer Fest 2026 en Vegan A'fairs."
+  - naam: "GAIA (Instagram)"
+    url: https://www.instagram.com/gaiabelgium/
+    type: organisatie
+    land: BE
+    taal: nl
+    alleen_vegan: nee
+    notitie: "Aanvulling op de website van GAIA; standhouder Vegan A'fairs 2025 en 2026."
+  - naam: "DierAnimal"
+    url: https://www.instagram.com/dieranimal/
+    type: organisatie
+    land: BE
+    taal: fr
+    alleen_vegan: nee
+    notitie: "Belgische politieke partij voor dieren, mensen en planeet; standhouder Vegan Summer Fest 2024 en Vegan A'fairs 2025."
+  - naam: "Hope & Hay"
+    url: https://www.instagram.com/hopeandhay/
+    type: organisatie
+    land: BE
+    taal: nl
+    alleen_vegan: nee
+    notitie: "Dierenopvang in Koekelare; standhouder Vegan A'fairs 2026."
+  - naam: "Bright Eyes"
+    url: https://www.instagram.com/brighteyesvzw/
+    type: organisatie
+    land: BE
+    taal: en
+    alleen_vegan: nee
+    notitie: "Belgische vzw voor de adoptie van honden uit Servië; standhouder Vegan A'fairs 2025."
+  - naam: "Autonoom Collectief Uitgezonderd"
+    url: https://www.instagram.com/collectiefuitgezonderd/
+    type: organisatie
+    land: BE
+    taal: nl
+    alleen_vegan: nee
+    notitie: "Brugs collectief met volkskeuken en infotheek; standhouder Vegan A'fairs 2025 en 2026."
   - naam: "Comète"
     url: https://cometevege.be
     type: bedrijf
