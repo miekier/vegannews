@@ -1,9 +1,7 @@
 name: Tijdelijk - standhouders zoeken
 
 on:
-  push:
-    branches: [main]
-    paths: [".github/workflows/standhouders.yml"]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -37,19 +35,18 @@ jobs:
           def tekst(x): return " ".join(html.unescape(re.sub(r"<[^>]+>", " ", x)).split())
           token = os.environ["INSTAGRAM_TOKEN"]
           o = Ophaler(Staat(), Instellingen()); ig = o._instagram_gebruikers_id(token)
-          # 4. Bijschriften van Vegan A'fairs (seizoen 2025 en 2026): standhouders worden er bij naam voorgesteld
-          na = ""
-          for _ in range(10):
-              extra = f".after({na})" if na else ""
-              m = (o._graph(ig, {"fields": f"business_discovery.username(vegan.afairs){{media.limit(50){extra}{{caption,timestamp}}}}"}, token)
-                   .get("business_discovery") or {}).get("media") or {}
-              for post in m.get("data", []):
-                  if post.get("timestamp", "") >= "2025-08-01":
-                      schrijf("VA", post["timestamp"][:10], " ".join((post.get("caption") or "").split()))
-              nieuw = ((m.get("paging") or {}).get("cursors") or {}).get("after", "")
-              if not m.get("data") or not nieuw or nieuw == na: break
-              if m["data"][-1].get("timestamp", "") < "2025-08-01": break
-              na = nieuw
+          import time
+          for h in ['smoothcreamery', 'lespiments_com', 'irminhildis.komboecha', 'brighteyesvzw', 'gaiabelgium', 'thedunes.skincare', 'coffee_bar_on_wheels', 'collectiefuitgezonderd', 'dieranimal', 'boshi_juices', 'hotdogsnotrealdogs', 'wearthetruthshop', 'junglicious_', 'thegreentablefood', 'sweetyveganforall', 'quechew', 'velife.style', 'magpies.taart', 'my_pureliving', 'nutsaboutnammm', 'artamandua_dierzame_shirts', 'garlicngreens', 'celosia.sanctuary', 'y.bae_you.before.anything.else', 'oseap_co', 'figlina', 'leafskincare.be', 'canela.brugge', 'karmamarkt', 'lunacreations.gent', 'meltzantwerp', 'tak_aplantbasedlifestyle', 'gewoon.anders', 'lacuisinedegeorgette_huy', 'luvveggie', 'plant.a.pizza', 'cosy_green', 'zondereibakkerij', 'zonder.ei.bakkerij', 'angelinascatering', 'angelinas_catering', 'hoisfarm', 'hois_farm', 'ratopia_vzw', 'rattenopvangratopia', 'meiskitchen.be', 'meis.kitchen', 'ohoats.be', 'oh.oats', 'cometevege', 'muppetmeals', 'mycakes.be', 'wiesengust', 'wies.en.gust', 'ahimsapottery', 'ahimsa.pottery', 'olefacio', 'biotop.be', 'biotopbelgium', 'hopeandhayvzw', 'hope.and.hay', 'depret.zedelgem', 'loszieto', 'doghappinessvzw', 'dog.happiness.vzw', 'newethicsvzw', 'itsjolene.be', 'antoinette.antwerpen', 'bakkerijfrimout', 'wafflesveg', 'honkies.be', 'minestrone.be', 'dar.line.chocolatier', 'ohma.gent', 'seashepherdbelgium', 'plentyfoodbelgium', 'plantapizza', 'leafcosmetics', 'zomerziel', 'hopeandhay', 'champion.aperitief']:
+              velden = f"business_discovery.username({h}){{username,name,biography,followers_count,media.limit(1){{timestamp}}}}"
+              try:
+                  a = o._graph(ig, {"fields": velden}, token).get("business_discovery") or {}
+                  schrijf(json.dumps({"u": h, "naam": a.get("name"), "volgers": a.get("followers_count"),
+                      "laatste": ((((a.get("media") or {}).get("data") or [{}])[0]).get("timestamp", "") or "")[:10],
+                      "bio": " ".join((a.get("biography") or "").split())[:120]}, ensure_ascii=False))
+              except OphaalFout as fout:
+                  schrijf(json.dumps({"u": h, "fout": str(fout)[:50]}, ensure_ascii=False))
+                  if "limiet" in str(fout).lower(): break
+              time.sleep(1)
           EOF
           wc -l uit/resultaten.txt
       - name: Bewaren in tijdelijke branch
