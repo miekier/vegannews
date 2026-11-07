@@ -1,0 +1,75 @@
+name: Tijdelijk - standhouders zoeken
+
+on:
+  push:
+    branches: [main]
+    paths: [".github/workflows/standhouders.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  zoek:
+    runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: src
+      INSTAGRAM_TOKEN: ${{ secrets.INSTAGRAM_TOKEN }}
+      INSTAGRAM_USER_ID: ${{ secrets.INSTAGRAM_USER_ID }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - run: pip install -r requirements.txt
+      - run: |
+          python - <<'EOF'
+          import os, re, json
+          from collections import Counter
+          from vegannieuws.config import Instellingen
+          from vegannieuws.ophalen import OphaalFout, Ophaler
+          from vegannieuws.staat import Staat
+          token = os.environ["INSTAGRAM_TOKEN"]
+          o = Ophaler(Staat(), Instellingen())
+          ig = o._instagram_gebruikers_id(token)
+          vermeld, bronpost = Counter(), {}
+          for account, paginas in (("vegan.afairs", 8), ("bevegan.be", 8), ("vegansummerfest", 2)):
+              na, n = "", 0
+              for _ in range(paginas):
+                  extra = f".after({na})" if na else ""
+                  velden = f"business_discovery.username({account}){{media.limit(50){extra}{{caption,timestamp}}}}"
+                  try:
+                      m = (o._graph(ig, {"fields": velden}, token).get("business_discovery") or {}).get("media") or {}
+                  except OphaalFout as fout:
+                      print("FOUT", account, fout); break
+                  for post in m.get("data", []):
+                      n += 1
+                      for naam in set(re.findall(r"@([A-Za-z0-9._]{2,30})", post.get("caption") or "")):
+                          naam = naam.rstrip(".").lower()
+                          vermeld[naam] += 1
+                          bronpost.setdefault(naam, f"{account} {post.get('timestamp','')[:10]}")
+                  na = ((m.get("paging") or {}).get("cursors") or {}).get("after", "")
+                  if not na or not (m.get("paging") or {}).get("next"):
+                      break
+              print(f"# {account}: {n} posts gelezen")
+          print(f"# {len(vermeld)} verschillende vermelde accounts")
+          bekend = {"vegan.afairs", "bevegan.be", "vegansummerfest"}
+          for naam, aantal in vermeld.most_common(175):
+              if naam in bekend:
+                  continue
+              velden = (f"business_discovery.username({naam}){{username,name,biography,website,followers_count,"
+                        f"media_count,media.limit(1){{timestamp}}}}")
+              try:
+                  a = o._graph(ig, {"fields": velden}, token).get("business_discovery") or {}
+              except OphaalFout as fout:
+                  print(json.dumps({"u": naam, "n": aantal, "via": bronpost[naam], "fout": str(fout)[:60]}, ensure_ascii=False))
+                  if "limiet" in str(fout).lower():
+                      break
+                  continue
+              laatste = (((a.get("media") or {}).get("data") or [{}])[0]).get("timestamp", "")[:10]
+              print(json.dumps({"u": naam, "n": aantal, "via": bronpost[naam], "naam": a.get("name"),
+                                "bio": " ".join((a.get("biography") or "").split())[:140], "web": a.get("website"),
+                                "volgers": a.get("followers_count"), "posts": a.get("media_count"),
+                                "laatste": laatste}, ensure_ascii=False))
+          EOF
