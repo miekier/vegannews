@@ -14,7 +14,6 @@ jobs:
     env:
       PYTHONPATH: src
       INSTAGRAM_TOKEN: ${{ secrets.INSTAGRAM_TOKEN }}
-      INSTAGRAM_USER_ID: ${{ secrets.INSTAGRAM_USER_ID }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
@@ -23,7 +22,42 @@ jobs:
           cache: pip
           cache-dependency-path: requirements.txt
       - run: pip install -r requirements.txt
-      - run: |
+      - name: Websites
+        continue-on-error: true
+        run: |
+          python - <<'EOF'
+          import re, html, requests
+          from urllib.parse import urljoin, urlparse
+          s = requests.Session(); s.headers["User-Agent"] = "Mozilla/5.0 (vegannieuws bronnenonderzoek)"
+          paginas = ["https://bevegan.be/nl/vegan-summer-fest-gent/standhouders/",
+                     "https://bevegan.be/nl/vegan-summer-fest-gent/overzicht-standhouders-2024/",
+                     "https://veganafairs.be/programma/", "https://veganafairs.be/standhouders/",
+                     "https://veganafairs.be/"]
+          for url in paginas:
+              try:
+                  r = s.get(url, timeout=30)
+              except Exception as e:
+                  print("##", url, "FOUT", type(e).__name__); continue
+              print("##", url, r.status_code, len(r.text))
+              if r.status_code != 200: continue
+              t = r.text
+              # koppen en links in volgorde van de pagina
+              for m in re.finditer(r"<(h[1-6]|strong|b)[^>]*>(.*?)</\1>|<a [^>]*href=\"([^\"]+)\"[^>]*>(.*?)</a>", t, re.S | re.I):
+                  if m.group(1):
+                      tekst = html.unescape(re.sub(r"<[^>]+>", " ", m.group(2))).split()
+                      if tekst: print("K", " ".join(tekst)[:90])
+                  else:
+                      href = urljoin(url, html.unescape(m.group(3)))
+                      host = urlparse(href).netloc.lower()
+                      if not host or host.endswith(("bevegan.be", "veganafairs.be", "wordpress.org", "facebook.com", "youtube.com", "google.com", "linkedin.com", "tiktok.com", "x.com", "twitter.com")):
+                          if "veganafairs.be" in host and any(w in href for w in ("stand", "expo", "deeln")):
+                              print("L", href)
+                          continue
+                      tekst = " ".join(html.unescape(re.sub(r"<[^>]+>", " ", m.group(4))).split())
+                      print("A", tekst[:60], "|", href[:120])
+          EOF
+      - name: Instagram
+        run: |
           python - <<'EOF'
           import os, re, json
           from collections import Counter
@@ -33,9 +67,9 @@ jobs:
           token = os.environ["INSTAGRAM_TOKEN"]
           o = Ophaler(Staat(), Instellingen())
           ig = o._instagram_gebruikers_id(token)
-          vermeld, bronpost = Counter(), {}
-          for account, paginas in (("vegan.afairs", 8), ("bevegan.be", 8), ("vegansummerfest", 2)):
-              na, n = "", 0
+          vermeld, via = Counter(), {}
+          for account, paginas in (("vegan.afairs", 10), ("bevegan.be", 12), ("vegansummerfest", 2)):
+              na, n, voorbeelden = "", 0, 0
               for _ in range(paginas):
                   extra = f".after({na})" if na else ""
                   velden = f"business_discovery.username({account}){{media.limit(50){extra}{{caption,timestamp}}}}"
@@ -43,19 +77,26 @@ jobs:
                       m = (o._graph(ig, {"fields": velden}, token).get("business_discovery") or {}).get("media") or {}
                   except OphaalFout as fout:
                       print("FOUT", account, fout); break
-                  for post in m.get("data", []):
+                  data = m.get("data", [])
+                  for post in data:
                       n += 1
-                      for naam in set(re.findall(r"@([A-Za-z0-9._]{2,30})", post.get("caption") or "")):
+                      cap = post.get("caption") or ""
+                      namen = set(re.findall(r"@([A-Za-z0-9._]{2,30})", cap))
+                      if voorbeelden < 2 and ("aan" in cap or "standhouder" in cap.lower()):
+                          voorbeelden += 1
+                          print("VOORBEELD", account, post.get("timestamp", "")[:10], " ".join(cap.split())[:400])
+                      for naam in namen:
                           naam = naam.rstrip(".").lower()
                           vermeld[naam] += 1
-                          bronpost.setdefault(naam, f"{account} {post.get('timestamp','')[:10]}")
-                  na = ((m.get("paging") or {}).get("cursors") or {}).get("after", "")
-                  if not na or not (m.get("paging") or {}).get("next"):
+                          via.setdefault(naam, f"{account} {post.get('timestamp','')[:10]}")
+                  nieuw = ((m.get("paging") or {}).get("cursors") or {}).get("after", "")
+                  if not data or not nieuw or nieuw == na:
                       break
+                  na = nieuw
               print(f"# {account}: {n} posts gelezen")
           print(f"# {len(vermeld)} verschillende vermelde accounts")
           bekend = {"vegan.afairs", "bevegan.be", "vegansummerfest"}
-          for naam, aantal in vermeld.most_common(175):
+          for naam, aantal in vermeld.most_common(170):
               if naam in bekend:
                   continue
               velden = (f"business_discovery.username({naam}){{username,name,biography,website,followers_count,"
@@ -63,13 +104,12 @@ jobs:
               try:
                   a = o._graph(ig, {"fields": velden}, token).get("business_discovery") or {}
               except OphaalFout as fout:
-                  print(json.dumps({"u": naam, "n": aantal, "via": bronpost[naam], "fout": str(fout)[:60]}, ensure_ascii=False))
+                  print("I", json.dumps({"u": naam, "n": aantal, "via": via[naam], "fout": str(fout)[:50]}, ensure_ascii=False))
                   if "limiet" in str(fout).lower():
                       break
                   continue
               laatste = (((a.get("media") or {}).get("data") or [{}])[0]).get("timestamp", "")[:10]
-              print(json.dumps({"u": naam, "n": aantal, "via": bronpost[naam], "naam": a.get("name"),
-                                "bio": " ".join((a.get("biography") or "").split())[:140], "web": a.get("website"),
-                                "volgers": a.get("followers_count"), "posts": a.get("media_count"),
-                                "laatste": laatste}, ensure_ascii=False))
+              print("I", json.dumps({"u": naam, "n": aantal, "via": via[naam], "naam": a.get("name"),
+                                     "bio": " ".join((a.get("biography") or "").split())[:120], "web": a.get("website"),
+                                     "volgers": a.get("followers_count"), "laatste": laatste}, ensure_ascii=False))
           EOF
