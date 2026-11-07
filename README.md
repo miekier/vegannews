@@ -147,7 +147,7 @@ bronnenregister ──► ophalen (RSS, feed-ontdekking, Google/Bing Nieuws, Blu
 - **Taalmodel.** De aanbieders in [`instellingen.yml`](instellingen.yml) (`llm_aanbieders`) worden in volgorde geprobeerd:
   - **Claude Haiku 5.5** (Anthropic; secret `ANTHROPIC_API_KEY`). Betalend, met vooraf gekocht tegoed: ongeveer $1,3 per maand (excl. btw) bij 350 berichten per dag. Het programma gebruikt de officiële Anthropic-SDK, zonder denkstappen, met een JSON-schema (structured outputs) en een gecachete systeemprompt.
   - **Google Gemini** (secret `GEMINI_API_KEY`, gratis). Is het Claude-tegoed op of de sleutel ongeldig, dan neemt Gemini het voor de rest van de run over. Bij een leeg tegoed verschijnt een waarschuwing op de pagina Bronnen en in het verslag.
-  - Per run gaan maximaal 120 verzoeken van 12 berichten naar het model, en maximaal 240 per dag. Het verslag van elke run vermeldt het tokenverbruik.
+  - Per run gaan maximaal 200 verzoeken van 12 berichten naar het model, en maximaal 240 per dag. Het verslag van elke run vermeldt het tokenverbruik.
   - De koppen van verhalen schrijft hetzelfde model; zonder Claude doet Gemini Flash dat (sterker dan Flash-Lite, enkele verzoeken per dag).
   - Bij te veel berichten verwerkt een volgende run de rest.
   - Zonder sleutel, of als het taalmodel faalt, blijft de indeling op basis van trefwoorden en plaatsnamen staan. Zo'n bericht krijgt het label *ingedeeld via trefwoorden*.

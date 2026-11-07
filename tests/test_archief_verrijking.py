@@ -114,6 +114,22 @@ def test_post_in_schema_en_niet_voor_gewone_berichten(lexicon):
     assert b.relevant is True                         # het veld geldt enkel voor sociale posts
 
 
+@pytest.mark.parametrize("vegan, getoond", [("kern", True), ("bijzaak", False), ("geen", False), (None, True)])
+def test_pas_toe_toont_enkel_berichten_met_vegan_als_kern(lexicon, vegan, getoond):
+    b = maak("https://nieuwsblad.be/5", "Carrefour Market blijft open, ook zonder koeling")
+    uit = {"relevant": True, "kernzin": "Een supermarkt blijft open zonder koeling.", "categorieen": ["retail"]}
+    if vegan is not None:                             # None: aanbieder zonder schema liet het veld weg
+        uit["vegan"] = vegan
+    pas_toe(b, uit, lexicon, Geo(), ["nl", "en"])
+    assert (b.relevant is not False) == getoond
+
+
+def test_vegan_in_schema(lexicon):
+    from vegannieuws.verrijking import antwoord_schema
+    schema = antwoord_schema(lexicon)["properties"]["berichten"]["items"]
+    assert "vegan" in schema["required"] and schema["properties"]["vegan"]["enum"] == ["kern", "bijzaak", "geen"]
+
+
 class FakeClient:
     model = "test/model"
 

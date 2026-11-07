@@ -33,7 +33,7 @@ llm_modellen_groq: [llama-3.3-70b-versatile, openai/gpt-oss-120b, llama-3.1-8b-i
 llm_modellen: [openai/gpt-4.1-mini, openai/gpt-4o-mini]
 # Eén verzoek verwerkt llm_batch berichten. Gratis limiet van Gemini Flash-Lite (2025): ca. 1 000
 # verzoeken per dag en 15 per minuut; bij HTTP 429 stopt de run en gaat de volgende verder.
-llm_max_verzoeken_per_run: 120
+llm_max_verzoeken_per_run: 200
 llm_max_verzoeken_per_dag: 240
 llm_batch: 12
 llm_pauze_s: 4.5
